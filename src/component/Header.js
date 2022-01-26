@@ -1,6 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
+import { useDispatch } from 'react-redux'
+
+import { userLogin } from '../redux/actions'
 
 import imgLogo from '../asset/img/logo.png'
 import Button from '../component/common/buttons'
@@ -83,6 +86,12 @@ display:flex;
 justify-content:space-between;
 `
 const Header = () => {
+  const dispatch = useDispatch()
+
+  const handleLoginClick = () => {
+    dispatch(userLogin())
+  }
+
   return (
     <StyledHeader>
       <StyledHeaderContainer>
@@ -92,7 +101,7 @@ const Header = () => {
           <StyledMenuContainer>
             {menuList.map((item, index) => <MenuItem key={index} text={item} />)}
           </StyledMenuContainer>
-          <Button text="Login" />
+          <Button text="Login" onClick={handleLoginClick} />
         </StyledHeaderLeftContainer>
       </StyledHeaderContainer>
     </StyledHeader>

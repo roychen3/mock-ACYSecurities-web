@@ -15,16 +15,20 @@ border-radius: 2px;
   
 }
 `
-const Button = ({ text }) => {
+const Button = ({ text, onClick }) => {
   return (
-    <StyledButton>
+    <StyledButton onClick={onClick}>
       {text}
     </StyledButton>
   )
 }
 
+Button.defaultProps = {
+  onClick: null,
+}
 Button.propTypes = {
   text: PropTypes.string.isRequired,
+  onClick: PropTypes.func,
 }
 
 export default Button
