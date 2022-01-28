@@ -8,7 +8,7 @@ padding: 0.25rem 1.5rem;
 color: ${({ theme }) => theme.highlight};
 background-color: ${({ theme }) => theme.mainBackground};
 border: 1px solid ${({ theme }) => theme.highlight};
-border-radius: 2px;
+border-radius: 4px;
 
 &:hover {
   color: ${({ theme }) => theme.mainBackground};

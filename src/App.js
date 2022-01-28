@@ -8,8 +8,9 @@ import {
 import { GlobalStyles } from './globalStyles'
 import { theme } from './webTheme'
 
-import Header from './component/Header'
-import Login from './component/Login'
+import Header from './container/Header'
+import Login from './container/Login'
+import WebinarList from './container/WebinarList'
 
 
 const StyledContent = styled.div`
@@ -29,7 +30,7 @@ function App() {
 
       <StyledContent>
         <Routes>
-          <Route path="*" element={<>index</>} />
+          <Route path="*" element={<WebinarList />} />
           <Route path="login" element={<Login />} />
         </Routes>
       </StyledContent>

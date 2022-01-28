@@ -8,11 +8,15 @@ import {
 
   userLogoutSuccess,
   userLogoutFailure,
+
+  getPostListSuccess,
+  getPostListFailure,
 } from './actions'
 
 import {
   USER_LOGIN,
   USER_LOGOUT,
+  GET_POST_LIST,
 } from '../../constants/actionTypes'
 import { axiosNoAuth, axiosAuth } from '../../util/axios'
 
@@ -115,6 +119,22 @@ function* userLogoutSaga() {
   }
 }
 
+// const FAKE_POST_LIST_RESPONSE = {
+// }
+const getPostListAPI = () => {
+  // return FAKE_POST_LIST_RESPONSE
+  return axiosNoAuth.post('//posts?per_page=12&page=1')
+    .then((res) => res.data)
+}
+function* getPostListSaga() {
+  try {
+    const response = yield call(getPostListAPI)
+    localStorage.clear()
+    yield put(getPostListSuccess(response))
+  } catch (err) {
+    yield put(getPostListFailure(err.message))
+  }
+}
 
 function* homeSagas() {
   yield all([
@@ -125,6 +145,10 @@ function* homeSagas() {
     takeLatest(
       USER_LOGOUT,
       userLogoutSaga,
+    ),
+    takeLatest(
+      GET_POST_LIST,
+      getPostListSaga,
     ),
   ])
 }
