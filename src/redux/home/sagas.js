@@ -74,10 +74,10 @@ import { axiosNoAuth } from '../../util/axios'
 //   },
 //   token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vYXBpLmZpbmxvZ2l4LmNvbS92MS9hdXRoL2VtYWlsL2xvZ2luIiwiaWF0IjoxNjQzMjA3NDM4LCJleHAiOjE2NTkyNzc4MzgsIm5iZiI6MTY0MzIwNzQzOCwianRpIjoiQmt3OW02SjZDVHB4MHJjQSIsInN1YiI6MTI0LCJwcnYiOiJmNmI3MTU0OWRiOGMyYzQyYjc1ODI3YWE0NGYwMmI3ZWU1MjlkMjRkIn0.4v9H7yoaDd54HDFNytWaBTPvDf639L5IHPvSmwoGGmc',
 // }
-const userLoginAPI = () => {
+const userLoginAPI = (payload) => {
   const postValues = {
-    email: 'yuntest@mailinator.com',
-    password: 'A123456',
+    email: payload.email,
+    password: payload.password,
   }
   // return FAKE_USER_LOGIN_RESPONSE
   return axiosNoAuth.post('/auth/email/login', postValues)
