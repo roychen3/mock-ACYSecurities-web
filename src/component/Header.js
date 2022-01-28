@@ -2,10 +2,13 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { Link, useLocation } from "react-router-dom"
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+
+import { userLogout } from '../redux/actions'
 
 import imgLogo from '../asset/img/logo.png'
 import Button from '../component/common/Button'
+import LoadingShadow from './common/LoadingShadow'
 
 
 const StyledMenuItem = styled.div`
@@ -88,27 +91,45 @@ justify-content:space-between;
 `
 const Header = () => {
   const location = useLocation()
+  const dispatch = useDispatch()
 
   const userInformation = useSelector((state) => state.home.userInformation)
-  const showLoginButton = location.pathname !== '/login' && !userInformation.token
-  
+
+  const isInLoginPage = location.pathname === '/login'
+  const showLoginButton = isInLoginPage === false && !userInformation.token
+
+  const handleLogoutClick = (event) => {
+    event.preventDefault()
+    dispatch(userLogout())
+  }
+  const userLogoutLoading = useSelector((state) => state.home.userLogoutLoading)
+
   return (
-    <StyledHeader>
-      <StyledHeaderContainer>
-        <StyledMobilMenuIcon className="fas fa-bars" />
-        <StyledLogo src={imgLogo} />
-        <StyledHeaderLeftContainer>
-          <StyledMenuContainer>
-            {menuList.map((item, index) => <MenuItem key={index} text={item} />)}
-          </StyledMenuContainer>
-          {showLoginButton &&
-            <Link to="/login">
-              <Button text="Login" />
-            </Link>
-          }
-        </StyledHeaderLeftContainer>
-      </StyledHeaderContainer>
-    </StyledHeader>
+    <>
+      <StyledHeader>
+        <StyledHeaderContainer>
+          <StyledMobilMenuIcon className="fas fa-bars" />
+          <StyledLogo src={imgLogo} />
+          <StyledHeaderLeftContainer>
+            <StyledMenuContainer>
+              {menuList.map((item, index) => <MenuItem key={index} text={item} />)}
+            </StyledMenuContainer>
+            {showLoginButton
+              ?
+              <Link to="/login">
+                <Button text="Login" />
+              </Link>
+              :
+              isInLoginPage === false &&
+              <Button text="Logout" onClick={handleLogoutClick} />
+            }
+          </StyledHeaderLeftContainer>
+        </StyledHeaderContainer>
+      </StyledHeader>
+      {userLogoutLoading &&
+        <LoadingShadow />
+      }
+    </>
   )
 }
 

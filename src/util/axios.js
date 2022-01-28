@@ -6,9 +6,11 @@ export const axiosNoAuth = axios.create({
   baseURL,
 })
 
-export const axiosAuth = axios.create({
-  baseURL,
-  headers: {
-    'Authorization': `Bearer ${localStorage.getItem('token')}`,
-  }
-})
+export const axiosAuth = (() => {
+  const instance = axios.create({ baseURL })
+  instance.interceptors.request.use((request) => {
+    request.headers.Authorization = `Bearer ${localStorage.getItem('token')}`
+    return request
+  })
+  return instance
+})()

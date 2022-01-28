@@ -5,12 +5,16 @@ import {
 import {
   userLoginSuccess,
   userLoginFailure,
+
+  userLogoutSuccess,
+  userLogoutFailure,
 } from './actions'
 
 import {
   USER_LOGIN,
+  USER_LOGOUT,
 } from '../../constants/actionTypes'
-import { axiosNoAuth } from '../../util/axios'
+import { axiosNoAuth, axiosAuth } from '../../util/axios'
 
 // const FAKE_USER_LOGIN_RESPONSE = {
 //   user: {
@@ -93,11 +97,34 @@ function* userLoginSaga({ payload }) {
   }
 }
 
+// const FAKE_USER_LOGOUY_RESPONSE = {
+//   success: "logged out"
+// }
+const userLogoutAPI = () => {
+  // return FAKE_USER_LOGOUY_RESPONSE
+  return axiosAuth.post('/auth/logout')
+    .then((res) => res.data)
+}
+function* userLogoutSaga() {
+  try {
+    const response = yield call(userLogoutAPI)
+    localStorage.clear()
+    yield put(userLogoutSuccess(response))
+  } catch (err) {
+    yield put(userLogoutFailure(err.message))
+  }
+}
+
+
 function* homeSagas() {
   yield all([
     takeLatest(
       USER_LOGIN,
       userLoginSaga,
+    ),
+    takeLatest(
+      USER_LOGOUT,
+      userLogoutSaga,
     ),
   ])
 }
