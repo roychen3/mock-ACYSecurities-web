@@ -1,7 +1,8 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
+import { useDispatch } from 'react-redux'
 
+import { getPostList } from '../redux/actions'
 import WebinarCard from '../component/WebinarCard'
 
 const StyledListContainer = styled.div`
@@ -10,6 +11,12 @@ padding: 40px 25px;
 `
 
 const WebinarList = () => {
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        dispatch(getPostList())
+    }, [])
+
     return <StyledListContainer>
         <WebinarCard />
     </StyledListContainer>

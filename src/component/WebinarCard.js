@@ -2,8 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
-import imgRightArrow from '../asset/img/rightArrow.png'
-
 
 const StyledCardContainer = styled.div`
 width: 100%;
@@ -80,7 +78,7 @@ const WebinarCard = () => {
             </div>
             <StyledActionContainer>
                 <span>Register Now</span>
-                <i class="fas fa-chevron-circle-right" />
+                <i className="fas fa-chevron-circle-right" />
             </StyledActionContainer>
         </StyledCardContainer>
     )
