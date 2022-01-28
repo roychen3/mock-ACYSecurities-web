@@ -1,12 +1,15 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
+import { useNavigate } from "react-router-dom"
 import { useDispatch, useSelector } from 'react-redux'
 
 import { userLogin } from '../redux/actions'
 import { InputFieldFormik } from './common/InputField'
 import Button from './common/Button'
+import LoadingShadow from './common/LoadingShadow'
+
 
 const StyledLoginContainer = styled.div`
 position: absolute;
@@ -27,6 +30,11 @@ const StyledActionContainer = styled.div`
 display: flex;
 justify-content:flex-end;
 `
+const StyledErrorMessage = styled.div`
+color: ${({ theme }) => theme.error};
+text-align: center;
+margin: 1rem 0;
+`
 
 const initFormValues = {
   email: 'yuntest@mailinator.com',
@@ -35,7 +43,8 @@ const initFormValues = {
 
 const Login = () => {
   const dispatch = useDispatch()
-
+  const navigate = useNavigate()
+  
   const formik = useFormik({
     initialValues: initFormValues,
     validationSchema: Yup.object({
@@ -50,19 +59,35 @@ const Login = () => {
     },
   })
 
-  // const userLoginLoading = useSelector((state) => state.home.userLoginLoading)
+  const userLoginLoading = useSelector((state) => state.home.userLoginLoading)
+  const userLoginError = useSelector((state) => state.home.userLoginError)
+
+  useEffect(() => {
+    if (userLoginLoading === false && !userLoginError) {
+      navigate('/home');
+    }
+  }, [userLoginLoading])
 
   return (
-    <StyledLoginContainer>
-      <form onSubmit={formik.handleSubmit}>
-        <StyledTitle>Log in</StyledTitle>
-        <InputFieldFormik label="Email" type="email" name="email" formik={formik} />
-        <InputFieldFormik label="Password" type="password" name="password" formik={formik} />
-        <StyledActionContainer>
-          <Button text="Login" type="submit" />
-        </StyledActionContainer>
-      </form>
-    </StyledLoginContainer>
+    <>
+      <StyledLoginContainer>
+        <form onSubmit={formik.handleSubmit}>
+          <StyledTitle>Log in</StyledTitle>
+          <InputFieldFormik label="Email" type="email" name="email" formik={formik} />
+          <InputFieldFormik label="Password" type="password" name="password" formik={formik} />
+          <StyledActionContainer>
+            <Button text="Login" type="submit" />
+          </StyledActionContainer>
+          <StyledErrorMessage>
+            {userLoginError}
+          </StyledErrorMessage>
+        </form>
+      </StyledLoginContainer>
+
+      {userLoginLoading &&
+        <LoadingShadow />
+      }
+    </>
   )
 }
 

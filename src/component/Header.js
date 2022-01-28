@@ -1,7 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { Link } from "react-router-dom"
+import { Link, useLocation } from "react-router-dom"
+import { useSelector } from 'react-redux'
 
 import imgLogo from '../asset/img/logo.png'
 import Button from '../component/common/Button'
@@ -36,7 +37,7 @@ const StyledHeader = styled.header`
 padding: 0.5rem;
 width: 100%;
 position: fixed;
-z-index: ${({ theme }) => theme.zIndex.top};
+z-index: ${({ theme }) => theme.zIndex.header};
 top: 0; 
 background-color: ${({ theme }) => theme.mainBackground};
 border-bottom: 1px solid ${({ theme }) => theme.subBorderColor};
@@ -86,6 +87,11 @@ display:flex;
 justify-content:space-between;
 `
 const Header = () => {
+  const location = useLocation()
+
+  const userInformation = useSelector((state) => state.home.userInformation)
+  const showLoginButton = location.pathname !== '/login' && !userInformation.token
+  
   return (
     <StyledHeader>
       <StyledHeaderContainer>
@@ -95,9 +101,11 @@ const Header = () => {
           <StyledMenuContainer>
             {menuList.map((item, index) => <MenuItem key={index} text={item} />)}
           </StyledMenuContainer>
-          <Link to="/login">
-            <Button text="Login" />
-          </Link>
+          {showLoginButton &&
+            <Link to="/login">
+              <Button text="Login" />
+            </Link>
+          }
         </StyledHeaderLeftContainer>
       </StyledHeaderContainer>
     </StyledHeader>

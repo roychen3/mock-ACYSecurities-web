@@ -9,7 +9,9 @@ export const theme = {
     subHighlight: '#43AA15',
     error: 'red',
     shadow: '#000000cc',
+    opacity: '#ffffff00',
     zIndex: {
         top: 2000,
+        header: 1000,
     }
 }

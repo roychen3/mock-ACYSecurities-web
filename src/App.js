@@ -2,10 +2,8 @@ import React from 'react'
 import styled, { ThemeProvider } from 'styled-components'
 import {
   Routes,
-  Route
+  Route,
 } from "react-router-dom"
-import { Provider } from 'react-redux'
-import configureStore from './redux/store'
 
 import { GlobalStyles } from './globalStyles'
 import { theme } from './webTheme'
@@ -24,20 +22,18 @@ padding-top: 43px;
 
 function App() {
   return (
-    <Provider store={configureStore()}>
-      <ThemeProvider theme={theme}>
-        <GlobalStyles />
+    <ThemeProvider theme={theme}>
+      <GlobalStyles />
 
-        <Header />
+      <Header />
 
-        <StyledContent>
-          <Routes>
-            <Route path="/" element={<></>} />
-            <Route path="login" element={<Login />} />
-          </Routes>
-        </StyledContent>
-      </ThemeProvider>
-    </Provider>
+      <StyledContent>
+        <Routes>
+          <Route path="*" element={<>index</>} />
+          <Route path="login" element={<Login />} />
+        </Routes>
+      </StyledContent>
+    </ThemeProvider>
   );
 }
 
