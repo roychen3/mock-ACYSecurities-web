@@ -21,7 +21,8 @@ export const initialState = {
   userLogoutLoading: null,
   userLogoutError: null,
 
-  postList: {},
+  postList: [],
+  postListPagination: {},
   postListLoading: null,
   postListError: null,
 }
@@ -69,15 +70,17 @@ function reducer(state = initialState, action) {
     case GET_POST_LIST:
       return {
         ...state,
-        postList: {},
+        postList: [],
+        postListPagination: {},
         postListLoading: true,
         postListError: null,
       }
     case GET_POST_LIST_SUCCESS:
       return {
         ...state,
-        postList: action.payload,
-        postListLoading: true,
+        postList: action.payload.postList,
+        postListPagination: action.payload.pagination,
+        postListLoading: false,
       }
     case GET_POST_LIST_FAILURE:
       return {
@@ -88,7 +91,8 @@ function reducer(state = initialState, action) {
     case RESET_GET_POST_LIST:
       return {
         ...state,
-        postList: {},
+        postList: [],
+        postListPagination: {},
         postListLoading: null,
         postListError: null,
       }

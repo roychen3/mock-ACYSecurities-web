@@ -4,14 +4,17 @@ import styled from 'styled-components'
 
 
 const StyledCardContainer = styled.div`
+min-width: 200px;
 width: 100%;
 max-width: 380px;
 height: 300px;
+max-height: 300px;
 border-radius: 4px;
 box-shadow: 1px 2px 6px rgba(219, 219, 219, 0.5);
 border: 1px solid ${({ theme }) => theme.borderColor};
 background-color: ${({ theme }) => theme.mainBackground};
 padding: 20px;
+margin: 0 auto;
 display: flex;
 flex-wrap:wrap;
 justify-content: space-between;
@@ -35,6 +38,11 @@ font-size: 14px;
 line-height: 20px;
 color: ${({ theme }) => theme.subText};
 margin-bottom: 20px;
+
+display: -webkit-box;
+-webkit-line-clamp: 4;
+-webkit-box-orient: vertical;  
+overflow: hidden;
 `
 const StyledCreateDatePlus10Days = styled.div`
 font-size: 14px;
@@ -59,21 +67,21 @@ const fakeProps = {
     content: 'Market scan across FX & Gold to determine sentiment with accuracy.',
     createDatePlus10Days: '7pm-8:30pm EST',
 }
-const WebinarCard = () => {
+const WebinarCard = ({ data }) => {
     return (
         <StyledCardContainer>
             <div>
                 <StyledCreateDate>
-                    {fakeProps.createDate}
+                    {data.createDate}
                 </StyledCreateDate>
                 <StyledTitle>
-                    {fakeProps.title}
+                    {data.title}
                 </StyledTitle>
                 <StyledContent>
-                    {fakeProps.content}
+                    {data.content.split('<br />').map((item) => <>{item}<br /></>)}
                 </StyledContent>
                 <StyledCreateDatePlus10Days>
-                    {fakeProps.createDatePlus10Days}
+                    {data.createDate}
                 </StyledCreateDatePlus10Days>
             </div>
             <StyledActionContainer>
@@ -84,6 +92,8 @@ const WebinarCard = () => {
     )
 }
 
-WebinarCard.propTypes = {}
+WebinarCard.propTypes = {
+    data: PropTypes.instanceOf(Object).isRequired
+}
 
 export default WebinarCard
