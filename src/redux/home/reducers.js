@@ -7,6 +7,10 @@ import {
   USER_LOGOUT_SUCCESS,
   USER_LOGOUT_FAILURE,
 
+  CHECK_USER_TOKEN,
+  CHECK_USER_TOKEN_SUCCESS,
+  CHECK_USER_TOKEN_FAILURE,
+
   GET_POST_LIST,
   GET_POST_LIST_SUCCESS,
   GET_POST_LIST_FAILURE,
@@ -28,6 +32,9 @@ export const initialState = {
   userLogoutLoading: null,
   userLogoutError: null,
 
+  checkUserTokenLoading: null,
+  checkUserTokenError: null,
+
   postList: [],
   postListPagination: {},
   registerTopicOptionList: [],
@@ -40,7 +47,7 @@ export const initialState = {
     lastName: '',
     email: 'yuntest@mailinator.com',
   },
-  
+
   postFavourites: {},
   postFavouritesLoading: null,
   postFavouritesError: null,
@@ -84,6 +91,25 @@ function reducer(state = initialState, action) {
         ...state,
         userLogoutLoading: false,
         userLogoutError: action.payload,
+      }
+
+    case CHECK_USER_TOKEN:
+      return {
+        ...state,
+        checkUserTokenLoading: true,
+        checkUserTokenError: null,
+      }
+    case CHECK_USER_TOKEN_SUCCESS:
+      return {
+        ...state,
+        userInformation: action.payload,
+        checkUserTokenLoading: false,
+      }
+    case CHECK_USER_TOKEN_FAILURE:
+      return {
+        ...state,
+        checkUserTokenLoading: false,
+        checkUserTokenError: action.payload,
       }
 
     case GET_POST_LIST:

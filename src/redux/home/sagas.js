@@ -9,6 +9,9 @@ import {
   userLogoutSuccess,
   userLogoutFailure,
 
+  checkUserTokenSuccess,
+  checkUserTokenFailure,
+
   getPostListSuccess,
   getPostListFailure,
 
@@ -18,6 +21,7 @@ import {
 import {
   USER_LOGIN,
   USER_LOGOUT,
+  CHECK_USER_TOKEN,
   GET_POST_LIST,
   POST_FAVOURITES,
 } from '../../constants/actionTypes'
@@ -58,6 +62,24 @@ function* userLogoutSaga() {
     yield put(userLogoutSuccess(response))
   } catch (err) {
     yield put(userLogoutFailure(err.message))
+  }
+}
+
+const checkUserTokenAPI = () => {
+  // return FAKE_CHECK_USER_TOKEN_RESPONSE
+  return axiosAuth.post('/auth/me')
+    .then((res) => res.data)
+}
+function* checkUserTokenSaga() {
+  try {
+    const response = yield call(checkUserTokenAPI)
+    console.log(response)
+    yield put(checkUserTokenSuccess({
+      user: response.user,
+      token: localStorage.getItem('token'),
+    }))
+  } catch (err) {
+    yield put(checkUserTokenFailure(err.message))
   }
 }
 
@@ -140,6 +162,10 @@ function* homeSagas() {
     takeLatest(
       USER_LOGOUT,
       userLogoutSaga,
+    ),
+    takeLatest(
+      CHECK_USER_TOKEN,
+      checkUserTokenSaga,
     ),
     takeLatest(
       GET_POST_LIST,

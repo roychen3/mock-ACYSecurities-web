@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { Link, useLocation } from "react-router-dom"
 import { useSelector, useDispatch } from 'react-redux'
 
-import { userLogout } from '../redux/actions'
+import { userLogout, checkUserToken } from '../redux/actions'
 
 import imgLogo from '../asset/img/logo.png'
 import Button from '../component/Button'
@@ -105,8 +105,26 @@ const Header = () => {
   }
   const userLogoutLoading = useSelector((state) => state.home.userLogoutLoading)
 
+  const checkUserTokenLoading = useSelector((state) => state.home.checkUserTokenLoading)
+  const checkUserTokenError = useSelector((state) => state.home.checkUserTokenError)
+  useEffect(() => {
+    if (checkUserTokenLoading === false && checkUserTokenError) {
+      localStorage.clear()
+    }
+  }, [checkUserTokenLoading])
+
+  useEffect(() => {
+    if (localStorage.getItem('token')) {
+      dispatch(checkUserToken())
+    }
+  }, [])
+
+
   return (
     <>
+      {(userLogoutLoading || checkUserTokenLoading) &&
+        <LoadingShadow />
+      }
       <StyledHeader>
         <StyledHeaderContainer>
           <StyledMobilMenuIcon className="fas fa-bars" />
@@ -127,9 +145,6 @@ const Header = () => {
           </StyledHeaderLeftContainer>
         </StyledHeaderContainer>
       </StyledHeader>
-      {userLogoutLoading &&
-        <LoadingShadow />
-      }
     </>
   )
 }
