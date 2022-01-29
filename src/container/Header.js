@@ -47,7 +47,7 @@ border-bottom: 1px solid ${({ theme }) => theme.subBorderColor};
 font-size: 18px;
 
 @media (min-width: 992px) {
-  padding: 1.5rem;
+  padding: 1.5rem 0;
   font-size: 27px;
 }
 `
@@ -62,6 +62,8 @@ font-size: 18px;
 }
 `
 const StyledMobilMenuIcon = styled.i`
+margin-right: 1rem;
+
 &:hover {
   cursor: pointer;
 }
@@ -72,7 +74,6 @@ const StyledMobilMenuIcon = styled.i`
 `
 const StyledLogo = styled.img`
 width: 68px;
-margin: 0 1rem;
 
 @media (min-width: 992px) {
   width: 136px;

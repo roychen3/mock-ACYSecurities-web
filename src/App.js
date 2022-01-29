@@ -10,7 +10,7 @@ import { theme } from './webTheme'
 
 import Header from './container/Header'
 import Login from './container/Login'
-import WebinarList from './container/WebinarList'
+import Home from './container/page/home'
 
 
 const StyledContent = styled.div`
@@ -30,7 +30,7 @@ function App() {
 
       <StyledContent>
         <Routes>
-          <Route path="*" element={<WebinarList />} />
+          <Route path="*" element={<Home />} />
           <Route path="login" element={<Login />} />
         </Routes>
       </StyledContent>

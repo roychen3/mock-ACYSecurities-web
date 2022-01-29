@@ -6,7 +6,6 @@ import styled from 'styled-components'
 const StyledCardContainer = styled.div`
 min-width: 200px;
 width: 100%;
-max-width: 380px;
 height: 300px;
 max-height: 300px;
 border-radius: 4px;

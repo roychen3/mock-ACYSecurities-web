@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { getPostList } from '../redux/actions'
-import WebinarCard from '../component/WebinarCard'
-import LoadingShadow from '../component/LoadingShadow'
-import { StyledButton } from '../component/Button'
+import { getPostList } from '../../../redux/actions'
+import WebinarCard from '../../../component/WebinarCard'
+import LoadingShadow from '../../../component/LoadingShadow'
+import { StyledButton } from '../../../component/Button'
 
 
 const WebinarButton = styled(StyledButton)`
@@ -38,19 +38,20 @@ const StyledList = styled.div`
 padding: 40px 25px;
 display: grid;
 grid-template-columns: 100%;
+grid-gap: 12px;
 
 @media (min-width: 576px) {
+    padding: 40px 34px;
     grid-template-columns: auto auto;
+    grid-gap: 20px;
 }
 
 @media (min-width: 992px) {
     grid-template-columns: auto auto auto;
     width: 80%;
     margin: 0 auto;
+    padding: 20px 0px;
 }
-`
-const StyledWebinarCardContainer = styled.div`
-padding: 12px;
 `
 
 const StyledErrorMessageContainer = styled.div`
@@ -148,9 +149,7 @@ const WebinarList = () => {
                     {postList.length > 0 &&
                         <StyledList>
                             {postList[currentGroupID].group.map((item) => (
-                                <StyledWebinarCardContainer key={item.id}>
-                                    <WebinarCard key={item.id} data={item} />
-                                </StyledWebinarCardContainer>
+                                <WebinarCard key={item.id} data={item} />
                             ))}
                         </StyledList>
                     }
