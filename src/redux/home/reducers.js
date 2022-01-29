@@ -6,6 +6,11 @@ import {
   USER_LOGOUT,
   USER_LOGOUT_SUCCESS,
   USER_LOGOUT_FAILURE,
+
+  GET_POST_LIST,
+  GET_POST_LIST_SUCCESS,
+  GET_POST_LIST_FAILURE,
+  RESET_GET_POST_LIST,
 } from '../../constants/actionTypes'
 
 export const initialState = {
@@ -15,6 +20,11 @@ export const initialState = {
 
   userLogoutLoading: null,
   userLogoutError: null,
+
+  postList: [],
+  postListPagination: {},
+  postListLoading: null,
+  postListError: null,
 }
 
 function reducer(state = initialState, action) {
@@ -55,6 +65,36 @@ function reducer(state = initialState, action) {
         ...state,
         userLogoutLoading: false,
         userLogoutError: action.payload,
+      }
+
+    case GET_POST_LIST:
+      return {
+        ...state,
+        postList: [],
+        postListPagination: {},
+        postListLoading: true,
+        postListError: null,
+      }
+    case GET_POST_LIST_SUCCESS:
+      return {
+        ...state,
+        postList: action.payload.postList,
+        postListPagination: action.payload.pagination,
+        postListLoading: false,
+      }
+    case GET_POST_LIST_FAILURE:
+      return {
+        ...state,
+        postListLoading: false,
+        postListError: action.payload,
+      }
+    case RESET_GET_POST_LIST:
+      return {
+        ...state,
+        postList: [],
+        postListPagination: {},
+        postListLoading: null,
+        postListError: null,
       }
 
     default:

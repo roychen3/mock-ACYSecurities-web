@@ -6,9 +6,9 @@ import { useNavigate } from "react-router-dom"
 import { useDispatch, useSelector } from 'react-redux'
 
 import { userLogin } from '../redux/actions'
-import { InputFieldFormik } from './common/InputField'
-import Button from './common/Button'
-import LoadingShadow from './common/LoadingShadow'
+import { InputFieldFormik } from '../component/InputField'
+import Button from '../component/Button'
+import LoadingShadow from '../component/LoadingShadow'
 
 
 const StyledLoginContainer = styled.div`

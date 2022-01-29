@@ -20,7 +20,7 @@ const StyledInput = styled.input`
 width: 100%;
 padding: 0.5rem;
 border: 1px solid ${({ theme, hasError }) => hasError ? theme.error : theme.borderColor};
-border-radius: 2px;
+border-radius: 4px;
 
 &:focus-visible{
   outline: 1px auto ${({ theme }) => theme.subText};

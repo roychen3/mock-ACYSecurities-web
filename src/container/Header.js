@@ -7,8 +7,8 @@ import { useSelector, useDispatch } from 'react-redux'
 import { userLogout } from '../redux/actions'
 
 import imgLogo from '../asset/img/logo.png'
-import Button from '../component/common/Button'
-import LoadingShadow from './common/LoadingShadow'
+import Button from '../component/Button'
+import LoadingShadow from '../component/LoadingShadow'
 
 
 const StyledMenuItem = styled.div`
