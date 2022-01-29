@@ -11,16 +11,19 @@ import {
 
   getPostListSuccess,
   getPostListFailure,
+
+  postFavouritesSuccess,
+  postFavouritesFailure,
 } from './actions'
 import {
   USER_LOGIN,
   USER_LOGOUT,
   GET_POST_LIST,
+  POST_FAVOURITES,
 } from '../../constants/actionTypes'
 
 import { axiosNoAuth, axiosAuth } from '../../util/axios'
 import { FAKE_POST_LIST_RESPONSE } from './fakeData'
-
 
 
 const userLoginAPI = (payload) => {
@@ -99,16 +102,32 @@ function* getPostListSaga({ payload }) {
       group = []
     }
     const pagination = response.meta.pagination
+    const registerTopicOptionList = response.data.map((item) => (
+      {
+        value: `${item.id}`,
+        name: item.title,
+      }
+    ))
 
-    // use for fake data
-    // const pagination = {
-    //   ...response.meta.pagination,
-    //   total_pages: response.meta.pagination.total_pages + 1,
-    // }
-
-    yield put(getPostListSuccess({ postList, pagination }))
+    yield put(getPostListSuccess({ postList, pagination, registerTopicOptionList }))
   } catch (err) {
     yield put(getPostListFailure(err.message))
+  }
+}
+
+const postFavouritesAPI = (ids) => {
+  const postValues = { ids, model: '', }
+  // return FAKE_POST_FAVOURITES_RESPONSE
+  return axiosAuth.post('/favourites', postValues)
+    .then((res) => res.data)
+}
+function* postFavouritesSaga({ payload: ids }) {
+  try {
+    const response = yield call(postFavouritesAPI, ids)
+
+    yield put(postFavouritesSuccess(response))
+  } catch (err) {
+    yield put(postFavouritesFailure(err.message))
   }
 }
 
@@ -125,6 +144,10 @@ function* homeSagas() {
     takeLatest(
       GET_POST_LIST,
       getPostListSaga,
+    ),
+    takeLatest(
+      POST_FAVOURITES,
+      postFavouritesSaga,
     ),
   ])
 }

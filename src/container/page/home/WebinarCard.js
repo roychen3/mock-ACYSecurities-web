@@ -1,12 +1,15 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
+import dayjs from 'dayjs'
+import { Link } from "react-router-dom"
+import { useDispatch, useSelector } from 'react-redux'
 
+import { setRegisterFormData } from '../../../redux/actions'
 
 const StyledCardContainer = styled.div`
 min-width: 200px;
 width: 100%;
-max-width: 380px;
 height: 300px;
 max-height: 300px;
 border-radius: 4px;
@@ -49,7 +52,7 @@ font-size: 14px;
 line-height: 20px;
 color: ${({ theme }) => theme.subText};
 `
-const StyledActionContainer = styled.a`
+const StyledActionContainer = styled.div`
 font-weight: 600;
 font-size: 16px;
 line-height: 24px;
@@ -60,19 +63,37 @@ justify-content: space-between;
 align-items: center;
 align-self: end;
 `
-
-const fakeProps = {
-    createDate: '31/10/2019',
-    title: 'A structured approach to deciphering FX & Gold sentiment',
-    content: 'Market scan across FX & Gold to determine sentiment with accuracy.',
-    createDatePlus10Days: '7pm-8:30pm EST',
-}
+const StyledLink = styled(Link)`
+font-weight: 600;
+font-size: 16px;
+line-height: 24px;
+color: ${({ theme }) => theme.subHighlight};
+`
+const StyledA = styled.a`
+font-weight: 600;
+font-size: 16px;
+line-height: 24px;
+color: ${({ theme }) => theme.subHighlight};
+`
 const WebinarCard = ({ data }) => {
+    const dispatch = useDispatch()
+
+    const userInformation = useSelector((state) => state.home.userInformation)
+    const isLogined = userInformation.token
+
+    const handleRegisterClick = () => {
+        dispatch(setRegisterFormData(
+            {
+                topic: `${data.id}`,
+            }
+        ))
+    }
+
     return (
         <StyledCardContainer>
             <div>
                 <StyledCreateDate>
-                    {data.createDate}
+                    {dayjs(data.created_at).format('DD/MM/YYYY')}
                 </StyledCreateDate>
                 <StyledTitle>
                     {data.title}
@@ -85,11 +106,18 @@ const WebinarCard = ({ data }) => {
                     ))}
                 </StyledContent>
                 <StyledCreateDatePlus10Days>
-                    {data.createDate}
+                    {dayjs(data.created_at).add(10, 'day').format('YYYY/MM/DD hh:mm')}
                 </StyledCreateDatePlus10Days>
             </div>
             <StyledActionContainer>
-                <span>Register Now</span>
+                {isLogined
+                    ?
+                    <StyledA href="#registerForm" onClick={handleRegisterClick}>Register Now</StyledA>
+                    :
+                    <StyledLink to="/login">
+                        Register Now
+                    </StyledLink>
+                }
                 <i className="fas fa-chevron-circle-right" />
             </StyledActionContainer>
         </StyledCardContainer>
@@ -97,7 +125,7 @@ const WebinarCard = ({ data }) => {
 }
 
 WebinarCard.propTypes = {
-    data: PropTypes.instanceOf(Object).isRequired
+    data: PropTypes.instanceOf(Object).isRequired,
 }
 
 export default WebinarCard

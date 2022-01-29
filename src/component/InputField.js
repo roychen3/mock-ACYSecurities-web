@@ -2,19 +2,12 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
+import Label, { StyledLabelContainer, StyledFieldErrorMessage } from './Label'
+
 
 const StyledInputFieldContainer = styled.div`
 margin-top: 1rem;
 margin-bottom: 1rem;
-`
-const StyledLabelContainer = styled.div`
-margin-bottom: 0.5rem;
-display: flex;
-justify-content:space-between;
-`
-const StyledLabel = styled.label`
-color: ${({ theme }) => theme.subText};
-font-size: 16px;
 `
 const StyledInput = styled.input`
 width: 100%;
@@ -27,17 +20,13 @@ border-radius: 4px;
 }
 `
 
-const StyledFieldErrorMessage = styled.small`
-color: ${({ theme }) => theme.error};
-margin-left: 1rem;
-`
 export const InputFieldFormik = ({ label, type, name, formik }) => {
     const hasError = formik.touched[name] && formik.errors[name]
     return (
         <StyledInputFieldContainer>
             {label &&
                 <StyledLabelContainer>
-                    <StyledLabel>{label}</StyledLabel>
+                    <Label>{label}</Label>
                     {hasError &&
                         <StyledFieldErrorMessage>
                             {formik.errors[name]}
@@ -79,7 +68,9 @@ const InputField = ({
     return (
         <StyledInputFieldContainer>
             {label &&
-                <StyledLabel>{label}</StyledLabel>
+                <StyledLabelContainer>
+                    <Label>{label}</Label>
+                </StyledLabelContainer>
             }
             <StyledInput
                 type={type}

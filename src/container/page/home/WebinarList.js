@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { getPostList } from '../redux/actions'
-import WebinarCard from '../component/WebinarCard'
-import LoadingShadow from '../component/LoadingShadow'
-import { StyledButton } from '../component/Button'
+import { getPostList } from '../../../redux/actions'
+import LoadingShadow from '../../../component/LoadingShadow'
+import { StyledButton } from '../../../component/Button'
+import WebinarCard from './WebinarCard'
 
 
 const WebinarButton = styled(StyledButton)`
@@ -35,22 +35,24 @@ background-color: ${({ theme }) => theme.subBackground};
 position: relative;
 `
 const StyledList = styled.div`
-padding: 40px 25px;
+width: 90%;
+margin: 0 auto;
+padding: 40px 0px;
 display: grid;
 grid-template-columns: 100%;
+grid-gap: 12px;
 
-@media (min-width: 576px) {
+@media (min-width: ${({ theme }) => theme.media.smallDevices}) {
+    padding: 40px 0;
     grid-template-columns: auto auto;
+    grid-gap: 20px;
 }
 
-@media (min-width: 992px) {
-    grid-template-columns: auto auto auto;
+@media (min-width: ${({ theme }) => theme.media.largeDevices}) {
     width: 80%;
-    margin: 0 auto;
+    padding: 80px 0;
+    grid-template-columns: auto auto auto;
 }
-`
-const StyledWebinarCardContainer = styled.div`
-padding: 12px;
 `
 
 const StyledErrorMessageContainer = styled.div`
@@ -148,9 +150,7 @@ const WebinarList = () => {
                     {postList.length > 0 &&
                         <StyledList>
                             {postList[currentGroupID].group.map((item) => (
-                                <StyledWebinarCardContainer key={item.id}>
-                                    <WebinarCard key={item.id} data={item} />
-                                </StyledWebinarCardContainer>
+                                <WebinarCard key={item.id} data={item} />
                             ))}
                         </StyledList>
                     }

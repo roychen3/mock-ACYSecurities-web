@@ -64,7 +64,7 @@ const Login = () => {
 
   useEffect(() => {
     if (userLoginLoading === false && !userLoginError) {
-      navigate('/home');
+      navigate('/home')
     }
   }, [userLoginLoading])
 
