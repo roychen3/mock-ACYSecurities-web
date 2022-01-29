@@ -49,7 +49,7 @@ export const SelectFormik = ({ label, optionList, name, formik }) => {
                 {optionList.length > 0
                     ?
                     <>
-                        <StyledHiddenOption value="">no option</StyledHiddenOption>
+                        <StyledHiddenOption value="">{` `}</StyledHiddenOption>
                         {optionList.map((item) => (
                             <option key={item.value} value={item.value}>{item.name}</option>))}
                     </>

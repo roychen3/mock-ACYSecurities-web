@@ -3,9 +3,9 @@ import styled from 'styled-components'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { getPostList } from '../../../redux/actions'
-import WebinarCard from '../../../component/WebinarCard'
 import LoadingShadow from '../../../component/LoadingShadow'
 import { StyledButton } from '../../../component/Button'
+import WebinarCard from './WebinarCard'
 
 
 const WebinarButton = styled(StyledButton)`

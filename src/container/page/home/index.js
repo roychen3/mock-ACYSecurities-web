@@ -1,14 +1,16 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
 import WebinarList from './WebinarList'
 import RegisterForm from './RegisterForm'
 
 const Home = () => {
-    return <>
-        <WebinarList />
-        <RegisterForm />
-    </>
+    return (
+        <>
+            <WebinarList />
+            <RegisterForm />
+        </>
+    )
 }
 
 Home.propTypes = {}

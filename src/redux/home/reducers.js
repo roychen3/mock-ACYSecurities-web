@@ -11,6 +11,13 @@ import {
   GET_POST_LIST_SUCCESS,
   GET_POST_LIST_FAILURE,
   RESET_GET_POST_LIST,
+
+  SET_REGISTER_FORM_DATA,
+
+  POST_FAVOURITES,
+  POST_FAVOURITES_SUCCESS,
+  POST_FAVOURITES_FAILURE,
+  RESET_POST_FAVOURITES,
 } from '../../constants/actionTypes'
 
 export const initialState = {
@@ -26,6 +33,17 @@ export const initialState = {
   registerTopicOptionList: [],
   postListLoading: null,
   postListError: null,
+
+  registerFormData: {
+    topic: '',
+    firstName: '',
+    lastName: '',
+    email: 'yuntest@mailinator.com',
+  },
+  
+  postFavourites: {},
+  postFavouritesLoading: null,
+  postFavouritesError: null,
 }
 
 function reducer(state = initialState, action) {
@@ -99,6 +117,39 @@ function reducer(state = initialState, action) {
         registerTopicOptionList: [],
         postListLoading: null,
         postListError: null,
+      }
+
+    case SET_REGISTER_FORM_DATA:
+      return {
+        ...state,
+        registerFormData: action.payload,
+      }
+
+    case POST_FAVOURITES:
+      return {
+        ...state,
+        postFavourites: {},
+        postFavouritesLoading: true,
+        postFavouritesError: null,
+      }
+    case POST_FAVOURITES_SUCCESS:
+      return {
+        ...state,
+        postFavourites: action.payload,
+        postFavouritesLoading: false,
+      }
+    case POST_FAVOURITES_FAILURE:
+      return {
+        ...state,
+        postFavouritesLoading: false,
+        postFavouritesError: action.payload,
+      }
+    case RESET_POST_FAVOURITES:
+      return {
+        ...state,
+        postFavourites: {},
+        postFavouritesLoading: null,
+        postFavouritesError: null,
       }
 
     default:

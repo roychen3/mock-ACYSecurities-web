@@ -11,6 +11,13 @@ import {
   GET_POST_LIST_SUCCESS,
   GET_POST_LIST_FAILURE,
   RESET_GET_POST_LIST,
+
+  SET_REGISTER_FORM_DATA,
+
+  POST_FAVOURITES,
+  POST_FAVOURITES_SUCCESS,
+  POST_FAVOURITES_FAILURE,
+  RESET_POST_FAVOURITES,
 } from '../../constants/actionTypes'
 
 export const userLogin = (payload) => ({
@@ -53,6 +60,28 @@ export const getPostListFailure = (payload) => ({
 })
 export const resetGetPostList = (payload) => ({
   type: RESET_GET_POST_LIST,
+  payload,
+})
+
+export const setRegisterFormData = (payload) => ({
+  type: SET_REGISTER_FORM_DATA,
+  payload,
+})
+
+export const postFavourites = (payload) => ({
+  type: POST_FAVOURITES,
+  payload,
+})
+export const postFavouritesSuccess = (payload) => ({
+  type: POST_FAVOURITES_SUCCESS,
+  payload,
+})
+export const postFavouritesFailure = (payload) => ({
+  type: POST_FAVOURITES_FAILURE,
+  payload,
+})
+export const resetPostFavourites = (payload) => ({
+  type: RESET_POST_FAVOURITES,
   payload,
 })
 

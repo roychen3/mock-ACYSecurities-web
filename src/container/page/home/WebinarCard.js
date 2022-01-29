@@ -2,7 +2,10 @@ import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import dayjs from 'dayjs'
+import { Link } from "react-router-dom"
+import { useDispatch, useSelector } from 'react-redux'
 
+import { setRegisterFormData } from '../../../redux/actions'
 
 const StyledCardContainer = styled.div`
 min-width: 200px;
@@ -49,7 +52,7 @@ font-size: 14px;
 line-height: 20px;
 color: ${({ theme }) => theme.subText};
 `
-const StyledActionContainer = styled.a`
+const StyledActionContainer = styled.div`
 font-weight: 600;
 font-size: 16px;
 line-height: 24px;
@@ -60,7 +63,32 @@ justify-content: space-between;
 align-items: center;
 align-self: end;
 `
+const StyledLink = styled(Link)`
+font-weight: 600;
+font-size: 16px;
+line-height: 24px;
+color: ${({ theme }) => theme.subHighlight};
+`
+const StyledA = styled.a`
+font-weight: 600;
+font-size: 16px;
+line-height: 24px;
+color: ${({ theme }) => theme.subHighlight};
+`
 const WebinarCard = ({ data }) => {
+    const dispatch = useDispatch()
+
+    const userInformation = useSelector((state) => state.home.userInformation)
+    const isLogined = userInformation.token
+
+    const handleRegisterClick = () => {
+        dispatch(setRegisterFormData(
+            {
+                topic: `${data.id}`,
+            }
+        ))
+    }
+
     return (
         <StyledCardContainer>
             <div>
@@ -82,7 +110,14 @@ const WebinarCard = ({ data }) => {
                 </StyledCreateDatePlus10Days>
             </div>
             <StyledActionContainer>
-                <span>Register Now</span>
+                {isLogined
+                    ?
+                    <StyledA href="#registerForm" onClick={handleRegisterClick}>Register Now</StyledA>
+                    :
+                    <StyledLink to="/login">
+                        Register Now
+                    </StyledLink>
+                }
                 <i className="fas fa-chevron-circle-right" />
             </StyledActionContainer>
         </StyledCardContainer>
@@ -90,7 +125,7 @@ const WebinarCard = ({ data }) => {
 }
 
 WebinarCard.propTypes = {
-    data: PropTypes.instanceOf(Object).isRequired
+    data: PropTypes.instanceOf(Object).isRequired,
 }
 
 export default WebinarCard

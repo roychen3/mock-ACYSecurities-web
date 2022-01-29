@@ -16,6 +16,7 @@ import Home from './container/page/home'
 const StyledContent = styled.div`
 min-height: 100vh;
 padding-top: 43px;
+padding-bottom: 43px;
 
 @media (min-width: ${({ theme }) => theme.media.largeDevices}) {
   padding-top: 80px;
