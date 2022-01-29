@@ -51,16 +51,35 @@ const StyledWebinarCardContainer = styled.div`
 padding: 12px;
 `
 
+const StyledErrorMessageContainer = styled.div`
+color: ${({ theme }) => theme.error};
+padding: 5rem;
+display: flex;
+justify-content: center;
+align-items: center;
+`
+const StyledReloadButton = styled.button`
+font-size: 1.5rem;
+color: ${({ theme }) => theme.error};
+background-color: ${({ theme }) => theme.opacity};
+border: 0px;
+margin-right: 1rem;
+`
+
 const WebinarList = () => {
     const dispatch = useDispatch()
 
-    useEffect(() => {
+    const getPostListFirstPage = () => {
         dispatch(getPostList(
             {
                 perPage: 12,
                 page: 1,
             }
         ))
+    }
+
+    useEffect(() => {
+        getPostListFirstPage()
     }, [])
 
     const [currentGroupID, setCurrentGroupID] = useState(0)
@@ -103,7 +122,14 @@ const WebinarList = () => {
                 <LoadingShadow />
             }
             {postListError &&
-                { postListError }
+                <StyledErrorMessageContainer>
+                    <StyledReloadButton onClick={getPostListFirstPage}>
+                        <i className="fas fa-redo-alt" />
+                    </StyledReloadButton>
+                    <h1>
+                        {postListError}
+                    </h1>
+                </StyledErrorMessageContainer>
             }
             {postListLoading === false && postListError === null &&
                 <>
