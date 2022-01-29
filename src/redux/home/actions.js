@@ -7,6 +7,10 @@ import {
   USER_LOGOUT_SUCCESS,
   USER_LOGOUT_FAILURE,
 
+  CHECK_USER_TOKEN,
+  CHECK_USER_TOKEN_SUCCESS,
+  CHECK_USER_TOKEN_FAILURE,
+
   GET_POST_LIST,
   GET_POST_LIST_SUCCESS,
   GET_POST_LIST_FAILURE,
@@ -43,6 +47,19 @@ export const userLogoutSuccess = (payload) => ({
 })
 export const userLogoutFailure = (payload) => ({
   type: USER_LOGOUT_FAILURE,
+  payload,
+})
+
+export const checkUserToken = (payload) => ({
+  type: CHECK_USER_TOKEN,
+  payload,
+})
+export const checkUserTokenSuccess = (payload) => ({
+  type: CHECK_USER_TOKEN_SUCCESS,
+  payload,
+})
+export const checkUserTokenFailure = (payload) => ({
+  type: CHECK_USER_TOKEN_FAILURE,
   payload,
 })
 

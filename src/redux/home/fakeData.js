@@ -65,6 +65,68 @@ export const FAKE_USER_LOGOUY_RESPONSE = {
     success: "logged out"
 }
 
+export const FAKE_CHECK_USER_TOKEN_RESPONSE = {
+    user: {
+        id: 124,
+        name: 'yuntest@mailinator.com',
+        username: 'yuntestzhang',
+        email: 'yuntest@mailinator.com',
+        phone: null,
+        last_login: '2022-01-29 19:32:28',
+        created_at: '2019-03-27 12:52:09',
+        updated_at: '2022-01-29 19:32:28',
+        deleted_at: null,
+        last_logout: '2022-01-29 16:00:20',
+        login_count: 9,
+        logout_count: 4,
+        online_duration: 882089,
+        register_method: 'Email',
+        unread_notifications: 0,
+        beta_tester: 0,
+        broadcaster_admin: 0,
+        analysis_count: 0,
+        analysis_like_count: 0,
+        follower_count: 0,
+        analysis_view_count: 0,
+        nick_name: 'yuntest Zhang',
+        country: 'China',
+        city: '',
+        avatar: '',
+        background: '',
+        intro: '',
+        state: '',
+        language: 'en',
+        ui_language: 'en',
+        notification: '1',
+        notification_new_follower_email: '1',
+        notification_followee_new_analysis_email: '1',
+        notification_be_mentioned_in_analysis_comment_email: '1',
+        notification_be_invited_from_new_analysis_email: '1',
+        notification_analysis_strategy_update_email: '1',
+        notification_analysis_has_comment_email: '1',
+        notification_analysis_comment_has_reply_email: '1',
+        notification_analysis_be_picked_email: '1',
+        notification_analysis_be_liked_email: '1',
+        allow_recommend: '1',
+        allow_invited_comment: '1',
+        website: '',
+        first_name: 'yuntest',
+        last_name: 'Zhang',
+        company: '',
+        street: '',
+        zip_code: '',
+        username_last_modified: '',
+        nickname_last_modified: '',
+        hot_markets_theme_index: '3',
+        markets_theme_index: '1',
+        analysis_market_counts: [],
+        analysis_symbol_counts: [],
+        top_tags: [],
+        created_at_formatted: '27/03/19 23:52:09',
+        new_followeds: 0
+    }
+}
+
 export const FAKE_POST_LIST_RESPONSE = {
     data: [
         {
