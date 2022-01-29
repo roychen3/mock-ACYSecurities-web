@@ -45,6 +45,8 @@ grid-template-columns: 100%;
 
 @media (min-width: 992px) {
     grid-template-columns: auto auto auto;
+    width: 80%;
+    margin: 0 auto;
 }
 `
 const StyledWebinarCardContainer = styled.div`
