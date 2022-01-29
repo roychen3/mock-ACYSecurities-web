@@ -35,22 +35,23 @@ background-color: ${({ theme }) => theme.subBackground};
 position: relative;
 `
 const StyledList = styled.div`
-padding: 40px 25px;
+width: 90%;
+margin: 0 auto;
+padding: 40px 0px;
 display: grid;
 grid-template-columns: 100%;
 grid-gap: 12px;
 
-@media (min-width: 576px) {
-    padding: 40px 34px;
+@media (min-width: ${({ theme }) => theme.media.smallDevices}) {
+    padding: 40px 0;
     grid-template-columns: auto auto;
     grid-gap: 20px;
 }
 
-@media (min-width: 992px) {
-    grid-template-columns: auto auto auto;
+@media (min-width: ${({ theme }) => theme.media.largeDevices}) {
     width: 80%;
-    margin: 0 auto;
-    padding: 20px 0px;
+    padding: 80px 0;
+    grid-template-columns: auto auto auto;
 }
 `
 

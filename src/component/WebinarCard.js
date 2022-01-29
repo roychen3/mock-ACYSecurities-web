@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
+import dayjs from 'dayjs'
 
 
 const StyledCardContainer = styled.div`
@@ -59,19 +60,12 @@ justify-content: space-between;
 align-items: center;
 align-self: end;
 `
-
-const fakeProps = {
-    createDate: '31/10/2019',
-    title: 'A structured approach to deciphering FX & Gold sentiment',
-    content: 'Market scan across FX & Gold to determine sentiment with accuracy.',
-    createDatePlus10Days: '7pm-8:30pm EST',
-}
 const WebinarCard = ({ data }) => {
     return (
         <StyledCardContainer>
             <div>
                 <StyledCreateDate>
-                    {data.createDate}
+                    {dayjs(data.created_at).format('DD/MM/YYYY')}
                 </StyledCreateDate>
                 <StyledTitle>
                     {data.title}
@@ -84,7 +78,7 @@ const WebinarCard = ({ data }) => {
                     ))}
                 </StyledContent>
                 <StyledCreateDatePlus10Days>
-                    {data.createDate}
+                    {dayjs(data.created_at).add(10, 'day').format('YYYY/MM/DD hh:mm')}
                 </StyledCreateDatePlus10Days>
             </div>
             <StyledActionContainer>

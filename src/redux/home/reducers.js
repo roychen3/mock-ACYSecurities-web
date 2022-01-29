@@ -23,6 +23,7 @@ export const initialState = {
 
   postList: [],
   postListPagination: {},
+  registerTopicOptionList: [],
   postListLoading: null,
   postListError: null,
 }
@@ -72,6 +73,7 @@ function reducer(state = initialState, action) {
         ...state,
         postList: [],
         postListPagination: {},
+        registerTopicOptionList: [],
         postListLoading: true,
         postListError: null,
       }
@@ -80,6 +82,7 @@ function reducer(state = initialState, action) {
         ...state,
         postList: action.payload.postList,
         postListPagination: action.payload.pagination,
+        registerTopicOptionList: action.payload.registerTopicOptionList,
         postListLoading: false,
       }
     case GET_POST_LIST_FAILURE:
@@ -93,6 +96,7 @@ function reducer(state = initialState, action) {
         ...state,
         postList: [],
         postListPagination: {},
+        registerTopicOptionList: [],
         postListLoading: null,
         postListError: null,
       }

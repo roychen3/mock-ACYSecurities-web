@@ -17,8 +17,9 @@ const StyledContent = styled.div`
 min-height: 100vh;
 padding-top: 43px;
 
-@media (min-width: 992px) {
+@media (min-width: ${({ theme }) => theme.media.largeDevices}) {
   padding-top: 80px;
+  padding-bottom: 80px;
 `
 
 function App() {
@@ -34,6 +35,7 @@ function App() {
           <Route path="login" element={<Login />} />
         </Routes>
       </StyledContent>
+
     </ThemeProvider>
   );
 }

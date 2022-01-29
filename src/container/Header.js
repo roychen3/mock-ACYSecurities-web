@@ -14,7 +14,7 @@ import LoadingShadow from '../component/LoadingShadow'
 const StyledMenuItem = styled.div`
 display: none;
 
-@media (min-width: 992px) {
+@media (min-width: ${({ theme }) => theme.media.largeDevices}) {
   display: initial;
   font-size: 12px;
   margin-right: 2rem;
@@ -46,7 +46,7 @@ background-color: ${({ theme }) => theme.mainBackground};
 border-bottom: 1px solid ${({ theme }) => theme.subBorderColor};
 font-size: 18px;
 
-@media (min-width: 992px) {
+@media (min-width: ${({ theme }) => theme.media.largeDevices}) {
   padding: 1.5rem 0;
   font-size: 27px;
 }
@@ -56,7 +56,7 @@ display:flex;
 align-items:center;
 font-size: 18px;
 
-@media (min-width: 992px) {
+@media (min-width: ${({ theme }) => theme.media.largeDevices}) {
   width: 80%;
   margin: 0 auto;
 }
@@ -68,14 +68,14 @@ margin-right: 1rem;
   cursor: pointer;
 }
 
-@media (min-width: 992px) {
+@media (min-width: ${({ theme }) => theme.media.largeDevices}) {
   display: none;
 }
 `
 const StyledLogo = styled.img`
-width: 68px;
+width: 120px;
 
-@media (min-width: 992px) {
+@media (min-width: ${({ theme }) => theme.media.largeDevices}) {
   width: 136px;
 }
 `

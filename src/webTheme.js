@@ -13,5 +13,11 @@ export const theme = {
     zIndex: {
         top: 2000,
         header: 1000,
+    },
+    media: {
+        smallDevices: '576px',
+        mediumDevices: '768px',
+        largeDevices: '992px',
+        extraDevices: '1200px',
     }
 }

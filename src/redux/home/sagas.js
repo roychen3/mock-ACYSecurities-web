@@ -99,14 +99,14 @@ function* getPostListSaga({ payload }) {
       group = []
     }
     const pagination = response.meta.pagination
+    const registerTopicOptionList = response.data.map((item) => (
+      {
+        value: item.id,
+        name: item.title,
+      }
+    ))
 
-    // use for fake data
-    // const pagination = {
-    //   ...response.meta.pagination,
-    //   total_pages: response.meta.pagination.total_pages + 1,
-    // }
-
-    yield put(getPostListSuccess({ postList, pagination }))
+    yield put(getPostListSuccess({ postList, pagination, registerTopicOptionList }))
   } catch (err) {
     yield put(getPostListFailure(err.message))
   }
