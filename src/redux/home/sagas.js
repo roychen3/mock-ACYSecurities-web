@@ -58,29 +58,53 @@ function* userLogoutSaga() {
   }
 }
 
-const getPostListAPI = (perPage = 12, page = 1) => {
+const getPostListAPI = (perPage, page) => {
   return FAKE_POST_LIST_RESPONSE
-  return axiosNoAuth.get(`/posts?per_page=${perPage}&page=${page}`)
-    .then((res) => res.data)
+  // return axiosNoAuth.get(`/posts?per_page=${perPage}&page=${page}`)
+  //   .then((res) => res.data)
 }
 function* getPostListSaga({ payload }) {
   try {
-    const response = payload
-      ? yield call(getPostListAPI, payload.perPage, payload.page)
-      : yield call(getPostListAPI)
+    const { perPage, page } = payload
+    const response = yield call(getPostListAPI, perPage, page)
 
-    const postList = response.data.map((item) => ({
-      id: item.id,
-      title: item.title,
-      content: item.content
-      .replaceAll('<p>', '')
-      .replaceAll('</p>', '')
-      .replaceAll('\n', '')
-      .replaceAll('<br>', '<br />')
-      .replaceAll('&nbsp;', ' '),
-      created_at: item.created_at,
-    }))
+    const postList = []
+    let group = []
+    response.data.forEach((item, index) => {
+      group.push({
+        id: item.id,
+        title: item.title,
+        content: item.content
+          .replaceAll('<p>', '')
+          .replaceAll('</p>', '')
+          .replaceAll('\n', '')
+          .replaceAll('<br>', '<br />')
+          .replaceAll('&nbsp;', ' '),
+        created_at: item.created_at,
+      })
+      if (index % 6 === 5) {
+        postList.push({
+          groupId: (index + 1) / 6 - 1,
+          group
+        })
+        group = []
+      }
+    })
+
+    if (group.length > 0) {
+      postList.push({
+        groupId: 1,
+        group
+      })
+      group = []
+    }
     const pagination = response.meta.pagination
+
+    // use for fake data
+    // const pagination = {
+    //   ...response.meta.pagination,
+    //   total_pages: response.meta.pagination.total_pages + 1,
+    // }
 
     yield put(getPostListSuccess({ postList, pagination }))
   } catch (err) {

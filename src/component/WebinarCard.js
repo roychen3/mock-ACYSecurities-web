@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
@@ -78,7 +78,11 @@ const WebinarCard = ({ data }) => {
                     {data.title}
                 </StyledTitle>
                 <StyledContent>
-                    {data.content.split('<br />').map((item) => <>{item}<br /></>)}
+                    {data.content.split('<br />').map((item, index) => (
+                        <Fragment key={index}>
+                            {item}<br />
+                        </Fragment>
+                    ))}
                 </StyledContent>
                 <StyledCreateDatePlus10Days>
                     {data.createDate}

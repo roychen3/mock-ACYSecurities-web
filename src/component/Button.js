@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
 
-const StyledButton = styled.button`
+export const StyledButton = styled.button`
 padding: 0.25rem 1.5rem;
 color: ${({ theme }) => theme.highlight};
 background-color: ${({ theme }) => theme.mainBackground};
