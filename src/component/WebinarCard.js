@@ -108,6 +108,14 @@ justify-content: space-between;
 align-items: center;
 align-self: end;
 `
+const StyledButton = styled.button`
+font-weight: 600;
+font-size: 16px;
+line-height: 24px;
+color: ${({ theme }) => theme.subHighlight};
+background-color: ${({ theme }) => theme.opacity};
+border: 0px;
+`
 const StyledLink = styled(Link)`
 font-weight: 600;
 font-size: 16px;
@@ -127,11 +135,11 @@ padding: 0.25rem 7px;
 `
 const WebinarCard = ({
     data,
-    useRouterLink,
-    linkTo,
     href,
     primaryText,
+    primaryClickType,
     handlePrimaryClick,
+    handleDetailClick,
 }) => {
     return (
         <StyledCardContainer>
@@ -156,30 +164,31 @@ const WebinarCard = ({
             <StyledActionContainer>
                 {primaryText &&
                     <>
-                        {useRouterLink
+                        {primaryClickType === 'aTag'
                             ?
-                            <StyledLink to={linkTo} onClick={handlePrimaryClick}>
-                                {primaryText}
-                            </StyledLink>
-                            :
                             <StyledA href={href} onClick={handlePrimaryClick}>
                                 {primaryText}
-                            </StyledA>}
+                            </StyledA>
+                            :
+                            <StyledButton onClick={handlePrimaryClick}>
+                                {primaryText}
+                            </StyledButton>
+                        }
                     </>
                 }
-                <StyledLink to={`/webinar/${data.id}`}>
+                <StyledButton onClick={handleDetailClick}>
                     <StyledIconChevronRight className="fas fa-chevron-right" />
-                </StyledLink>
+                </StyledButton>
             </StyledActionContainer>
         </StyledCardContainer>
     )
 }
 WebinarCard.defaultProps = {
-    useRouterLink: false,
-    linkTo: undefined,
     href: undefined,
     primaryText: '',
+    primaryClickType: 'button',
     handlePrimaryClick: null,
+    handleDetailClick: null,
 }
 WebinarCard.propTypes = {
     data: PropTypes.shape({
@@ -188,11 +197,11 @@ WebinarCard.propTypes = {
         content: PropTypes.string,
         id: PropTypes.string,
     }).isRequired,
-    useRouterLink: PropTypes.bool,
-    linkTo: PropTypes.string,
     href: PropTypes.string,
+    primaryClickType: PropTypes.string,
     primaryText: PropTypes.string,
     handlePrimaryClick: PropTypes.func,
+    handleDetailClick: PropTypes.func,
 }
 
 export default WebinarCard

@@ -23,6 +23,8 @@ import {
 
   SET_REGISTER_FORM_DATA,
 
+  SET_WEBINAR_DETAIL,
+
   POST_FAVOURITES,
   POST_FAVOURITES_SUCCESS,
   POST_FAVOURITES_FAILURE,
@@ -62,6 +64,8 @@ export const initialState = {
     lastName: '',
     email: '',
   },
+
+  webinarDetail: {},
 
   postFavourites: {},
   postFavouritesLoading: null,
@@ -198,6 +202,12 @@ function reducer(state = initialState, action) {
       return {
         ...state,
         registerFormData: action.payload ? action.payload : initialState.registerFormData,
+      }
+
+    case SET_WEBINAR_DETAIL:
+      return {
+        ...state,
+        webinarDetail: action.payload ? action.payload : initialState.webinarDetail,
       }
 
     case POST_FAVOURITES:
