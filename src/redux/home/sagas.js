@@ -26,7 +26,7 @@ import {
   POST_FAVOURITES,
 } from '../../constants/actionTypes'
 
-import { axiosNoAuth, axiosAuth } from '../../util/axios'
+// import { axiosNoAuth, axiosAuth } from '../../util/axios'
 import { 
   FAKE_USER_LOGIN_RESPONSE,
   FAKE_USER_LOGOUY_RESPONSE,
@@ -91,8 +91,8 @@ function* checkUserTokenSaga() {
 
 const getPostListAPI = (perPage, page) => {
   return FAKE_POST_LIST_RESPONSE
-  return axiosNoAuth.get(`/posts?per_page=${perPage}&page=${page}`)
-    .then((res) => res.data)
+  // return axiosNoAuth.get(`/posts?per_page=${perPage}&page=${page}`)
+  //   .then((res) => res.data)
 }
 function* getPostListSaga({ payload }) {
   try {
@@ -129,7 +129,14 @@ function* getPostListSaga({ payload }) {
       })
       group = []
     }
-    const pagination = response.meta.pagination
+    // const pagination = response.meta.pagination
+    // open for use fake data
+    const pagination = {
+      ...response.meta.pagination,
+      current_page: page,
+    }
+
+
     const registerTopicOptionList = response.data.map((item) => (
       {
         value: `${item.id}`,

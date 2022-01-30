@@ -10,8 +10,8 @@ import WebinarCard from './WebinarCard'
 
 
 const WebinarButton = styled(StyledButton)`
-width: 50px;
-padding: 1rem;
+width: 40px;
+padding: 0.5rem;
 border-radius: 50%;
 position: absolute;
 top: 50%;
@@ -23,12 +23,35 @@ opacity: 0.7;
 &:hover {
     opacity: 1;
 }
+
+@media (min-width: ${({ theme }) => theme.media.smallDevices}) {
+    width: 50px;
+    padding: 1rem;
+}
 `
 const WebinarLeftButton = styled(WebinarButton)`
-left: 1rem
+left: 0;
+
+@media (min-width: ${({ theme }) => theme.media.smallDevices}) {
+    left: 5%;
+    transform: translate(-50%, -50%);
+}
+
+@media (min-width: ${({ theme }) => theme.media.largeDevices}) {
+    left: 10%;
+}
 `
 const WebinarRightButton = styled(WebinarButton)`
-right: 1rem
+right: 0;
+
+@media (min-width: ${({ theme }) => theme.media.smallDevices}) {
+    right: 5%;
+    transform: translate(50%, -50%);
+}
+
+@media (min-width: ${({ theme }) => theme.media.largeDevices}) {
+    right: 10%;
+}
 `
 
 const StyledWebinarListContainer = styled.div`
