@@ -15,6 +15,9 @@ import {
   getPostListSuccess,
   getPostListFailure,
 
+  getRegisteredListSuccess,
+  getRegisteredListFailure,
+
   postFavouritesSuccess,
   postFavouritesFailure,
 } from './actions'
@@ -23,17 +26,19 @@ import {
   USER_LOGOUT,
   CHECK_USER_TOKEN,
   GET_POST_LIST,
+  GET_REGISTERED_LIST,
   POST_FAVOURITES,
 } from '../../constants/actionTypes'
 
 // import { axiosNoAuth, axiosAuth } from '../../util/axios'
-import { 
+import {
   FAKE_USER_LOGIN_RESPONSE,
   FAKE_USER_LOGOUY_RESPONSE,
   FAKE_CHECK_USER_TOKEN_RESPONSE,
   FAKE_POST_LIST_RESPONSE,
+  FAKE_REGISTERED_LIST_RESPONSE,
   FAKE_POST_FAVOURITES_RESPONSE,
- } from './fakeData'
+} from './fakeData'
 
 
 const userLoginAPI = (payload) => {
@@ -153,6 +158,69 @@ function* getPostListSaga({ payload }) {
 }
 
 
+const getRegisteredListAPI = (userId, perPage, page) => {
+  return FAKE_REGISTERED_LIST_RESPONSE
+
+  // return axiosAuth.get(`/posts?favourited=1&author=${userId}&per_page=${perPage}&page=${page}`)
+  //   .then((res) => res.data)
+}
+function* getRegisteredListSaga({ payload }) {
+  try {
+    const { userId, perPage, page } = payload
+    const response = yield call(getRegisteredListAPI, userId, perPage, page)
+
+    const registeredList = []
+    let group = []
+    response.data.forEach((item, index) => {
+      group.push({
+        id: `${item.id}`,
+        title: item.title,
+        content: item.content
+          .replaceAll('<p>', '')
+          .replaceAll('</p>', '')
+          .replaceAll('\n', '')
+          .replaceAll('<br>', '<br />')
+          .replaceAll('&nbsp;', ' '),
+        createdAt: item.created_at,
+      })
+      if (index % 6 === 5) {
+        registeredList.push({
+          groupId: (index + 1) / 6 - 1,
+          group
+        })
+        group = []
+      }
+    })
+
+    if (group.length > 0) {
+      registeredList.push({
+        groupId: 1,
+        group
+      })
+      group = []
+    }
+    // const pagination = response.meta.pagination
+    // open for use fake data
+    const pagination = {
+      ...response.meta.pagination,
+      current_page: page,
+    }
+
+
+    const registerTopicOptionList = response.data.map((item) => (
+      {
+        value: `${item.id}`,
+        name: item.title,
+      }
+    ))
+
+    yield put(getRegisteredListSuccess({ registeredList, pagination, registerTopicOptionList }))
+  } catch (err) {
+    yield put(getRegisteredListFailure(err.message))
+  }
+}
+
+
 const postFavouritesAPI = (ids) => {
   const postValues = { ids, model: 'post', }
   return FAKE_POST_FAVOURITES_RESPONSE
@@ -187,6 +255,10 @@ function* homeSagas() {
     takeLatest(
       GET_POST_LIST,
       getPostListSaga,
+    ),
+    takeLatest(
+      GET_REGISTERED_LIST,
+      getRegisteredListSaga,
     ),
     takeLatest(
       POST_FAVOURITES,

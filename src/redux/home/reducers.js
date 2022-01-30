@@ -16,6 +16,11 @@ import {
   GET_POST_LIST_FAILURE,
   RESET_GET_POST_LIST,
 
+  GET_REGISTERED_LIST,
+  GET_REGISTERED_LIST_SUCCESS,
+  GET_REGISTERED_LIST_FAILURE,
+  RESET_GET_REGISTERED_LIST,
+
   SET_REGISTER_FORM_DATA,
 
   POST_FAVOURITES,
@@ -40,6 +45,11 @@ export const initialState = {
   registerTopicOptionList: [],
   postListLoading: null,
   postListError: null,
+
+  registeredList: [],
+  registeredListPagination: {},
+  registeredListLoading: null,
+  registeredListError: null,
 
   registerFormData: {
     topic: '',
@@ -143,6 +153,36 @@ function reducer(state = initialState, action) {
         registerTopicOptionList: [],
         postListLoading: null,
         postListError: null,
+      }
+
+    case GET_REGISTERED_LIST:
+      return {
+        ...state,
+        registeredList: [],
+        registeredListPagination: {},
+        registeredListLoading: true,
+        registeredListError: null,
+      }
+    case GET_REGISTERED_LIST_SUCCESS:
+      return {
+        ...state,
+        registeredList: action.payload.registeredList,
+        registeredListPagination: action.payload.pagination,
+        registeredListLoading: false,
+      }
+    case GET_REGISTERED_LIST_FAILURE:
+      return {
+        ...state,
+        registeredListLoading: false,
+        registeredListError: action.payload,
+      }
+    case RESET_GET_REGISTERED_LIST:
+      return {
+        ...state,
+        registeredList: [],
+        registeredListPagination: {},
+        registeredListLoading: null,
+        registeredListError: null,
       }
 
     case SET_REGISTER_FORM_DATA:

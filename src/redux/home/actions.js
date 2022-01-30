@@ -16,6 +16,11 @@ import {
   GET_POST_LIST_FAILURE,
   RESET_GET_POST_LIST,
 
+  GET_REGISTERED_LIST,
+  GET_REGISTERED_LIST_SUCCESS,
+  GET_REGISTERED_LIST_FAILURE,
+  RESET_GET_REGISTERED_LIST,
+
   SET_REGISTER_FORM_DATA,
 
   POST_FAVOURITES,
@@ -77,6 +82,23 @@ export const getPostListFailure = (payload) => ({
 })
 export const resetGetPostList = (payload) => ({
   type: RESET_GET_POST_LIST,
+  payload,
+})
+
+export const getRegisteredList = (payload) => ({
+  type: GET_REGISTERED_LIST,
+  payload,
+})
+export const getRegisteredListSuccess = (payload) => ({
+  type: GET_REGISTERED_LIST_SUCCESS,
+  payload,
+})
+export const getRegisteredListFailure = (payload) => ({
+  type: GET_REGISTERED_LIST_FAILURE,
+  payload,
+})
+export const resetGetRegisteredList = (payload) => ({
+  type: RESET_GET_REGISTERED_LIST,
   payload,
 })
 

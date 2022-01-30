@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import { getPostList, setRegisterFormData } from '../../../redux/actions'
 
+import { ReloadButton } from '../../../component/Button'
 import LoadingShadow from '../../../component/LoadingShadow'
 import { StyledContentLayout } from '../../../component/Layout'
 import WebinarCard, {
@@ -37,13 +38,6 @@ padding: 5rem;
 display: flex;
 justify-content: center;
 align-items: center;
-`
-const StyledReloadButton = styled.button`
-font-size: 1.5rem;
-color: ${({ theme }) => theme.error};
-background-color: ${({ theme }) => theme.opacity};
-border: 0px;
-margin-right: 1rem;
 `
 
 const Webinar = () => {
@@ -95,16 +89,16 @@ const Webinar = () => {
     }
 
     const getPostListFirstPage = () => {
-        if (postList.length === 0) {
-            dispatch(getPostList({
-                perPage: 12,
-                page: 1,
-            }))
-            setCurrentGroupID(0)
-        }
+        dispatch(getPostList({
+            perPage: 12,
+            page: 1,
+        }))
+        setCurrentGroupID(0)
     }
     useEffect(() => {
-        getPostListFirstPage()
+        if (postList.length === 0 && postListError === null) {
+            getPostListFirstPage()
+        }
     }, [postList])
 
 
@@ -116,9 +110,7 @@ const Webinar = () => {
                 }
                 {postListError &&
                     <StyledErrorMessageContainer>
-                        <StyledReloadButton onClick={getPostListFirstPage}>
-                            <i className="fas fa-redo-alt" />
-                        </StyledReloadButton>
+                        <ReloadButton onClick={getPostListFirstPage} />
                         <h1>
                             {postListError}
                         </h1>
@@ -126,7 +118,11 @@ const Webinar = () => {
                 }
                 {postListLoading === false && postListError === null &&
                     <>
-                        <WebinarSwitchRegisteredLink to="/registered">See registered</WebinarSwitchRegisteredLink>
+                        {isLogined &&
+                            <WebinarSwitchRegisteredLink to="/registered">
+                                See registered
+                            </WebinarSwitchRegisteredLink>
+                        }
                         {postList.length > 0 &&
                             <WebinarList>
                                 {(currentGroupID !== 0 || postListPagination.current_page !== 1) &&
@@ -144,7 +140,6 @@ const Webinar = () => {
                                         ? <WebinarCard
                                             key={item.id}
                                             data={item}
-                                            useRouterLink={false}
                                             href="#registerForm"
                                             primaryText="Register Now"
                                             handlePrimaryClick={() => { handleRegisterClick(item) }}
@@ -153,7 +148,7 @@ const Webinar = () => {
                                         <WebinarCard
                                             key={item.id}
                                             data={item}
-                                            useRouterLink={true}
+                                            useRouterLink
                                             linkTo="/login"
                                             primaryText="Register Now"
                                         />
