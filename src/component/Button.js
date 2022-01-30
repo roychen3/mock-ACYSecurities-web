@@ -23,11 +23,11 @@ ReloadButton.propTypes = {
   onClick: PropTypes.func,
 }
 
-export const StyledButton = styled.button`
+const StyledButton = styled.button`
 ${({ fullWidth }) => fullWidth ? 'width: 100%' : ''};
 font-size: 16px;
 line-height: 22px;
-padding: 0.5rem 1.5rem;
+padding: 0.25rem 1.5rem;
 color: ${({ theme, type, highlight }) => (type === 'submit' || highlight) ? theme.mainBackground : theme.highlight};
 background-color: ${({ theme, type, highlight, disabled }) => {
     if (disabled) return theme.borderColor
@@ -35,7 +35,7 @@ background-color: ${({ theme, type, highlight, disabled }) => {
     return theme.mainBackground
   }};
 
-${({ theme, disabled }) => disabled ? 'border: 0px;' : `border: 1px solid ${theme.highlight};`}
+border: 1px solid ${({ theme, disabled }) => disabled ? theme.borderColor : theme.highlight};
 border-radius: 4px;
 
 &:hover {
@@ -50,9 +50,8 @@ border-radius: 4px;
   }
 }
 
-
-@media (min-width: ${({ theme }) => theme.media.smallDevices}) {
-  padding: 0.75rem 1.5rem;
+@media (min-width: ${({ theme }) => theme.media.largeDevices}) {
+  padding: 0.5rem 1.5rem;
 }
 `
 const Button = ({ text, onClick, type, fullWidth, disabled, highlight }) => {
