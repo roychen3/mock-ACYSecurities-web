@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { useDispatch, useSelector } from 'react-redux'
 
 import {
     getPostList,
     resetGetPostList,
+
     setRegisterFormData,
+
+    setWebinarDetail,
 } from '../../../redux/actions'
 
 import { ReloadButton } from '../../../component/Button'
@@ -46,6 +49,7 @@ align-items: center;
 
 const Webinar = () => {
     const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     const [currentGroupID, setCurrentGroupID] = useState(0)
 
@@ -90,6 +94,12 @@ const Webinar = () => {
                 topic: `${data.id}`,
             }
         ))
+    }
+
+    const handleWebinarCardDetailClick = (event, data) => {
+        event.preventDefault()
+        dispatch(setWebinarDetail(data))
+        navigate(`/webinar/${data.id}`)
     }
 
     const getPostListFirstPage = () => {
@@ -151,15 +161,22 @@ const Webinar = () => {
                                             data={item}
                                             href="#registerForm"
                                             primaryText="Register Now"
+                                            primaryClickType="aTag"
                                             handlePrimaryClick={() => { handleRegisterClick(item) }}
+                                            handleDetailClick={(event) => { handleWebinarCardDetailClick(event, item) }}
                                         />
                                         :
                                         <WebinarCard
                                             key={item.id}
                                             data={item}
-                                            useRouterLink
-                                            linkTo="/login"
                                             primaryText="Register Now"
+                                            handlePrimaryClick={(event) => {
+                                                event.preventDefault()
+                                                navigate('/login')
+                                            }}
+                                            handleDetailClick={(event) => {
+                                                handleWebinarCardDetailClick(event, item)
+                                            }}
                                         />
                                 ))}
                             </WebinarList>

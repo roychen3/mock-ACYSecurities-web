@@ -11,8 +11,9 @@ import { GlobalStyles } from './globalStyles'
 import { theme } from './webTheme'
 
 import Header from './container/Header'
-import Login from './container/Login'
 import Home from './container/page/home'
+import WebinarDetail from './container/page/webinarDetail'
+import Login from './container/Login'
 import RegisteredList from './container/page/registeredList'
 
 
@@ -36,6 +37,8 @@ function App() {
   const userInformation = useSelector((state) => state.home.userInformation)
   const isLogined = userInformation.token
 
+  const webinarDetail = useSelector((state) => state.home.webinarDetail)
+
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyles />
@@ -45,7 +48,9 @@ function App() {
       <StyledContent>
         <Routes>
           <Route index path="/" element={<Home />} />
-          <Route path="webinar/*" element={<>webinar page</>} />
+          {Object.keys(webinarDetail).length > 0 &&
+            <Route path="webinar/*" element={<WebinarDetail />} />
+          }
           {!isLogined &&
             <Route path="login" element={<Login />} />
           }
@@ -57,7 +62,7 @@ function App() {
       </StyledContent>
 
     </ThemeProvider>
-  );
+  )
 }
 
 export default App

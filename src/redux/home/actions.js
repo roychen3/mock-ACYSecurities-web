@@ -22,6 +22,8 @@ import {
   RESET_GET_REGISTERED_LIST,
 
   SET_REGISTER_FORM_DATA,
+  
+  SET_WEBINAR_DETAIL,
 
   POST_FAVOURITES,
   POST_FAVOURITES_SUCCESS,
@@ -109,6 +111,11 @@ export const resetGetRegisteredList = (payload) => ({
 
 export const setRegisterFormData = (payload) => ({
   type: SET_REGISTER_FORM_DATA,
+  payload,
+})
+
+export const setWebinarDetail = (payload) => ({
+  type: SET_WEBINAR_DETAIL,
   payload,
 })
 
