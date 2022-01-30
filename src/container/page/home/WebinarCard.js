@@ -26,7 +26,7 @@ const StyledCreateDate = styled.div`
 font-weight: 600;
 font-size: 14px;
 line-height: 17px;
-color: 1px solid ${({ theme }) => theme.highlight};
+color: ${({ theme }) => theme.highlight};
 margin-bottom: 19px;
 `
 const StyledTitle = styled.div`
@@ -76,6 +76,11 @@ font-size: 16px;
 line-height: 24px;
 color: ${({ theme }) => theme.subHighlight};
 `
+const StyledIconChevronRight = styled.i`
+border: 1px solid;
+border-radius: 50%;
+padding: 0.25rem 7px;
+`
 const WebinarCard = ({ data }) => {
     const dispatch = useDispatch()
 
@@ -119,7 +124,9 @@ const WebinarCard = ({ data }) => {
                         Register Now
                     </StyledLink>
                 }
-                <i className="fas fa-chevron-circle-right" />
+                <StyledLink to={`/webinar/${data.id}`}>
+                    <StyledIconChevronRight className="fas fa-chevron-right" />
+                </StyledLink>
             </StyledActionContainer>
         </StyledCardContainer>
     )

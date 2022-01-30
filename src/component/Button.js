@@ -8,10 +8,10 @@ ${({ fullWidth }) => fullWidth ? 'width: 100%' : ''};
 font-size: 16px;
 line-height: 22px;
 padding: 0.5rem 1.5rem;
-color: ${({ theme, type }) => type === 'submit' ? theme.mainBackground : theme.highlight};
-background-color: ${({ theme, type, disabled }) => {
+color: ${({ theme, type, highlight }) => (type === 'submit' || highlight) ? theme.mainBackground : theme.highlight};
+background-color: ${({ theme, type, highlight, disabled }) => {
     if (disabled) return theme.borderColor
-    if (type === 'submit') return theme.highlight
+    if (type === 'submit' || highlight) return theme.highlight
     return theme.mainBackground
   }};
 
@@ -19,13 +19,13 @@ ${({ theme, disabled }) => disabled ? 'border: 0px;' : `border: 1px solid ${them
 border-radius: 4px;
 
 &:hover {
-  ${({ theme, disabled, type }) => disabled
+  ${({ theme, disabled, type, highlight }) => disabled
     ?
-    ''
+    'cursor: not-allowed;'
     :
     `
-    color: ${type === 'submit' ? theme.highlight : theme.mainBackground};
-    background-color: ${type === 'submit' ? theme.mainBackground : theme.highlight};
+    color: ${(type === 'submit' || highlight) ? '' : theme.mainBackground};
+    background-color: ${(type === 'submit' || highlight) ? theme.hoverHighlight : theme.hoverHighlight};
     `
   }
 }
@@ -36,9 +36,15 @@ border-radius: 4px;
 }
 `
 
-const Button = ({ text, onClick, type, fullWidth, disabled }) => {
+const Button = ({ text, onClick, type, fullWidth, disabled, highlight }) => {
   return (
-    <StyledButton onClick={onClick} type={type} fullWidth={fullWidth} disabled={disabled}>
+    <StyledButton
+      onClick={onClick}
+      type={type}
+      fullWidth={fullWidth}
+      disabled={disabled}
+      highlight={highlight}
+    >
       {text}
     </StyledButton>
   )
@@ -49,6 +55,7 @@ Button.defaultProps = {
   type: 'button',
   fullWidth: false,
   disabled: false,
+  highlight: false,
 }
 Button.propTypes = {
   text: PropTypes.string.isRequired,
@@ -56,6 +63,7 @@ Button.propTypes = {
   type: PropTypes.string,
   fullWidth: PropTypes.bool,
   disabled: PropTypes.bool,
+  highlight: PropTypes.bool,
 }
 
 export default Button
