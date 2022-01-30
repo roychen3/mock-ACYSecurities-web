@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { setRegisterFormData, postFavourites } from '../../../redux/actions'
 import { InputFieldFormik } from '../../../component/InputField'
 import Button from '../../../component/Button'
-import { SelectFormik } from '../../../component/Select'
+import { DropdownListFormik } from '../../../component/Select'
 import LoadingShadow from '../../../component/LoadingShadow'
 import { StyledH3 } from '../../../component/Title'
 import { StyledContentLayout } from '../../../component/Layout'
@@ -92,6 +92,10 @@ const RegisterForm = () => {
         },
     })
 
+    const handleDropdownListOnChange = (selectedValue) => {
+        formik.setFieldValue('topic', selectedValue)
+    }
+
     const buttonDisabled = JSON.stringify(initFormValues) === JSON.stringify(formik.values) || formik.isValid === false
 
     useEffect(() => {
@@ -99,7 +103,6 @@ const RegisterForm = () => {
             dispatch(setRegisterFormData())
         }
     }, [])
-
 
     return (
         <>
@@ -116,11 +119,22 @@ const RegisterForm = () => {
                             Please fill in the form below and you will be contacted within 1 working day by our professional business experts.
                         </StyledDescribe>
                         <form onSubmit={formik.handleSubmit}>
-                            <SelectFormik label="Topic" optionList={topicOptionList} name="topic" formik={formik} />
+                            <DropdownListFormik
+                                label="Topic"
+                                optionList={topicOptionList}
+                                onChange={handleDropdownListOnChange}
+                                name="topic"
+                                formik={formik}
+                            />
+
                             <InputFieldFormik label="First Name" name="firstName" formik={formik} />
+
                             <InputFieldFormik label="Last Name" name="lastName" formik={formik} />
+
                             <InputFieldFormik label="Email" type="email" name="email" formik={formik} />
+
                             <Button text="Register" type="submit" fullWidth disabled={buttonDisabled} />
+
                             <StyledErrorMessage>
                                 {postFavouritesError}
                             </StyledErrorMessage>

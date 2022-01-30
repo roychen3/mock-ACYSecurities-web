@@ -39,7 +39,6 @@ padding: 3px 6px;
 color: ${({ theme }) => theme.mainText};
 background-color: ${({ theme }) => theme.opacity};
 border: 0px;
-position: abs
 
 &:hover {
     color: ${({ theme }) => theme.hoverHighlight};
