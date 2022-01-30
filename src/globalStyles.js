@@ -26,7 +26,7 @@ a {
   color: ${({ theme }) => theme.mainText};
 
   &:hover {
-    color: ${({ theme }) => theme.highlight};
+    color: ${({ theme }) => theme.hoverHighlight};
     cursor: pointer;
   }
 }

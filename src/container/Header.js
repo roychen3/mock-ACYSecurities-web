@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from 'react-redux'
 
 import { userLogout, checkUserToken } from '../redux/actions'
 
-import imgLogo from '../asset/img/logo.png'
+import imgLogo from '../asset/img/logo.svg'
 import Button from '../component/Button'
 import LoadingShadow from '../component/LoadingShadow'
 
@@ -52,14 +52,19 @@ font-size: 18px;
 }
 `
 const StyledHeaderContainer = styled.div`
-display:flex;
-align-items:center;
+display: flex;
+justify-content: space-between;
+align-items: center;
 font-size: 18px;
 
 @media (min-width: ${({ theme }) => theme.media.largeDevices}) {
   width: 80%;
   margin: 0 auto;
 }
+`
+const StyledMobilMenuIconAndLogoContainer = styled.div`
+display:flex;
+align-items:center;
 `
 const StyledMobilMenuIcon = styled.i`
 margin-right: 1rem;
@@ -73,17 +78,11 @@ margin-right: 1rem;
 }
 `
 const StyledLogo = styled.img`
-width: 120px;
+height: 32px;
 
 @media (min-width: ${({ theme }) => theme.media.largeDevices}) {
-  width: 136px;
+  height: 48px;
 }
-`
-const StyledHeaderLeftContainer = styled.div`
-width: 100%;
-display:flex;
-align-items:center;
-justify-content:space-between;
 `
 const StyledMenuContainer = styled.div`
 margin-left: 2rem;
@@ -127,22 +126,27 @@ const Header = () => {
       }
       <StyledHeader>
         <StyledHeaderContainer>
-          <StyledMobilMenuIcon className="fas fa-bars" />
-          <StyledLogo src={imgLogo} />
-          <StyledHeaderLeftContainer>
-            <StyledMenuContainer>
-              {menuList.map((item, index) => <MenuItem key={index} text={item} />)}
-            </StyledMenuContainer>
-            {showLoginButton
+          <StyledMobilMenuIconAndLogoContainer>
+            <StyledMobilMenuIcon className="fas fa-bars" />
+            <Link to="/home">
+              <StyledLogo src={imgLogo} />
+            </Link>
+          </StyledMobilMenuIconAndLogoContainer>
+          <StyledMenuContainer>
+            {menuList.map((item, index) => <MenuItem key={index} text={item} />)}
+          </StyledMenuContainer>
+          {showLoginButton
+            ?
+            <Link to="/login">
+              <Button text="Login" />
+            </Link>
+            :
+            isInLoginPage === false
               ?
-              <Link to="/login">
-                <Button text="Login" />
-              </Link>
+              <Button text="Logout" onClick={handleLogoutClick} highlight />
               :
-              isInLoginPage === false &&
-              <Button text="Logout" onClick={handleLogoutClick} />
-            }
-          </StyledHeaderLeftContainer>
+              <div />
+          }
         </StyledHeaderContainer>
       </StyledHeader>
     </>

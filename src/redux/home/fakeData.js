@@ -2381,10 +2381,12 @@ export const FAKE_POST_LIST_RESPONSE = {
             count: 12,
             per_page: 12,
             current_page: 1,
-            total_pages: 1,
+            total_pages: 3,
             links: {
                 next: 'http://api.finlogix.com/v1/posts?per_page=12&page=2'
             }
         }
     }
 }
+
+export const FAKE_POST_FAVOURITES_RESPONSE ={}

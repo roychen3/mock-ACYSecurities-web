@@ -10,30 +10,23 @@ import { InputFieldFormik } from '../../../component/InputField'
 import Button from '../../../component/Button'
 import { SelectFormik } from '../../../component/Select'
 import LoadingShadow from '../../../component/LoadingShadow'
+import { StyledH3 } from '../../../component/Title'
+import { StyledContentLayout } from '../../../component/Layout'
 
 
 const StyledRegisterForm = styled.div`
-width: 90%;
-margin: 144px auto;
-
 @media (min-width: ${({ theme }) => theme.media.largeDevices}) {
-    width: 80%;
     border-radius: 20px;
     box-shadow: 0px 4px 14px rgba(132, 132, 132, 0.5);
     border: 1px solid ${({ theme }) => theme.borderColor};
+    padding: 80px 0;
 }
 `
 const StyledRegisterFormContainer = styled.div`
 @media (min-width: ${({ theme }) => theme.media.largeDevices}) {
-    max-width: 600px; 
+    max-width: 600px;
     margin: 0 auto;
-    padding: 80px 0;
 }
-`
-const StyledTitle = styled.h3`
-color: ${({ theme }) => theme.highlight};
-text-align: center;
-margin-bottom: 16px;
 `
 const StyledDescribe = styled.p`
 font-size: 12px;
@@ -103,26 +96,28 @@ const RegisterForm = () => {
             {postFavouritesLoading &&
                 <LoadingShadow />
             }
-            <StyledRegisterForm id="registerForm">
-                <StyledRegisterFormContainer>
-                    <StyledTitle>
-                        Register for a Webinar now
-                    </StyledTitle>
-                    <StyledDescribe>
-                        Please fill in the form below and you will be contacted within 1 working day by our professional business experts.
-                    </StyledDescribe>
-                    <form onSubmit={formik.handleSubmit}>
-                        <SelectFormik label="Topic" optionList={topicOptionList} name="topic" formik={formik} />
-                        <InputFieldFormik label="First Name" name="firstName" formik={formik} />
-                        <InputFieldFormik label="Last Name" name="lastName" formik={formik} />
-                        <InputFieldFormik label="Email" type="email" name="email" formik={formik} />
-                        <Button text="Register" type="submit" fullWidth disabled={buttonDisabled} />
-                        <StyledErrorMessage>
-                            {postFavouritesError}
-                        </StyledErrorMessage>
-                    </form>
-                </StyledRegisterFormContainer>
-            </StyledRegisterForm>
+            <StyledContentLayout id="registerForm">
+                <StyledRegisterForm>
+                    <StyledRegisterFormContainer>
+                        <StyledH3>
+                            Register for a Webinar now
+                        </StyledH3>
+                        <StyledDescribe>
+                            Please fill in the form below and you will be contacted within 1 working day by our professional business experts.
+                        </StyledDescribe>
+                        <form onSubmit={formik.handleSubmit}>
+                            <SelectFormik label="Topic" optionList={topicOptionList} name="topic" formik={formik} />
+                            <InputFieldFormik label="First Name" name="firstName" formik={formik} />
+                            <InputFieldFormik label="Last Name" name="lastName" formik={formik} />
+                            <InputFieldFormik label="Email" type="email" name="email" formik={formik} />
+                            <Button text="Register" type="submit" fullWidth disabled={buttonDisabled} />
+                            <StyledErrorMessage>
+                                {postFavouritesError}
+                            </StyledErrorMessage>
+                        </form>
+                    </StyledRegisterFormContainer>
+                </StyledRegisterForm>
+            </StyledContentLayout>
         </>
     )
 }
