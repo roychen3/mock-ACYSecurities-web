@@ -10,6 +10,7 @@ import {
     resetUnregisterWebinar
 } from '../../../redux/actions'
 
+import Modal from '../../../component/Modal'
 import { ReloadButton } from '../../../component/Button'
 import LoadingShadow from '../../../component/LoadingShadow'
 import { StyledContentLayout } from '../../../component/Layout'
@@ -72,6 +73,18 @@ const RegisteredList = () => {
     const handleUnregisterClick = (data) => {
         dispatch(unregisterWebinar(data))
     }
+    const [modalIsOpen, setModalIsOpen] = useState(false)
+    const handleCloseModal = () => {
+        setModalIsOpen(false)
+        dispatch(resetUnregisterWebinar())
+    }
+
+    const unregisterWebinarLoading = useSelector((state) => state.home.unregisterWebinarLoading)
+    const unregisterWebinarError = useSelector((state) => state.home.unregisterWebinarError)
+    useEffect(() => {
+        if (unregisterWebinarLoading === false && unregisterWebinarError) setModalIsOpen(true)
+    }, [unregisterWebinarLoading])
+
 
     const getRegisteredListFirstPage = () => {
         dispatch(getRegisteredList({
@@ -92,7 +105,10 @@ const RegisteredList = () => {
     return (
         <StyledWebinar>
             <StyledContentLayout>
-                {registeredListLoading &&
+                <Modal isOpen={modalIsOpen} closeClick={handleCloseModal}>
+                    <>{unregisterWebinarError}</>
+                </Modal>
+                {(registeredListLoading || unregisterWebinarLoading) &&
                     <LoadingShadow />
                 }
                 {registeredListError &&
