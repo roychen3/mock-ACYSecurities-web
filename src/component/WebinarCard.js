@@ -3,10 +3,54 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import dayjs from 'dayjs'
 import { Link } from "react-router-dom"
-import { useDispatch, useSelector } from 'react-redux'
 
-import { setRegisterFormData } from '../../../redux/actions'
 
+const WebinarButton = styled.button`
+width: 32px;
+padding: 0.5rem;
+border: 0px;
+border-radius: 50%;
+position: absolute;
+top: 50%;
+transform: translateY(-50%);
+color: ${({ theme }) => theme.mainBackground};
+background-color: ${({ theme }) => theme.shadow};
+opacity: 0.7;
+
+&:hover {
+    opacity: 1;
+}
+
+@media (min-width: ${({ theme }) => theme.media.smallDevices}) {
+    width: 48px;
+    padding: 1rem;
+}
+`
+export const WebinarLeftButton = styled(WebinarButton)`
+left: 0;
+transform: translate(-50%, -50%);
+`
+export const WebinarRightButton = styled(WebinarButton)`
+right: 0;
+transform: translate(50%, -50%);
+`
+export const WebinarList = styled.div`
+position: relative;
+display: grid;
+grid-template-columns: 100%;
+grid-gap: 12px;
+
+@media (min-width: ${({ theme }) => theme.media.smallDevices}) {
+    grid-template-columns: auto auto;
+    grid-gap: 20px;
+}
+
+@media (min-width: ${({ theme }) => theme.media.largeDevices}) {
+    grid-template-columns: auto auto auto;
+}
+`
+
+// --- Card ---
 const StyledCardContainer = styled.div`
 min-width: 200px;
 width: 100%;
@@ -81,25 +125,19 @@ border: 1px solid;
 border-radius: 50%;
 padding: 0.25rem 7px;
 `
-const WebinarCard = ({ data }) => {
-    const dispatch = useDispatch()
-
-    const userInformation = useSelector((state) => state.home.userInformation)
-    const isLogined = userInformation.token
-
-    const handleRegisterClick = () => {
-        dispatch(setRegisterFormData(
-            {
-                topic: `${data.id}`,
-            }
-        ))
-    }
-
+const WebinarCard = ({
+    data,
+    useRouterLink,
+    linkTo,
+    href,
+    primaryText,
+    handlePrimaryClick,
+}) => {
     return (
         <StyledCardContainer>
             <div>
                 <StyledCreateDate>
-                    {dayjs(data.created_at).format('DD/MM/YYYY')}
+                    {dayjs(data.createdAt).format('DD/MM/YYYY')}
                 </StyledCreateDate>
                 <StyledTitle>
                     {data.title}
@@ -112,17 +150,22 @@ const WebinarCard = ({ data }) => {
                     ))}
                 </StyledContent>
                 <StyledCreateDatePlus10Days>
-                    {dayjs(data.created_at).add(10, 'day').format('YYYY/MM/DD hh:mm')}
+                    {dayjs(data.createdAt).add(10, 'day').format('YYYY/MM/DD hh:mm')}
                 </StyledCreateDatePlus10Days>
             </div>
             <StyledActionContainer>
-                {isLogined
-                    ?
-                    <StyledA href="#registerForm" onClick={handleRegisterClick}>Register Now</StyledA>
-                    :
-                    <StyledLink to="/login">
-                        Register Now
-                    </StyledLink>
+                {primaryText &&
+                    <>
+                        {useRouterLink
+                            ?
+                            <StyledLink to={linkTo} onClick={handlePrimaryClick}>
+                                {primaryText}
+                            </StyledLink>
+                            :
+                            <StyledA href={href} onClick={handlePrimaryClick}>
+                                {primaryText}
+                            </StyledA>}
+                    </>
                 }
                 <StyledLink to={`/webinar/${data.id}`}>
                     <StyledIconChevronRight className="fas fa-chevron-right" />
@@ -131,9 +174,26 @@ const WebinarCard = ({ data }) => {
         </StyledCardContainer>
     )
 }
-
+WebinarCard.defaultProps = {
+    useRouterLink: false,
+    linkTo: undefined,
+    href: undefined,
+    primaryText: '',
+    handlePrimaryClick: null,
+}
 WebinarCard.propTypes = {
-    data: PropTypes.instanceOf(Object).isRequired,
+    data: PropTypes.shape({
+        createdAt: PropTypes.string,
+        title: PropTypes.string,
+        content: PropTypes.string,
+        id: PropTypes.string,
+    }).isRequired,
+    useRouterLink: PropTypes.bool,
+    linkTo: PropTypes.string,
+    href: PropTypes.string,
+    primaryText: PropTypes.string,
+    handlePrimaryClick: PropTypes.func,
 }
 
 export default WebinarCard
+

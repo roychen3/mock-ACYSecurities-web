@@ -2,6 +2,26 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
+const StyledReloadButton = styled.button`
+font-size: 1.5rem;
+color: ${({ theme }) => theme.error};
+background-color: ${({ theme }) => theme.opacity};
+border: 0px;
+margin-right: 1rem;
+`
+export const ReloadButton = ({ onClick }) => {
+  return (
+    <StyledReloadButton onClick={onClick}>
+      <i className="fas fa-redo-alt" />
+    </StyledReloadButton>
+  )
+}
+ReloadButton.defaultProps = {
+  onClick: null,
+}
+ReloadButton.propTypes = {
+  onClick: PropTypes.func,
+}
 
 export const StyledButton = styled.button`
 ${({ fullWidth }) => fullWidth ? 'width: 100%' : ''};
@@ -35,7 +55,6 @@ border-radius: 4px;
   padding: 0.75rem 1.5rem;
 }
 `
-
 const Button = ({ text, onClick, type, fullWidth, disabled, highlight }) => {
   return (
     <StyledButton
@@ -49,7 +68,6 @@ const Button = ({ text, onClick, type, fullWidth, disabled, highlight }) => {
     </StyledButton>
   )
 }
-
 Button.defaultProps = {
   onClick: null,
   type: 'button',

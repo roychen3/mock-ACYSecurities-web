@@ -1,5 +1,5 @@
 import {
-  all, put, takeLatest, call,
+  all, put, takeLatest, call, select
 } from 'redux-saga/effects'
 
 import {
@@ -15,25 +15,36 @@ import {
   getPostListSuccess,
   getPostListFailure,
 
+  getRegisteredList,
+  getRegisteredListSuccess,
+  getRegisteredListFailure,
+
   postFavouritesSuccess,
   postFavouritesFailure,
+
+  unregisterWebinarSuccess,
+  unregisterWebinarFailure,
 } from './actions'
 import {
   USER_LOGIN,
   USER_LOGOUT,
   CHECK_USER_TOKEN,
   GET_POST_LIST,
+  GET_REGISTERED_LIST,
   POST_FAVOURITES,
+  UNREGISTER_WEBINAR,
 } from '../../constants/actionTypes'
 
 // import { axiosNoAuth, axiosAuth } from '../../util/axios'
-import { 
+import {
   FAKE_USER_LOGIN_RESPONSE,
   FAKE_USER_LOGOUY_RESPONSE,
   FAKE_CHECK_USER_TOKEN_RESPONSE,
   FAKE_POST_LIST_RESPONSE,
+  FAKE_REGISTERED_LIST_RESPONSE,
   FAKE_POST_FAVOURITES_RESPONSE,
- } from './fakeData'
+  FAKE_UNREGISTER_WEBINAR_RESPONSE,
+} from './fakeData'
 
 
 const userLoginAPI = (payload) => {
@@ -71,6 +82,7 @@ function* userLogoutSaga() {
   }
 }
 
+
 const checkUserTokenAPI = () => {
   return FAKE_CHECK_USER_TOKEN_RESPONSE
   // return axiosAuth.post('/auth/me')
@@ -89,6 +101,7 @@ function* checkUserTokenSaga() {
   }
 }
 
+
 const getPostListAPI = (perPage, page) => {
   return FAKE_POST_LIST_RESPONSE
   // return axiosNoAuth.get(`/posts?per_page=${perPage}&page=${page}`)
@@ -103,7 +116,7 @@ function* getPostListSaga({ payload }) {
     let group = []
     response.data.forEach((item, index) => {
       group.push({
-        id: item.id,
+        id: `${item.id}`,
         title: item.title,
         content: item.content
           .replaceAll('<p>', '')
@@ -111,7 +124,7 @@ function* getPostListSaga({ payload }) {
           .replaceAll('\n', '')
           .replaceAll('<br>', '<br />')
           .replaceAll('&nbsp;', ' '),
-        created_at: item.created_at,
+        createdAt: item.created_at,
       })
       if (index % 6 === 5) {
         postList.push({
@@ -150,6 +163,70 @@ function* getPostListSaga({ payload }) {
   }
 }
 
+
+const getRegisteredListAPI = (userId, perPage, page) => {
+  return FAKE_REGISTERED_LIST_RESPONSE
+
+  // return axiosAuth.get(`/posts?favourited=1&author=${userId}&per_page=${perPage}&page=${page}`)
+  //   .then((res) => res.data)
+}
+function* getRegisteredListSaga({ payload }) {
+  try {
+    const { userId, perPage, page } = payload
+    const response = yield call(getRegisteredListAPI, userId, perPage, page)
+
+    const registeredList = []
+    let group = []
+    response.data.forEach((item, index) => {
+      group.push({
+        id: `${item.id}`,
+        title: item.title,
+        content: item.content
+          .replaceAll('<p>', '')
+          .replaceAll('</p>', '')
+          .replaceAll('\n', '')
+          .replaceAll('<br>', '<br />')
+          .replaceAll('&nbsp;', ' '),
+        createdAt: item.created_at,
+      })
+      if (index % 6 === 5) {
+        registeredList.push({
+          groupId: (index + 1) / 6 - 1,
+          group
+        })
+        group = []
+      }
+    })
+
+    if (group.length > 0) {
+      registeredList.push({
+        groupId: 1,
+        group
+      })
+      group = []
+    }
+    // const pagination = response.meta.pagination
+    // open for use fake data
+    const pagination = {
+      ...response.meta.pagination,
+      current_page: page,
+    }
+
+
+    const registerTopicOptionList = response.data.map((item) => (
+      {
+        value: `${item.id}`,
+        name: item.title,
+      }
+    ))
+
+    yield put(getRegisteredListSuccess({ registeredList, pagination, registerTopicOptionList }))
+  } catch (err) {
+    yield put(getRegisteredListFailure(err.message))
+  }
+}
+
+
 const postFavouritesAPI = (ids) => {
   const postValues = { ids, model: 'post', }
   return FAKE_POST_FAVOURITES_RESPONSE
@@ -165,6 +242,30 @@ function* postFavouritesSaga({ payload: ids }) {
     yield put(postFavouritesFailure(err.message))
   }
 }
+
+
+const unregisterWebinarAPI = () => {
+  return FAKE_UNREGISTER_WEBINAR_RESPONSE
+  // return axiosAuth.delete('/favourites/post/id')
+  //   .then((res) => res.data)
+}
+function* unregisterWebinarSaga() {
+  try {
+    const response = yield call(unregisterWebinarAPI)
+
+    yield put(unregisterWebinarSuccess(response))
+
+    const userInformation = yield select((state) => state.home.userInformation)
+    yield put(getRegisteredList({
+      userId: userInformation.user.id,
+      perPage: 12,
+      page: 1,
+    }))
+  } catch (err) {
+    yield put(unregisterWebinarFailure(err.message))
+  }
+}
+
 
 function* homeSagas() {
   yield all([
@@ -185,10 +286,19 @@ function* homeSagas() {
       getPostListSaga,
     ),
     takeLatest(
+      GET_REGISTERED_LIST,
+      getRegisteredListSaga,
+    ),
+    takeLatest(
       POST_FAVOURITES,
       postFavouritesSaga,
     ),
+    takeLatest(
+      UNREGISTER_WEBINAR,
+      unregisterWebinarSaga,
+    ),
   ])
 }
+
 
 export default homeSagas

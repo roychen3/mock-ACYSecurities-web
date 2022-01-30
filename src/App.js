@@ -3,7 +3,9 @@ import styled, { ThemeProvider } from 'styled-components'
 import {
   Routes,
   Route,
+  Navigate,
 } from "react-router-dom"
+import { useSelector } from 'react-redux'
 
 import { GlobalStyles } from './globalStyles'
 import { theme } from './webTheme'
@@ -11,6 +13,7 @@ import { theme } from './webTheme'
 import Header from './container/Header'
 import Login from './container/Login'
 import Home from './container/page/home'
+import RegisteredList from './container/page/registeredList'
 
 
 const StyledContent = styled.div`
@@ -30,6 +33,9 @@ padding-bottom: 57px;
 `
 
 function App() {
+  const userInformation = useSelector((state) => state.home.userInformation)
+  const isLogined = userInformation.token
+
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyles />
@@ -38,8 +44,15 @@ function App() {
 
       <StyledContent>
         <Routes>
-          <Route path="*" element={<Home />} />
-          <Route path="login" element={<Login />} />
+          <Route index path="/" element={<Home />} />
+          <Route path="webinar/*" element={<>webinar page</>} />
+          {!isLogined &&
+            <Route path="login" element={<Login />} />
+          }
+          {isLogined &&
+            <Route path="registered" element={<RegisteredList />} />
+          }
+          <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </StyledContent>
 

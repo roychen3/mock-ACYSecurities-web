@@ -16,12 +16,22 @@ import {
   GET_POST_LIST_FAILURE,
   RESET_GET_POST_LIST,
 
+  GET_REGISTERED_LIST,
+  GET_REGISTERED_LIST_SUCCESS,
+  GET_REGISTERED_LIST_FAILURE,
+  RESET_GET_REGISTERED_LIST,
+
   SET_REGISTER_FORM_DATA,
 
   POST_FAVOURITES,
   POST_FAVOURITES_SUCCESS,
   POST_FAVOURITES_FAILURE,
   RESET_POST_FAVOURITES,
+
+  UNREGISTER_WEBINAR,
+  UNREGISTER_WEBINAR_SUCCESS,
+  UNREGISTER_WEBINAR_FAILURE,
+  RESET_UNREGISTER_WEBINAR,
 } from '../../constants/actionTypes'
 
 export const initialState = {
@@ -41,16 +51,25 @@ export const initialState = {
   postListLoading: null,
   postListError: null,
 
+  registeredList: [],
+  registeredListPagination: {},
+  registeredListLoading: null,
+  registeredListError: null,
+
   registerFormData: {
     topic: '',
     firstName: '',
     lastName: '',
-    email: 'yuntest@mailinator.com',
+    email: '',
   },
 
   postFavourites: {},
   postFavouritesLoading: null,
   postFavouritesError: null,
+
+  unregisterWebinar: {},
+  unregisterWebinarLoading: null,
+  unregisterWebinarError: null,
 }
 
 function reducer(state = initialState, action) {
@@ -145,10 +164,40 @@ function reducer(state = initialState, action) {
         postListError: null,
       }
 
+    case GET_REGISTERED_LIST:
+      return {
+        ...state,
+        registeredList: [],
+        registeredListPagination: {},
+        registeredListLoading: true,
+        registeredListError: null,
+      }
+    case GET_REGISTERED_LIST_SUCCESS:
+      return {
+        ...state,
+        registeredList: action.payload.registeredList,
+        registeredListPagination: action.payload.pagination,
+        registeredListLoading: false,
+      }
+    case GET_REGISTERED_LIST_FAILURE:
+      return {
+        ...state,
+        registeredListLoading: false,
+        registeredListError: action.payload,
+      }
+    case RESET_GET_REGISTERED_LIST:
+      return {
+        ...state,
+        registeredList: [],
+        registeredListPagination: {},
+        registeredListLoading: null,
+        registeredListError: null,
+      }
+
     case SET_REGISTER_FORM_DATA:
       return {
         ...state,
-        registerFormData: action.payload,
+        registerFormData: action.payload ? action.payload : initialState.registerFormData,
       }
 
     case POST_FAVOURITES:
@@ -176,6 +225,33 @@ function reducer(state = initialState, action) {
         postFavourites: {},
         postFavouritesLoading: null,
         postFavouritesError: null,
+      }
+
+    case UNREGISTER_WEBINAR:
+      return {
+        ...state,
+        unregisterWebinar: {},
+        unregisterWebinarLoading: true,
+        unregisterWebinarError: null,
+      }
+    case UNREGISTER_WEBINAR_SUCCESS:
+      return {
+        ...state,
+        unregisterWebinar: action.payload,
+        unregisterWebinarLoading: false,
+      }
+    case UNREGISTER_WEBINAR_FAILURE:
+      return {
+        ...state,
+        unregisterWebinarLoading: false,
+        unregisterWebinarError: action.payload,
+      }
+    case RESET_UNREGISTER_WEBINAR:
+      return {
+        ...state,
+        unregisterWebinar: {},
+        unregisterWebinarLoading: null,
+        unregisterWebinarError: null,
       }
 
     default:

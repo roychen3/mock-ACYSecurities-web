@@ -16,12 +16,22 @@ import {
   GET_POST_LIST_FAILURE,
   RESET_GET_POST_LIST,
 
+  GET_REGISTERED_LIST,
+  GET_REGISTERED_LIST_SUCCESS,
+  GET_REGISTERED_LIST_FAILURE,
+  RESET_GET_REGISTERED_LIST,
+
   SET_REGISTER_FORM_DATA,
 
   POST_FAVOURITES,
   POST_FAVOURITES_SUCCESS,
   POST_FAVOURITES_FAILURE,
   RESET_POST_FAVOURITES,
+
+  UNREGISTER_WEBINAR,
+  UNREGISTER_WEBINAR_SUCCESS,
+  UNREGISTER_WEBINAR_FAILURE,
+  RESET_UNREGISTER_WEBINAR,
 } from '../../constants/actionTypes'
 
 export const userLogin = (payload) => ({
@@ -80,6 +90,23 @@ export const resetGetPostList = (payload) => ({
   payload,
 })
 
+export const getRegisteredList = (payload) => ({
+  type: GET_REGISTERED_LIST,
+  payload,
+})
+export const getRegisteredListSuccess = (payload) => ({
+  type: GET_REGISTERED_LIST_SUCCESS,
+  payload,
+})
+export const getRegisteredListFailure = (payload) => ({
+  type: GET_REGISTERED_LIST_FAILURE,
+  payload,
+})
+export const resetGetRegisteredList = (payload) => ({
+  type: RESET_GET_REGISTERED_LIST,
+  payload,
+})
+
 export const setRegisterFormData = (payload) => ({
   type: SET_REGISTER_FORM_DATA,
   payload,
@@ -99,6 +126,23 @@ export const postFavouritesFailure = (payload) => ({
 })
 export const resetPostFavourites = (payload) => ({
   type: RESET_POST_FAVOURITES,
+  payload,
+})
+
+export const unregisterWebinar = (payload) => ({
+  type: UNREGISTER_WEBINAR,
+  payload,
+})
+export const unregisterWebinarSuccess = (payload) => ({
+  type: UNREGISTER_WEBINAR_SUCCESS,
+  payload,
+})
+export const unregisterWebinarFailure = (payload) => ({
+  type: UNREGISTER_WEBINAR_FAILURE,
+  payload,
+})
+export const resetUnregisterWebinar = (payload) => ({
+  type: RESET_UNREGISTER_WEBINAR,
   payload,
 })
 
