@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
 import Summary from './Summary'
-import WebinarList from './WebinarList'
+import Webinar from './Webinar'
 import AlistairSchultz from './AlistairSchultz'
 import RegisterForm from './RegisterForm'
 
@@ -10,7 +10,7 @@ const Home = () => {
     return (
         <>
             <Summary />
-            <WebinarList />
+            <Webinar />
             <AlistairSchultz />
             <RegisterForm />
         </>

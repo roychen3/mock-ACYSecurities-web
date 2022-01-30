@@ -71,6 +71,7 @@ function* userLogoutSaga() {
   }
 }
 
+
 const checkUserTokenAPI = () => {
   return FAKE_CHECK_USER_TOKEN_RESPONSE
   // return axiosAuth.post('/auth/me')
@@ -89,6 +90,7 @@ function* checkUserTokenSaga() {
   }
 }
 
+
 const getPostListAPI = (perPage, page) => {
   return FAKE_POST_LIST_RESPONSE
   // return axiosNoAuth.get(`/posts?per_page=${perPage}&page=${page}`)
@@ -103,7 +105,7 @@ function* getPostListSaga({ payload }) {
     let group = []
     response.data.forEach((item, index) => {
       group.push({
-        id: item.id,
+        id: `${item.id}`,
         title: item.title,
         content: item.content
           .replaceAll('<p>', '')
@@ -111,7 +113,7 @@ function* getPostListSaga({ payload }) {
           .replaceAll('\n', '')
           .replaceAll('<br>', '<br />')
           .replaceAll('&nbsp;', ' '),
-        created_at: item.created_at,
+        createdAt: item.created_at,
       })
       if (index % 6 === 5) {
         postList.push({
@@ -150,6 +152,7 @@ function* getPostListSaga({ payload }) {
   }
 }
 
+
 const postFavouritesAPI = (ids) => {
   const postValues = { ids, model: 'post', }
   return FAKE_POST_FAVOURITES_RESPONSE
@@ -165,6 +168,7 @@ function* postFavouritesSaga({ payload: ids }) {
     yield put(postFavouritesFailure(err.message))
   }
 }
+
 
 function* homeSagas() {
   yield all([
@@ -190,5 +194,6 @@ function* homeSagas() {
     ),
   ])
 }
+
 
 export default homeSagas

@@ -39,6 +39,8 @@ function App() {
       <StyledContent>
         <Routes>
           <Route path="*" element={<Home />} />
+          <Route path="webinar/*" element={<>webinar page</>} />
+          <Route path="registered" element={<>registered page</>} />
           <Route path="login" element={<Login />} />
         </Routes>
       </StyledContent>
