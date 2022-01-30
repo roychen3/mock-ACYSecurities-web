@@ -27,7 +27,13 @@ import {
 } from '../../constants/actionTypes'
 
 import { axiosNoAuth, axiosAuth } from '../../util/axios'
-import { FAKE_POST_LIST_RESPONSE } from './fakeData'
+import { 
+  FAKE_USER_LOGIN_RESPONSE,
+  FAKE_USER_LOGOUY_RESPONSE,
+  FAKE_CHECK_USER_TOKEN_RESPONSE,
+  FAKE_POST_LIST_RESPONSE,
+  FAKE_POST_FAVOURITES_RESPONSE,
+ } from './fakeData'
 
 
 const userLoginAPI = (payload) => {
@@ -35,9 +41,9 @@ const userLoginAPI = (payload) => {
     email: payload.email,
     password: payload.password,
   }
-  // return FAKE_USER_LOGIN_RESPONSE
-  return axiosNoAuth.post('/auth/email/login', postValues)
-    .then((res) => res.data)
+  return FAKE_USER_LOGIN_RESPONSE
+  // return axiosNoAuth.post('/auth/email/login', postValues)
+  //   .then((res) => res.data)
 }
 function* userLoginSaga({ payload }) {
   try {
@@ -51,9 +57,9 @@ function* userLoginSaga({ payload }) {
 
 
 const userLogoutAPI = () => {
-  // return FAKE_USER_LOGOUY_RESPONSE
-  return axiosAuth.post('/auth/logout')
-    .then((res) => res.data)
+  return FAKE_USER_LOGOUY_RESPONSE
+  // return axiosAuth.post('/auth/logout')
+  //   .then((res) => res.data)
 }
 function* userLogoutSaga() {
   try {
@@ -66,9 +72,9 @@ function* userLogoutSaga() {
 }
 
 const checkUserTokenAPI = () => {
-  // return FAKE_CHECK_USER_TOKEN_RESPONSE
-  return axiosAuth.post('/auth/me')
-    .then((res) => res.data)
+  return FAKE_CHECK_USER_TOKEN_RESPONSE
+  // return axiosAuth.post('/auth/me')
+  //   .then((res) => res.data)
 }
 function* checkUserTokenSaga() {
   try {
@@ -85,8 +91,8 @@ function* checkUserTokenSaga() {
 
 const getPostListAPI = (perPage, page) => {
   return FAKE_POST_LIST_RESPONSE
-  // return axiosNoAuth.get(`/posts?per_page=${perPage}&page=${page}`)
-  //   .then((res) => res.data)
+  return axiosNoAuth.get(`/posts?per_page=${perPage}&page=${page}`)
+    .then((res) => res.data)
 }
 function* getPostListSaga({ payload }) {
   try {
@@ -138,10 +144,10 @@ function* getPostListSaga({ payload }) {
 }
 
 const postFavouritesAPI = (ids) => {
-  const postValues = { ids, model: '', }
-  // return FAKE_POST_FAVOURITES_RESPONSE
-  return axiosAuth.post('/favourites', postValues)
-    .then((res) => res.data)
+  const postValues = { ids, model: 'post', }
+  return FAKE_POST_FAVOURITES_RESPONSE
+  // return axiosAuth.post('/favourites', postValues)
+  //   .then((res) => res.data)
 }
 function* postFavouritesSaga({ payload: ids }) {
   try {

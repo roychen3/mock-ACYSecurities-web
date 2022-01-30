@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getPostList } from '../../../redux/actions'
 import LoadingShadow from '../../../component/LoadingShadow'
 import { StyledButton } from '../../../component/Button'
+import { StyledContentLayout } from '../../../component/Layout'
 import WebinarCard from './WebinarCard'
 
 
@@ -34,23 +35,17 @@ const StyledWebinarListContainer = styled.div`
 background-color: ${({ theme }) => theme.subBackground};
 position: relative;
 `
-const StyledList = styled.div`
-width: 90%;
-margin: 0 auto;
-padding: 40px 0px;
+const StyledList = styled(StyledContentLayout)`
 display: grid;
 grid-template-columns: 100%;
 grid-gap: 12px;
 
 @media (min-width: ${({ theme }) => theme.media.smallDevices}) {
-    padding: 40px 0;
     grid-template-columns: auto auto;
     grid-gap: 20px;
 }
 
 @media (min-width: ${({ theme }) => theme.media.largeDevices}) {
-    width: 80%;
-    padding: 80px 0;
     grid-template-columns: auto auto auto;
 }
 `
@@ -72,19 +67,6 @@ margin-right: 1rem;
 
 const WebinarList = () => {
     const dispatch = useDispatch()
-
-    const getPostListFirstPage = () => {
-        dispatch(getPostList(
-            {
-                perPage: 12,
-                page: 1,
-            }
-        ))
-    }
-
-    useEffect(() => {
-        getPostListFirstPage()
-    }, [])
 
     const [currentGroupID, setCurrentGroupID] = useState(0)
 
@@ -119,6 +101,19 @@ const WebinarList = () => {
             setCurrentGroupID(preValue => preValue + 1)
         }
     }
+
+    const getPostListFirstPage = () => {
+        if (postList.length === 0) {
+            dispatch(getPostList({
+                perPage: 12,
+                page: 1,
+            }))
+            setCurrentGroupID(0)
+        }
+    }
+    useEffect(() => {
+        getPostListFirstPage()
+    }, [postList])
 
     return (
         <StyledWebinarListContainer>

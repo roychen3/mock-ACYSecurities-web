@@ -31,14 +31,15 @@ margin-bottom: 19px;
 `
 const StyledTitle = styled.div`
 font-weight: 600;
-font-size: 16px;
-line-height: 24px;
-color: 1px solid ${({ theme }) => theme.highlight};
-margin-bottom: 12px;
-`
-const StyledContent = styled.div`
 font-size: 14px;
 line-height: 20px;
+color: ${({ theme }) => theme.highlight};
+margin-bottom: 12px;
+`
+const StyledContent = styled.p`
+font-weight: 300;
+font-size: 12px;
+line-height: 17px;
 color: ${({ theme }) => theme.subText};
 margin-bottom: 20px;
 

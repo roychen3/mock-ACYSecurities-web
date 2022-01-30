@@ -2388,3 +2388,5 @@ export const FAKE_POST_LIST_RESPONSE = {
         }
     }
 }
+
+export const FAKE_POST_FAVOURITES_RESPONSE ={}

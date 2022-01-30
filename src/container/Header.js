@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from 'react-redux'
 
 import { userLogout, checkUserToken } from '../redux/actions'
 
-import imgLogo from '../asset/img/logo.png'
+import imgLogo from '../asset/img/logo.svg'
 import Button from '../component/Button'
 import LoadingShadow from '../component/LoadingShadow'
 
@@ -73,10 +73,10 @@ margin-right: 1rem;
 }
 `
 const StyledLogo = styled.img`
-width: 120px;
+height: 32px;
 
 @media (min-width: ${({ theme }) => theme.media.largeDevices}) {
-  width: 136px;
+  height: 48px;
 }
 `
 const StyledHeaderLeftContainer = styled.div`
@@ -128,7 +128,9 @@ const Header = () => {
       <StyledHeader>
         <StyledHeaderContainer>
           <StyledMobilMenuIcon className="fas fa-bars" />
-          <StyledLogo src={imgLogo} />
+          <Link to="/home">
+            <StyledLogo src={imgLogo} />
+          </Link>
           <StyledHeaderLeftContainer>
             <StyledMenuContainer>
               {menuList.map((item, index) => <MenuItem key={index} text={item} />)}

@@ -15,12 +15,18 @@ import Home from './container/page/home'
 
 const StyledContent = styled.div`
 min-height: 100vh;
-padding-top: 43px;
-padding-bottom: 43px;
 
+padding-top: 57px;
+padding-bottom: 57px;
+
+@media (min-width: ${({ theme }) => theme.media.smallDevices}) {
+  padding-top: 65px;
+  padding-bottom: 65px;
+}
 @media (min-width: ${({ theme }) => theme.media.largeDevices}) {
-  padding-top: 80px;
-  padding-bottom: 80px;
+  padding-top: 102px;
+  padding-bottom: 102px;
+}
 `
 
 function App() {
