@@ -14,6 +14,7 @@ export const theme = {
     zIndex: {
         top: 2000,
         header: 1000,
+        option: 900,
     },
     media: {
         smallDevices: '576px',
