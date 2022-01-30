@@ -1,5 +1,5 @@
 import {
-  all, put, takeLatest, call,
+  all, put, takeLatest, call, select
 } from 'redux-saga/effects'
 
 import {
@@ -15,11 +15,15 @@ import {
   getPostListSuccess,
   getPostListFailure,
 
+  getRegisteredList,
   getRegisteredListSuccess,
   getRegisteredListFailure,
 
   postFavouritesSuccess,
   postFavouritesFailure,
+
+  unregisterWebinarSuccess,
+  unregisterWebinarFailure,
 } from './actions'
 import {
   USER_LOGIN,
@@ -28,6 +32,7 @@ import {
   GET_POST_LIST,
   GET_REGISTERED_LIST,
   POST_FAVOURITES,
+  UNREGISTER_WEBINAR,
 } from '../../constants/actionTypes'
 
 // import { axiosNoAuth, axiosAuth } from '../../util/axios'
@@ -38,6 +43,7 @@ import {
   FAKE_POST_LIST_RESPONSE,
   FAKE_REGISTERED_LIST_RESPONSE,
   FAKE_POST_FAVOURITES_RESPONSE,
+  FAKE_UNREGISTER_WEBINAR_RESPONSE,
 } from './fakeData'
 
 
@@ -238,6 +244,29 @@ function* postFavouritesSaga({ payload: ids }) {
 }
 
 
+const unregisterWebinarAPI = () => {
+  return FAKE_UNREGISTER_WEBINAR_RESPONSE
+  // return axiosAuth.delete('/favourites/post/id')
+  //   .then((res) => res.data)
+}
+function* unregisterWebinarSaga() {
+  try {
+    const response = yield call(unregisterWebinarAPI)
+
+    yield put(unregisterWebinarSuccess(response))
+
+    const userInformation = yield select((state) => state.home.userInformation)
+    yield put(getRegisteredList({
+      userId: userInformation.user.id,
+      perPage: 12,
+      page: 1,
+    }))
+  } catch (err) {
+    yield put(unregisterWebinarFailure(err.message))
+  }
+}
+
+
 function* homeSagas() {
   yield all([
     takeLatest(
@@ -263,6 +292,10 @@ function* homeSagas() {
     takeLatest(
       POST_FAVOURITES,
       postFavouritesSaga,
+    ),
+    takeLatest(
+      UNREGISTER_WEBINAR,
+      unregisterWebinarSaga,
     ),
   ])
 }

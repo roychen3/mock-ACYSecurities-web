@@ -3,7 +3,11 @@ import styled from 'styled-components'
 import { Link } from "react-router-dom"
 import { useDispatch, useSelector } from 'react-redux'
 
-import { getPostList, setRegisterFormData } from '../../../redux/actions'
+import {
+    getPostList,
+    resetGetPostList,
+    setRegisterFormData,
+} from '../../../redux/actions'
 
 import { ReloadButton } from '../../../component/Button'
 import LoadingShadow from '../../../component/LoadingShadow'
@@ -101,6 +105,11 @@ const Webinar = () => {
         }
     }, [postList])
 
+    useEffect(() => {
+        return () => {
+            dispatch(resetGetPostList())
+        }
+    }, [])
 
     return (
         <StyledWebinar>

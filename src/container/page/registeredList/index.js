@@ -1,9 +1,14 @@
 import React, { useEffect, useState } from 'react'
-import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { getRegisteredList } from '../../../redux/actions'
+import {
+    getRegisteredList,
+    resetGetRegisteredList,
+
+    unregisterWebinar,
+    resetUnregisterWebinar
+} from '../../../redux/actions'
 
 import { ReloadButton } from '../../../component/Button'
 import LoadingShadow from '../../../component/LoadingShadow'
@@ -28,6 +33,8 @@ align-items: center;
 
 const RegisteredList = () => {
     const dispatch = useDispatch()
+
+    const userInformation = useSelector((state) => state.home.userInformation)
 
     const registeredList = useSelector((state) => state.home.registeredList)
     const registeredListPagination = useSelector((state) => state.home.registeredListPagination)
@@ -62,15 +69,24 @@ const RegisteredList = () => {
         }
     }
 
+    const handleUnregisterClick = (data) => {
+        dispatch(unregisterWebinar(data))
+    }
+
     const getRegisteredListFirstPage = () => {
         dispatch(getRegisteredList({
-            userId: 'dsf',
+            userId: userInformation.user.id,
             perPage: 12,
             page: 1,
         }))
     }
     useEffect(() => {
         getRegisteredListFirstPage()
+
+        return () => {
+            dispatch(resetGetRegisteredList())
+            dispatch(resetUnregisterWebinar())
+        }
     }, [])
 
     return (
@@ -106,7 +122,7 @@ const RegisteredList = () => {
                                 // useRouterLink={false}
                                 // href="#registerForm"
                                 primaryText="unregister"
-                                // handlePrimaryClick={() => { handleRegisterClick(item) }}
+                                handlePrimaryClick={() => { handleUnregisterClick(item) }}
                             />
                         ))}
                     </WebinarList>

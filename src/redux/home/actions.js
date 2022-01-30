@@ -27,6 +27,11 @@ import {
   POST_FAVOURITES_SUCCESS,
   POST_FAVOURITES_FAILURE,
   RESET_POST_FAVOURITES,
+
+  UNREGISTER_WEBINAR,
+  UNREGISTER_WEBINAR_SUCCESS,
+  UNREGISTER_WEBINAR_FAILURE,
+  RESET_UNREGISTER_WEBINAR,
 } from '../../constants/actionTypes'
 
 export const userLogin = (payload) => ({
@@ -121,6 +126,23 @@ export const postFavouritesFailure = (payload) => ({
 })
 export const resetPostFavourites = (payload) => ({
   type: RESET_POST_FAVOURITES,
+  payload,
+})
+
+export const unregisterWebinar = (payload) => ({
+  type: UNREGISTER_WEBINAR,
+  payload,
+})
+export const unregisterWebinarSuccess = (payload) => ({
+  type: UNREGISTER_WEBINAR_SUCCESS,
+  payload,
+})
+export const unregisterWebinarFailure = (payload) => ({
+  type: UNREGISTER_WEBINAR_FAILURE,
+  payload,
+})
+export const resetUnregisterWebinar = (payload) => ({
+  type: RESET_UNREGISTER_WEBINAR,
   payload,
 })
 

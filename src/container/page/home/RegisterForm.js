@@ -44,7 +44,7 @@ const initFormValues = {
     topic: '',
     firstName: '',
     lastName: '',
-    email: 'yuntest@mailinator.com',
+    email: '',
 }
 const RegisterForm = () => {
     const dispatch = useDispatch()
@@ -59,7 +59,10 @@ const RegisterForm = () => {
     useEffect(() => {
         formik.setValues({
             ...formik.values,
-            ...registerFormData
+            ...registerFormData,
+            firstName: userInformation.user.first_name,
+            lastName: userInformation.user.last_name,
+            email: userInformation.user.email,
         })
     }, [registerFormData])
 
@@ -90,6 +93,13 @@ const RegisterForm = () => {
     })
 
     const buttonDisabled = JSON.stringify(initFormValues) === JSON.stringify(formik.values) || formik.isValid === false
+
+    useEffect(() => {
+        return () => {
+            dispatch(setRegisterFormData())
+        }
+    }, [])
+
 
     return (
         <>
