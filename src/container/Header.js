@@ -9,31 +9,8 @@ import { userLogout, checkUserToken } from '../redux/actions'
 import imgLogo from '../asset/img/logo.svg'
 import Button from '../component/Button'
 import LoadingShadow from '../component/LoadingShadow'
+import MenuList from '../component/Menu'
 
-
-const StyledMenuItem = styled.div`
-display: none;
-
-@media (min-width: ${({ theme }) => theme.media.largeDevices}) {
-  display: initial;
-  font-size: 12px;
-  margin-right: 2rem;
-}
-`
-const StyledMenuItemIcon = styled.i`
-margin-left: 0.5rem;
-`
-const MenuItem = ({ text }) => {
-  return (
-    <StyledMenuItem>
-      {text}
-      <StyledMenuItemIcon className="fas fa-angle-down" />
-    </StyledMenuItem>
-  )
-}
-MenuItem.propTypes = {
-  text: PropTypes.string.isRequired,
-}
 
 const menuList = ['Why ACY', 'Products', 'Platforms', 'Education', 'Partners']
 const StyledHeader = styled.header`
@@ -84,11 +61,6 @@ height: 32px;
   height: 48px;
 }
 `
-const StyledMenuContainer = styled.div`
-margin-left: 2rem;
-display:flex;
-justify-content:space-between;
-`
 const Header = () => {
   const location = useLocation()
   const dispatch = useDispatch()
@@ -132,9 +104,7 @@ const Header = () => {
               <StyledLogo src={imgLogo} />
             </Link>
           </StyledMobilMenuIconAndLogoContainer>
-          <StyledMenuContainer>
-            {menuList.map((item, index) => <MenuItem key={index} text={item} />)}
-          </StyledMenuContainer>
+          <MenuList list={menuList} />
           {showLoginButton
             ?
             <Link to="/login">
