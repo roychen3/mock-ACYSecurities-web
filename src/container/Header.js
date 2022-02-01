@@ -12,7 +12,93 @@ import LoadingShadow from '../component/LoadingShadow'
 import MainMenuList from '../component/Menu'
 
 
-const menuList = ['Why ACY', 'Products', 'Platforms', 'Education', 'Partners']
+const menuList = [
+  {
+    text: 'Why ACY',
+    list: [
+      {
+        text: 'Why ACY item1',
+        list: [],
+      },
+      {
+        text: 'Why ACY item2',
+        list: [],
+      },
+      {
+        text: 'Why ACY item3',
+        list: [],
+      }
+    ]
+  },
+  {
+    text: 'Products',
+    list: [
+      {
+        text: 'Products item1',
+        list: [],
+      },
+      {
+        text: 'Products item2',
+        list: [],
+      },
+      {
+        text: 'Products item3',
+        list: [],
+      }
+    ]
+  },
+  {
+    text: 'Platforms',
+    list: [
+      {
+        text: 'Platforms item1',
+        list: [],
+      },
+      {
+        text: 'Platforms item2',
+        list: [],
+      },
+      {
+        text: 'Platforms item3',
+        list: [],
+      }
+    ]
+  },
+  {
+    text: 'Education',
+    list: [
+      {
+        text: 'Education item1',
+        list: [],
+      },
+      {
+        text: 'Education item2',
+        list: [],
+      },
+      {
+        text: 'Education item3',
+        list: [],
+      }
+    ]
+  },
+  {
+    text: 'Partners',
+    list: [
+      {
+        text: 'Partners item1',
+        list: [],
+      },
+      {
+        text: 'Partners item2',
+        list: [],
+      },
+      {
+        text: 'Partners item3',
+        list: [],
+      }
+    ]
+  },
+]
 const StyledHeader = styled.header`
 padding: 0.5rem;
 width: 100%;
