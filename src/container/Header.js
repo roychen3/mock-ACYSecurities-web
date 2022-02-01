@@ -9,7 +9,7 @@ import { userLogout, checkUserToken } from '../redux/actions'
 import imgLogo from '../asset/img/logo.svg'
 import Button from '../component/Button'
 import LoadingShadow from '../component/LoadingShadow'
-import MenuList from '../component/Menu'
+import MainMenuList from '../component/Menu'
 
 
 const menuList = ['Why ACY', 'Products', 'Platforms', 'Education', 'Partners']
@@ -104,7 +104,7 @@ const Header = () => {
               <StyledLogo src={imgLogo} />
             </Link>
           </StyledMobilMenuIconAndLogoContainer>
-          <MenuList list={menuList} />
+          <MainMenuList list={menuList} />
           {showLoginButton
             ?
             <Link to="/login">

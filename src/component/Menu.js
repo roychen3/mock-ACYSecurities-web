@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
 
-const StyledMenuItem = styled.div`
+const StyledMainMenuItem = styled.div`
 display: none;
 
 @media (min-width: ${({ theme }) => theme.media.largeDevices}) {
@@ -12,38 +12,38 @@ display: none;
   margin-right: 2rem;
 }
 `
-const StyledMenuItemIcon = styled.i`
+const StyledMainMenuItemIcon = styled.i`
 margin-left: 0.5rem;
 `
-const MenuItem = ({ text }) => {
+const MainMenuItem = ({ text }) => {
     return (
-        <StyledMenuItem>
+        <StyledMainMenuItem>
             {text}
-            <StyledMenuItemIcon className="fas fa-angle-down" />
-        </StyledMenuItem>
+            <StyledMainMenuItemIcon className="fas fa-angle-down" />
+        </StyledMainMenuItem>
     )
 }
-MenuItem.propTypes = {
+MainMenuItem.propTypes = {
     text: PropTypes.string.isRequired,
 }
 
-const StyledMenuList = styled.div`
+const StyledMainMenuList = styled.div`
 margin-left: 2rem;
 display:flex;
 justify-content:space-between;
 `
-const MenuList = ({ list }) => {
+const MainMenuList = ({ list }) => {
     return (
-        <StyledMenuList>
-            {list.map((item, index) => <MenuItem key={index} text={item} />)}
-        </StyledMenuList>
+        <StyledMainMenuList>
+            {list.map((item, index) => <MainMenuItem key={index} text={item} />)}
+        </StyledMainMenuList>
     )
 }
-MenuList.defaultProps = {
+MainMenuList.defaultProps = {
     list: [],
 }
-MenuList.propTypes = {
+MainMenuList.propTypes = {
     list: PropTypes.arrayOf(PropTypes.string.isRequired),
 }
 
-export default MenuList
+export default MainMenuList
