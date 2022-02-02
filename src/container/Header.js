@@ -1,5 +1,4 @@
-import React, { useEffect } from 'react'
-import PropTypes from 'prop-types'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { Link, useLocation } from "react-router-dom"
 import { useSelector, useDispatch } from 'react-redux'
@@ -9,7 +8,7 @@ import { userLogout, checkUserToken } from '../redux/actions'
 import imgLogo from '../asset/img/logo.svg'
 import Button from '../component/Button'
 import LoadingShadow from '../component/LoadingShadow'
-import MainMenuList from '../component/Menu'
+import MainMenuList, { SideMenu } from '../component/Menu'
 
 
 const menuList = [
@@ -176,16 +175,22 @@ const Header = () => {
     }
   }, [])
 
+  const [sideMenuIsOpen, setSideMenuIsOpen] = useState(false)
+  const sideMenuOnClose = () => {
+    setSideMenuIsOpen(false)
+  }
 
   return (
     <>
       {(userLogoutLoading || checkUserTokenLoading) &&
         <LoadingShadow />
       }
+      <SideMenu isOpen={sideMenuIsOpen} onClose={sideMenuOnClose} list={menuList} />
       <StyledHeader>
         <StyledHeaderContainer>
           <StyledMobilMenuIconAndLogoContainer>
-            <StyledMobilMenuIcon className="fas fa-bars" />
+            <StyledMobilMenuIcon className="fas fa-bars" onClick={() => { setSideMenuIsOpen(true) }} />
+
             <Link to="/home">
               <StyledLogo src={imgLogo} />
             </Link>
