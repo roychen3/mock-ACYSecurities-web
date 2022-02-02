@@ -2,11 +2,16 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
-const StyledReloadButton = styled.button`
-font-size: 1.5rem;
-color: ${({ theme }) => theme.error};
+
+export const StyledFontAwesomeIconButton = styled.button`
 background-color: ${({ theme }) => theme.opacity};
 border: 0px;
+`
+
+
+const StyledReloadButton = styled(StyledFontAwesomeIconButton)`
+font-size: 1.5rem;
+color: ${({ theme }) => theme.error};
 margin-right: 1rem;
 `
 export const ReloadButton = ({ onClick }) => {

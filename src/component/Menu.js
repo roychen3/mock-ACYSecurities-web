@@ -2,6 +2,9 @@ import React, { useEffect, useState, useRef } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
+import { StyledFontAwesomeIconButton } from './Button'
+
+
 const StyledSideMenuItem = styled.div`
 padding: ${({ subMenuListIsOpen }) => subMenuListIsOpen ? '0.5rem 1rem 0.5rem 0.5rem' : '0.5rem 1rem'};
 border-bottom: 1px solid ${({ theme }) => theme.borderColor};
@@ -23,7 +26,7 @@ padding: 6px 0 6px;
 }
 `
 const StyledSideMenuIcon = styled.i`
-padding: 6px 0 6px;
+font-size: 30px;
 transform: rotate(${({ subMenuListIsOpen }) => subMenuListIsOpen ? '180deg' : '0deg'});
 transition: transform 0.3s linear;
 
@@ -40,11 +43,12 @@ const SideMenuItem = ({ text, list, level }) => {
             <StyledSideMenuItem subMenuListIsOpen={subMenuListIsOpen} level={level}>
                 <StyledSideMenuLink level={level}>{text}</StyledSideMenuLink>
                 {list.length > 0 &&
-                    <StyledSideMenuIcon
-                        className="fas fa-angle-down"
-                        onClick={() => setSubMenuListIsOpen(preValue => !preValue)}
-                        subMenuListIsOpen={subMenuListIsOpen}
-                    />
+                    <StyledFontAwesomeIconButton onClick={() => setSubMenuListIsOpen(preValue => !preValue)}>
+                        <StyledSideMenuIcon
+                            className="fas fa-angle-down"
+                            subMenuListIsOpen={subMenuListIsOpen}
+                        />
+                    </StyledFontAwesomeIconButton>
                 }
             </StyledSideMenuItem>
             {subMenuListIsOpen &&
@@ -101,6 +105,17 @@ overscroll-behavior: none;
     width: 300px;
 }
 `
+const StyledSideMenuClose = styled.div`
+padding: 0.5rem 1rem;
+border-bottom: 1px solid ${({ theme }) => theme.borderColor};
+display: flex;
+justify-content: space-between;
+align-items: center;
+background-color: ${({ theme }) => theme.mainBackground};
+`
+const StyledSideMenuCloseIcon = styled.i`
+font-size: 30px;
+`
 const StyledSideMenuShadow = styled.div`
 min-height: 100vh;
 max-height: 100vh;
@@ -130,13 +145,22 @@ export const SideMenu = ({ isOpen, onClose, list }) => {
     return (
         <StyledSideMenuContainer isOpen={isOpen} >
             <StyledSideMenuListContainer>
-                {list.map((item, index) => (
-                    <SideMenuItem
-                        key={index}
-                        text={item.text}
-                        list={item.list}
-                    />
-                ))}
+                <StyledSideMenuClose>
+                    <StyledFontAwesomeIconButton onClick={onClose}>
+                        <StyledSideMenuCloseIcon className="fas fa-times" />
+                    </StyledFontAwesomeIconButton>
+                </StyledSideMenuClose>
+                {isOpen &&
+                    <>
+                        {list.map((item, index) => (
+                            <SideMenuItem
+                                key={index}
+                                text={item.text}
+                                list={item.list}
+                            />
+                        ))}
+                    </>
+                }
             </StyledSideMenuListContainer>
             <StyledSideMenuShadow ref={menuShadowRef} />
         </StyledSideMenuContainer>
