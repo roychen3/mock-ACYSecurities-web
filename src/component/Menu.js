@@ -27,7 +27,7 @@ padding: 6px 0 6px;
 `
 const StyledSideMenuIcon = styled.i`
 font-size: 30px;
-transform: rotate(${({ subMenuListIsOpen }) => subMenuListIsOpen ? '180deg' : '0deg'});
+transform: rotate(${({ subMenuListIsOpen }) => subMenuListIsOpen ? '-90deg' : '0deg'});
 transition: transform 0.3s linear;
 
 &:hover {
@@ -45,7 +45,7 @@ const SideMenuItem = ({ text, list, level }) => {
                 {list.length > 0 &&
                     <StyledFontAwesomeIconButton onClick={() => setSubMenuListIsOpen(preValue => !preValue)}>
                         <StyledSideMenuIcon
-                            className="fas fa-angle-down"
+                            className="fas fa-angle-left"
                             subMenuListIsOpen={subMenuListIsOpen}
                         />
                     </StyledFontAwesomeIconButton>
@@ -126,7 +126,6 @@ export const SideMenu = ({ isOpen, onClose, list }) => {
     useEffect(() => {
         menuShadowRef.current.addEventListener('click', onClose)
     }, [])
-
 
 
     useEffect(() => {
