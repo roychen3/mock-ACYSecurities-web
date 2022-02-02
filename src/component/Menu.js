@@ -35,12 +35,24 @@ transition: transform 0.3s linear;
     color: ${({ theme }) => theme.hoverHighlight};
 }
 `
+const StyledSideMenuList = styled.div`
+overflow: hidden;
+max-height: ${({ isOpen, sideMenuListHeight }) => isOpen ? sideMenuListHeight : '0'}px;
+transition: max-height 0.3s linear;
+`
 const SideMenuItem = ({ text, list, level }) => {
+    const menuItemRef = useRef()
+
     const [subMenuListIsOpen, setSubMenuListIsOpen] = useState(false)
+    const [sideMenuListHeight, setSideMenuListHeight] = useState(0)
+
+    useEffect(() => {
+        setSideMenuListHeight(menuItemRef.current.offsetHeight * list.length)
+    }, [])
 
     return (
         <>
-            <StyledSideMenuItem subMenuListIsOpen={subMenuListIsOpen} level={level}>
+            <StyledSideMenuItem subMenuListIsOpen={subMenuListIsOpen} level={level} ref={menuItemRef} >
                 <StyledSideMenuLink level={level}>{text}</StyledSideMenuLink>
                 {list.length > 0 &&
                     <StyledFontAwesomeIconButton onClick={() => setSubMenuListIsOpen(preValue => !preValue)}>
@@ -51,20 +63,19 @@ const SideMenuItem = ({ text, list, level }) => {
                     </StyledFontAwesomeIconButton>
                 }
             </StyledSideMenuItem>
-            {subMenuListIsOpen &&
-                <>
-                    {list.map((item, index) => (
-                        <SideMenuItem
-                            key={index}
-                            text={item.text}
-                            list={item.list}
-                            level={level + 1}
-                        />
-                    ))}
-                </>
-            }
-        </>
 
+            <StyledSideMenuList sideMenuListHeight={sideMenuListHeight} isOpen={subMenuListIsOpen}>
+                {list.map((item, index) => (
+                    <SideMenuItem
+                        key={index}
+                        text={item.text}
+                        list={item.list}
+                        level={level + 1}
+                    />
+                ))}
+            </StyledSideMenuList>
+
+        </>
     )
 }
 SideMenuItem.defaultProps = {
@@ -80,16 +91,17 @@ const StyledSideMenuListContainer = styled.div`
 position: fixed;
 top: 0;
 left: 0;
-transform: ${({ isOpen }) => isOpen ? 'translateX(0)' : 'translateX(-100%)'};
 z-index: ${({ theme }) => theme.zIndex.top};
+transform: ${({ isOpen }) => isOpen ? 'translateX(0)' : 'translateX(-100%)'};
+transition: transform 0.3s linear;
 min-height: 100vh;
 max-height: 100vh;
 background-color: ${({ theme }) => theme.mainBackground};
+box-shadow: 1px 2px 6px rgba(219, 219, 219, 0.5);
 overflow-x: hidden;
 overflow-y: auto;
 overscroll-behavior: none;
 width: 100%;
-transition: transform 0.3s linear;
 
 @media (min-width: ${({ theme }) => theme.media.smallDevices}) {
     width: 300px;
