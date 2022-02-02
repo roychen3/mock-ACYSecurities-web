@@ -76,33 +76,27 @@ SideMenuItem.propTypes = {
 }
 
 
-const StyledSideMenuContainer = styled.div`
-width: 100%;
-min-height: 100vh;
+const StyledSideMenuListContainer = styled.div`
 position: fixed;
 top: 0;
 left: 0;
+transform: ${({ isOpen }) => isOpen ? 'translateX(0)' : 'translateX(-100%)'};
 z-index: ${({ theme }) => theme.zIndex.top};
-visibility: ${({ isOpen }) => isOpen ? 'visible' : 'hidden'};
-opacity: ${({ isOpen }) => isOpen ? '1' : '0'};
-transition: opacity 0.3s linear;
-display: grid;
-grid-template-columns: 100% 0;
-
-@media (min-width: ${({ theme }) => theme.media.smallDevices}) {
-    grid-template-columns: 300px auto;
-}
-`
-const StyledSideMenuListContainer = styled.div`
 min-height: 100vh;
 max-height: 100vh;
 background-color: ${({ theme }) => theme.mainBackground};
-overflow-x: clip;
+overflow-x: hidden;
 overflow-y: auto;
 overscroll-behavior: none;
+width: 100%;
+transition: transform 0.3s linear;
 
 @media (min-width: ${({ theme }) => theme.media.smallDevices}) {
     width: 300px;
+}
+
+@media (min-width: ${({ theme }) => theme.media.largeDevices}) {
+    display: none;
 }
 `
 const StyledSideMenuClose = styled.div`
@@ -117,9 +111,21 @@ const StyledSideMenuCloseIcon = styled.i`
 font-size: 30px;
 `
 const StyledSideMenuShadow = styled.div`
+width: 100%;
 min-height: 100vh;
 max-height: 100vh;
+position: fixed;
+top: 0;
+left: 0;
+z-index: ${({ theme }) => theme.zIndex.sideNavigation};
+visibility: ${({ isOpen }) => isOpen ? 'visible' : 'hidden'};
 background-color: ${({ theme }) => theme.shadow};
+opacity: ${({ isOpen }) => isOpen ? '1' : '0'};
+transition: opacity 0.3s linear;
+
+@media (min-width: ${({ theme }) => theme.media.largeDevices}) {
+    display: none;
+}
 `
 export const SideMenu = ({ isOpen, onClose, list }) => {
     const menuShadowRef = useRef()
@@ -142,27 +148,23 @@ export const SideMenu = ({ isOpen, onClose, list }) => {
     }, [isOpen])
 
     return (
-        <StyledSideMenuContainer isOpen={isOpen} >
-            <StyledSideMenuListContainer>
+        <>
+            <StyledSideMenuListContainer isOpen={isOpen}>
                 <StyledSideMenuClose>
                     <StyledFontAwesomeIconButton onClick={onClose}>
                         <StyledSideMenuCloseIcon className="fas fa-times" />
                     </StyledFontAwesomeIconButton>
                 </StyledSideMenuClose>
-                {isOpen &&
-                    <>
-                        {list.map((item, index) => (
-                            <SideMenuItem
-                                key={index}
-                                text={item.text}
-                                list={item.list}
-                            />
-                        ))}
-                    </>
-                }
+                {list.map((item, index) => (
+                    <SideMenuItem
+                        key={index}
+                        text={item.text}
+                        list={item.list}
+                    />
+                ))}
             </StyledSideMenuListContainer>
-            <StyledSideMenuShadow ref={menuShadowRef} />
-        </StyledSideMenuContainer>
+            <StyledSideMenuShadow ref={menuShadowRef} isOpen={isOpen} />
+        </>
     )
 
 }

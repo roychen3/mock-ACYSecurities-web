@@ -5,10 +5,13 @@ import { useSelector, useDispatch } from 'react-redux'
 
 import { userLogout, checkUserToken } from '../redux/actions'
 
-import imgLogo from '../asset/img/logo.svg'
+import useWindowSize from '../hook/useWindowSize'
+
 import Button from '../component/Button'
 import LoadingShadow from '../component/LoadingShadow'
 import MainMenuList, { SideMenu } from '../component/Menu'
+
+import imgLogo from '../asset/img/logo.svg'
 
 
 const menuList = [
@@ -149,6 +152,7 @@ height: 32px;
 const Header = () => {
   const location = useLocation()
   const dispatch = useDispatch()
+  const windowSize = useWindowSize()
 
   const userInformation = useSelector((state) => state.home.userInformation)
 
@@ -185,7 +189,9 @@ const Header = () => {
       {(userLogoutLoading || checkUserTokenLoading) &&
         <LoadingShadow />
       }
-      <SideMenu isOpen={sideMenuIsOpen} onClose={sideMenuOnClose} list={menuList} />
+      {windowSize.width < 992 &&
+        <SideMenu isOpen={sideMenuIsOpen} onClose={sideMenuOnClose} list={menuList} />
+      }
       <StyledHeader>
         <StyledHeaderContainer>
           <StyledMobilMenuIconAndLogoContainer>
