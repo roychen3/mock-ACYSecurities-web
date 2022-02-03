@@ -6,9 +6,9 @@ import { StyledFontAwesomeIconButton } from './Button'
 
 
 const StyledSideMenuItem = styled.div`
-padding: ${({ subMenuListIsOpen }) => subMenuListIsOpen ? '0.5rem 1rem 0.5rem 0.5rem' : '0.5rem 1rem'};
+padding: ${({ subMenuListIsOpen, level }) => (level === 0 && subMenuListIsOpen) ? '0.5rem 1rem 0.5rem 0.5rem' : '0.5rem 1rem'};
 border-bottom: 1px solid ${({ theme }) => theme.borderColor};
-border-left: ${({ theme, subMenuListIsOpen }) => subMenuListIsOpen ? `0.5rem solid ${theme.hoverHighlight}` : `0px`};
+border-left: ${({ theme, subMenuListIsOpen, level }) => (level === 0 && subMenuListIsOpen) ? `0.5rem solid ${theme.hoverHighlight}` : `0px`};
 display: flex;
 justify-content: space-between;
 align-items: center;
@@ -37,25 +37,76 @@ transition: transform 0.3s linear;
 `
 const StyledSideMenuList = styled.div`
 overflow: hidden;
-max-height: ${({ isOpen, sideMenuListHeight }) => isOpen ? sideMenuListHeight : '0'}px;
+max-height: ${({ sideMenuListHeight }) => sideMenuListHeight}px;
 transition: max-height 0.3s linear;
 `
-const SideMenuItem = ({ text, list, level }) => {
+const SideMenuItem = ({ index, text, list, level, subMenuListIsOpen, setSubMenuListIsOpen, setSideMenuListParentChildHeight }) => {
     const menuItemRef = useRef()
 
-    const [subMenuListIsOpen, setSubMenuListIsOpen] = useState(false)
+    const [isDidMount, setIsDidMount] = useState(false)
     const [sideMenuListHeight, setSideMenuListHeight] = useState(0)
+    const [sideMenuListChildHeight, setSideMenuListChildHeight] = useState(0)
 
     useEffect(() => {
-        setSideMenuListHeight(menuItemRef.current.offsetHeight * list.length)
+        if (isDidMount) {
+            if (subMenuListIsOpen) {
+                setSideMenuListHeight(menuItemRef.current.offsetHeight * list.length + sideMenuListChildHeight)
+            } else {
+                setSideMenuListHeight(0)
+            }
+        }
+    }, [subMenuListIsOpen])
+
+    useEffect(() => {
+        if (isDidMount) {
+            if (level !== 0) {
+                setSideMenuListParentChildHeight(sideMenuListHeight)
+            }
+        }
+    }, [sideMenuListHeight])
+
+    useEffect(() => {
+        if (isDidMount) {
+            if (level !== 0) {
+                setSideMenuListHeight(menuItemRef.current.offsetHeight * list.length + sideMenuListChildHeight)
+            } else {
+                setSideMenuListHeight(menuItemRef.current.offsetHeight * list.length + sideMenuListHeight)
+            }
+        }
+    }, [sideMenuListChildHeight])
+
+    useEffect(() => {
+        setIsDidMount(true)
     }, [])
+
+
+    const [childMenuListIsOpen, setChildMenuListIsOpen] = useState({})
+    useEffect(() => {
+        const isOpenObject = list.reduce((previousValue, _, currentIndex) => ({
+            ...previousValue,
+            [currentIndex]: false,
+        }), {})
+        setChildMenuListIsOpen(isOpenObject)
+    }, [])
+    const menuListTriggerClisk = (data) => {
+        setChildMenuListIsOpen(preValue => {
+            const isOpenObject = Object.keys(preValue).reduce((previousValue, preValue) => ({
+                ...previousValue,
+                [preValue]: false,
+            }), {})
+
+            return { ...isOpenObject, [data.index]: !data.isOpen }
+        })
+    }
 
     return (
         <>
             <StyledSideMenuItem subMenuListIsOpen={subMenuListIsOpen} level={level} ref={menuItemRef} >
                 <StyledSideMenuLink level={level}>{text}</StyledSideMenuLink>
                 {list.length > 0 &&
-                    <StyledFontAwesomeIconButton onClick={() => setSubMenuListIsOpen(preValue => !preValue)}>
+                    <StyledFontAwesomeIconButton
+                        onClick={() => setSubMenuListIsOpen({ index, isOpen: subMenuListIsOpen })}
+                    >
                         <StyledSideMenuIcon
                             className="fas fa-angle-left"
                             subMenuListIsOpen={subMenuListIsOpen}
@@ -71,6 +122,10 @@ const SideMenuItem = ({ text, list, level }) => {
                         text={item.text}
                         list={item.list}
                         level={level + 1}
+                        index={index}
+                        subMenuListIsOpen={childMenuListIsOpen[index]}
+                        setSubMenuListIsOpen={menuListTriggerClisk}
+                        setSideMenuListParentChildHeight={setSideMenuListChildHeight}
                     />
                 ))}
             </StyledSideMenuList>
@@ -159,6 +214,27 @@ export const SideMenu = ({ isOpen, onClose, list }) => {
         }
     }, [isOpen])
 
+    const [childMenuListIsOpen, setChildMenuListIsOpen] = useState({})
+    useEffect(() => {
+        const isOpenObject = list.reduce((previousValue, _, currentIndex) => ({
+            ...previousValue,
+            [currentIndex]: false,
+        }), {})
+        setChildMenuListIsOpen(isOpenObject)
+    }, [])
+
+    const menuListTriggerClisk = (data) => {
+        setChildMenuListIsOpen(preValue => {
+            const isOpenObject = Object.keys(preValue).reduce((previousValue, preValue) => ({
+                ...previousValue,
+                [preValue]: false,
+            }), {})
+
+            return { ...isOpenObject, [data.index]: !data.isOpen }
+        })
+    }
+
+
     return (
         <>
             <StyledSideMenuListContainer isOpen={isOpen}>
@@ -170,15 +246,17 @@ export const SideMenu = ({ isOpen, onClose, list }) => {
                 {list.map((item, index) => (
                     <SideMenuItem
                         key={index}
+                        index={index}
                         text={item.text}
                         list={item.list}
+                        subMenuListIsOpen={childMenuListIsOpen[index]}
+                        setSubMenuListIsOpen={menuListTriggerClisk}
                     />
                 ))}
             </StyledSideMenuListContainer>
             <StyledSideMenuShadow ref={menuShadowRef} isOpen={isOpen} />
         </>
     )
-
 }
 SideMenu.defaultProps = {
     list: [],
