@@ -1,12 +1,14 @@
 import React, { Fragment, useEffect } from 'react'
 import styled from 'styled-components'
 import dayjs from 'dayjs'
+import { useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 
 import { setWebinarDetail } from '../../../redux/actions'
 
 import { StyledContentLayout } from '../../../component/Layout'
 import { StyledH2 } from '../../../component/Title'
+import Button from '../../../component/Button'
 
 
 const StyledCreateDate = styled.div`
@@ -34,9 +36,14 @@ const StyledCreateDatePlus10Days = styled.div`
 font-size: 14px;
 line-height: 20px;
 color: ${({ theme }) => theme.subText};
+margin-bottom: 20px;
+`
+const StyledButtonSection = styled.div`
+text-align: center;
 `
 const WebinarDetail = () => {
     const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     const detail = useSelector((state) => state.home.webinarDetail)
 
@@ -65,6 +72,9 @@ const WebinarDetail = () => {
             <StyledCreateDatePlus10Days>
                 {dayjs(detail.createdAt).add(10, 'day').format('YYYY/MM/DD hh:mm')}
             </StyledCreateDatePlus10Days>
+            <StyledButtonSection>
+                <Button text="go back" onClick={() => navigate(-1)} />
+            </StyledButtonSection>
         </StyledContentLayout>
     )
 }
