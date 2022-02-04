@@ -67,7 +67,7 @@ export const initialState = {
 
   webinarDetail: {},
 
-  postFavourites: {},
+  postFavouritesResponse: {},
   postFavouritesLoading: null,
   postFavouritesError: null,
 
@@ -213,14 +213,14 @@ function reducer(state = initialState, action) {
     case POST_FAVOURITES:
       return {
         ...state,
-        postFavourites: {},
+        postFavouritesResponse: {},
         postFavouritesLoading: true,
         postFavouritesError: null,
       }
     case POST_FAVOURITES_SUCCESS:
       return {
         ...state,
-        postFavourites: action.payload,
+        postFavouritesResponse: action.payload,
         postFavouritesLoading: false,
       }
     case POST_FAVOURITES_FAILURE:
@@ -232,7 +232,7 @@ function reducer(state = initialState, action) {
     case RESET_POST_FAVOURITES:
       return {
         ...state,
-        postFavourites: {},
+        postFavouritesResponse: {},
         postFavouritesLoading: null,
         postFavouritesError: null,
       }
