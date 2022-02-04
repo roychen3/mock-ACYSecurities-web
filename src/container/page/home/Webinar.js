@@ -110,12 +110,8 @@ const Webinar = () => {
         setCurrentGroupID(0)
     }
     useEffect(() => {
-        if (postList.length === 0 && postListError === null) {
-            getPostListFirstPage()
-        }
-    }, [postList])
+        getPostListFirstPage()
 
-    useEffect(() => {
         return () => {
             dispatch(resetGetPostList())
         }

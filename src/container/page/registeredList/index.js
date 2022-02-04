@@ -75,9 +75,9 @@ const RegisteredList = () => {
         }
     }
 
-    const handleUnregisterClick = (event, data) => {
+    const handleUnregisterClick = (event, id) => {
         event.preventDefault()
-        dispatch(unregisterWebinar(data))
+        dispatch(unregisterWebinar(id))
     }
     const [modalIsOpen, setModalIsOpen] = useState(false)
     const handleCloseModal = () => {
@@ -151,7 +151,7 @@ const RegisteredList = () => {
                                     key={item.id}
                                     data={item}
                                     primaryText="unregister"
-                                    handlePrimaryClick={(event) => { handleUnregisterClick(event, item) }}
+                                    handlePrimaryClick={(event) => { handleUnregisterClick(event, item.id) }}
                                     handleDetailClick={(event) => { handleWebinarCardDetailClick(event, item) }}
                                 />
                             ))}
