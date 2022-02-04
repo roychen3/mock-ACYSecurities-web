@@ -1,12 +1,17 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { useNavigate } from "react-router-dom"
 import { useDispatch, useSelector } from 'react-redux'
 
-import { setRegisterFormData, postFavourites } from '../../../redux/actions'
+import {
+    setRegisterFormData,
+    postFavourites,
+    resetPostFavourites,
+} from '../../../redux/actions'
 import { InputFieldFormik } from '../../../component/InputField'
+import Modal from '../../../component/Modal'
 import Button from '../../../component/Button'
 import { DropdownListFormik } from '../../../component/Select'
 import LoadingShadow from '../../../component/LoadingShadow'
@@ -66,6 +71,7 @@ const RegisterForm = () => {
         })
     }, [registerFormData])
 
+    const postFavouritesResponse = useSelector((state) => state.home.postFavouritesResponse)
     const postFavouritesLoading = useSelector((state) => state.home.postFavouritesLoading)
     const postFavouritesError = useSelector((state) => state.home.postFavouritesError)
 
@@ -103,6 +109,19 @@ const RegisterForm = () => {
             dispatch(setRegisterFormData())
         }
     }, [])
+
+    const [modalIsOpen, setModalIsOpen] = useState(false)
+    const handleCloseModal = () => {
+        setModalIsOpen(false)
+        dispatch(resetPostFavourites())
+    }
+    useEffect(() => {
+        if (postFavouritesLoading === false && postFavouritesResponse) {
+            setModalIsOpen(true)
+            formik.resetForm()
+        }
+    }, [postFavouritesLoading])
+
 
     return (
         <>
@@ -142,6 +161,9 @@ const RegisterForm = () => {
                     </StyledRegisterFormContainer>
                 </StyledRegisterForm>
             </StyledContentLayout>
+            <Modal isOpen={modalIsOpen} closeClick={handleCloseModal}>
+                <>{postFavouritesResponse}</>
+            </Modal>
         </>
     )
 }

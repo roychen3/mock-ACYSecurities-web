@@ -120,9 +120,6 @@ const RegisteredList = () => {
             </StyledContentLayout>
             <StyledWebinar>
                 <StyledContentLayout>
-                    <Modal isOpen={modalIsOpen} closeClick={handleCloseModal}>
-                        <>{unregisterWebinarError}</>
-                    </Modal>
                     {(registeredListLoading || unregisterWebinarLoading) &&
                         <LoadingShadow />
                     }
@@ -159,6 +156,9 @@ const RegisteredList = () => {
                     }
                 </StyledContentLayout>
             </StyledWebinar>
+            <Modal isOpen={modalIsOpen} closeClick={handleCloseModal}>
+                <>{unregisterWebinarError}</>
+            </Modal>
         </>
     )
 }

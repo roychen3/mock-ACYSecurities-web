@@ -236,7 +236,7 @@ function* postFavouritesSaga({ payload: ids }) {
   try {
     const response = yield call(postFavouritesAPI, ids)
 
-    yield put(postFavouritesSuccess(response))
+    yield put(postFavouritesSuccess(response.success))
   } catch (err) {
     yield put(postFavouritesFailure(err.message))
   }
