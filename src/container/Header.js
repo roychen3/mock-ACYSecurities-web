@@ -1,41 +1,106 @@
-import React, { useEffect } from 'react'
-import PropTypes from 'prop-types'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { Link, useLocation } from "react-router-dom"
 import { useSelector, useDispatch } from 'react-redux'
 
 import { userLogout, checkUserToken } from '../redux/actions'
 
-import imgLogo from '../asset/img/logo.svg'
+import useWindowSize from '../hook/useWindowSize'
+
 import Button from '../component/Button'
 import LoadingShadow from '../component/LoadingShadow'
+import MainMenuList, { SideMenu } from '../component/Menu'
+
+import imgLogo from '../asset/img/logo.svg'
 
 
-const StyledMenuItem = styled.div`
-display: none;
-
-@media (min-width: ${({ theme }) => theme.media.largeDevices}) {
-  display: initial;
-  font-size: 12px;
-  margin-right: 2rem;
-}
-`
-const StyledMenuItemIcon = styled.i`
-margin-left: 0.5rem;
-`
-const MenuItem = ({ text }) => {
-  return (
-    <StyledMenuItem>
-      {text}
-      <StyledMenuItemIcon className="fas fa-angle-down" />
-    </StyledMenuItem>
-  )
-}
-MenuItem.propTypes = {
-  text: PropTypes.string.isRequired,
-}
-
-const menuList = ['Why ACY', 'Products', 'Platforms', 'Education', 'Partners']
+const menuList = [
+  {
+    text: 'Why ACY',
+    list: [
+      {
+        text: 'Why ACY item1',
+        list: [],
+      },
+      {
+        text: 'Why ACY item2',
+        list: [],
+      },
+      {
+        text: 'Why ACY item3',
+        list: [],
+      }
+    ]
+  },
+  {
+    text: 'Products',
+    list: [
+      {
+        text: 'Products item1',
+        list: [],
+      },
+      {
+        text: 'Products item2',
+        list: [],
+      },
+      {
+        text: 'Products item3',
+        list: [],
+      }
+    ]
+  },
+  {
+    text: 'Platforms',
+    list: [
+      {
+        text: 'Platforms item1',
+        list: [],
+      },
+      {
+        text: 'Platforms item2',
+        list: [],
+      },
+      {
+        text: 'Platforms item3',
+        list: [],
+      }
+    ]
+  },
+  {
+    text: 'Education',
+    list: [
+      {
+        text: 'Education item1',
+        list: [],
+      },
+      {
+        text: 'Education item2',
+        list: [],
+      },
+      {
+        text: 'Education item3',
+        list: [],
+      }
+    ]
+  },
+  {
+    text: 'Partners',
+    list: [
+      {
+        text: 'Partners item1',
+        list: [],
+      },
+      {
+        text: 'Partners item2',
+        list: [],
+      },
+      {
+        text: 'Partners item3',
+        list: [],
+      }
+    ]
+  },
+]
 const StyledHeader = styled.header`
 padding: 0.5rem;
 width: 100%;
@@ -84,14 +149,10 @@ height: 32px;
   height: 48px;
 }
 `
-const StyledMenuContainer = styled.div`
-margin-left: 2rem;
-display:flex;
-justify-content:space-between;
-`
 const Header = () => {
   const location = useLocation()
   const dispatch = useDispatch()
+  const windowSize = useWindowSize()
 
   const userInformation = useSelector((state) => state.home.userInformation)
 
@@ -118,23 +179,29 @@ const Header = () => {
     }
   }, [])
 
+  const [sideMenuIsOpen, setSideMenuIsOpen] = useState(false)
+  const sideMenuOnClose = () => {
+    setSideMenuIsOpen(false)
+  }
 
   return (
     <>
       {(userLogoutLoading || checkUserTokenLoading) &&
         <LoadingShadow />
       }
+      {windowSize.width < 992 &&
+        <SideMenu isOpen={sideMenuIsOpen} onClose={sideMenuOnClose} list={menuList} />
+      }
       <StyledHeader>
         <StyledHeaderContainer>
           <StyledMobilMenuIconAndLogoContainer>
-            <StyledMobilMenuIcon className="fas fa-bars" />
+            <StyledMobilMenuIcon className="fas fa-bars" onClick={() => { setSideMenuIsOpen(true) }} />
+
             <Link to="/home">
               <StyledLogo src={imgLogo} />
             </Link>
           </StyledMobilMenuIconAndLogoContainer>
-          <StyledMenuContainer>
-            {menuList.map((item, index) => <MenuItem key={index} text={item} />)}
-          </StyledMenuContainer>
+          <MainMenuList list={menuList} />
           {showLoginButton
             ?
             <Link to="/login">

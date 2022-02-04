@@ -13,7 +13,9 @@ export const theme = {
     opacity: '#ffffff00',
     zIndex: {
         top: 2000,
+        sideNavigation: 1500,
         header: 1000,
+        option: 900,
     },
     media: {
         smallDevices: '576px',
