@@ -37,94 +37,66 @@ transition: transform 0.3s linear;
 `
 const StyledSideMenuList = styled.div`
 overflow: hidden;
-max-height: ${({ sideMenuListHeight }) => sideMenuListHeight}px;
-transition: max-height 0.3s linear;
+height: ${({ sideMenuListHeight }) => sideMenuListHeight}px;
+transition: height 0.3s linear;
 `
-const SideMenuItem = ({ index, text, list, level, itemIsShow, subMenuListIsOpen, setSubMenuListIsOpen, setSideMenuListParentChildHeight }) => {
+const SideMenuItem = ({ text, list, level }) => {
     const menuItemRef = useRef()
     const menuListRef = useRef()
 
     const [isDidMount, setIsDidMount] = useState(false)
+    const [subMenuListIsOpen, setSubMenuListIsOpen] = useState(false)
     const [sideMenuListHeight, setSideMenuListHeight] = useState(0)
-    const [sideMenuItemHeight, setSideMenuItemHeight] = useState(0)
-    const [sideMenuListChildHeight, setSideMenuListChildHeight] = useState(0)
 
+    const [isTransitionrun, setIsTransitionrun] = useState(true)
+    const transitionListener = (event) => {
+        switch (event.type) {
+            case 'transitionstart':
+                setIsTransitionrun(true)
+                break
+            case 'transitionrun':
+                setIsTransitionrun(true)
+                break
+            case 'transitionend':
+                setIsTransitionrun(false)
+                break
+        }
+    }
     useEffect(() => {
         if (isDidMount) {
-            if (level !== 0) {
-                if (subMenuListIsOpen) {
-                    setSideMenuListParentChildHeight(sideMenuItemHeight * list.length)
-                } else {
-                    setSideMenuListParentChildHeight(0)
-                }
+            if (isTransitionrun === false) {
+                menuListRef.current.style.height = subMenuListIsOpen ? 'initial' : ''
             }
         }
-    }, [subMenuListIsOpen])
+    }, [isTransitionrun])
 
     useEffect(() => {
-        if (isDidMount) {
-            if (level !== 0) {
-                setSideMenuListParentChildHeight(preValue => preValue + sideMenuListChildHeight)
-            }
-        }
-    }, [sideMenuListChildHeight])
-
-
-    useEffect(() => {
-        setSideMenuItemHeight(menuItemRef.current.offsetHeight)
+        menuListRef.current.addEventListener('transitionstart', transitionListener, false)
+        menuListRef.current.addEventListener('transitionrun', transitionListener, false)
+        menuListRef.current.addEventListener('transitionend', transitionListener, false)
         setIsDidMount(true)
     }, [])
 
-    const [childMenuListIsOpen, setChildMenuListIsOpen] = useState({})
-    useEffect(() => {
-        const isOpenObject = list.reduce((previousValue, _, currentIndex) => ({
-            ...previousValue,
-            [currentIndex]: false,
-        }), {})
-        setChildMenuListIsOpen(isOpenObject)
-    }, [])
-    const menuListTriggerClisk = (data) => {
-        setChildMenuListIsOpen(preValue => {
-            const isOpenObject = Object.keys(preValue).reduce((previousValue, currentValue) => ({
-                ...previousValue,
-                [currentValue]: false,
-            }), {})
-
-            return { ...isOpenObject, [data.index]: !data.isOpen }
-        })
-    }
     useEffect(() => {
         if (isDidMount) {
-            if (subMenuListIsOpen === false) {
-                const isOpenObject = list.reduce((previousValue, _, currentIndex) => ({
-                    ...previousValue,
-                    [currentIndex]: false,
-                }), {})
-                setChildMenuListIsOpen(isOpenObject)
+            if (subMenuListIsOpen) {
+                setSideMenuListHeight(menuItemRef.current.offsetHeight * list.length)
+            } else {
+                setSideMenuListHeight(0)
             }
         }
     }, [subMenuListIsOpen])
 
-    
-    const getSideMenuListAllHeight = () => {
-        if (subMenuListIsOpen) {
-            const allShowChildNodes = menuListRef.current ? menuListRef.current.querySelectorAll('.menu.show') : []
-            return (allShowChildNodes.length === 0 ? sideMenuItemHeight * list.length : sideMenuItemHeight * allShowChildNodes.length)
-        } else {
-            return (0)
-        }
-    }
-    const sideMenuListAllHeight = getSideMenuListAllHeight()
-
-
-
     return (
         <>
-            <StyledSideMenuItem className={itemIsShow ? 'menu show' : 'menu close'} subMenuListIsOpen={subMenuListIsOpen} level={level} ref={menuItemRef} >
+            <StyledSideMenuItem subMenuListIsOpen={subMenuListIsOpen} level={level} ref={menuItemRef} >
                 <StyledSideMenuLink level={level}>{text}</StyledSideMenuLink>
                 {list.length > 0 &&
                     <StyledFontAwesomeIconButton
-                        onClick={() => setSubMenuListIsOpen({ index, isOpen: subMenuListIsOpen })}
+                        onClick={() => {
+                            menuListRef.current.style.height = ''
+                            setSubMenuListIsOpen(preValue => !preValue)
+                        }}
                     >
                         <StyledSideMenuIcon
                             className="fas fa-angle-left"
@@ -134,18 +106,13 @@ const SideMenuItem = ({ index, text, list, level, itemIsShow, subMenuListIsOpen,
                 }
             </StyledSideMenuItem>
 
-            <StyledSideMenuList sideMenuListHeight={sideMenuListAllHeight} ref={menuListRef}>
+            <StyledSideMenuList isTransitionrun={isTransitionrun} sideMenuListHeight={sideMenuListHeight} ref={menuListRef}>
                 {list.map((item, index) => (
                     <SideMenuItem
                         key={index}
                         text={item.text}
                         list={item.list}
                         level={level + 1}
-                        index={index}
-                        itemIsShow={subMenuListIsOpen}
-                        subMenuListIsOpen={childMenuListIsOpen[index]}
-                        setSubMenuListIsOpen={menuListTriggerClisk}
-                        setSideMenuListParentChildHeight={setSideMenuListChildHeight}
                     />
                 ))}
             </StyledSideMenuList>
@@ -208,7 +175,7 @@ z-index: ${({ theme }) => theme.zIndex.sideNavigation};
 visibility: ${({ isOpen }) => isOpen ? 'visible' : 'hidden'};
 background-color: ${({ theme }) => theme.shadow};
 opacity: ${({ isOpen }) => isOpen ? '1' : '0'};
-transition: opacity 0.3s linear;
+transition: visibility 0.3s linear, opacity 0.3s linear;
 
 @media (min-width: ${({ theme }) => theme.media.largeDevices}) {
     display: none;
@@ -234,25 +201,6 @@ export const SideMenu = ({ isOpen, onClose, list }) => {
         }
     }, [isOpen])
 
-    const [childMenuListIsOpen, setChildMenuListIsOpen] = useState({})
-    useEffect(() => {
-        const isOpenObject = list.reduce((previousValue, _, currentIndex) => ({
-            ...previousValue,
-            [currentIndex]: false,
-        }), {})
-        setChildMenuListIsOpen(isOpenObject)
-    }, [])
-
-    const menuListTriggerClisk = (data) => {
-        setChildMenuListIsOpen(preValue => {
-            const isOpenObject = Object.keys(preValue).reduce((previousValue, currentValue) => ({
-                ...previousValue,
-                [currentValue]: false,
-            }), {})
-
-            return { ...isOpenObject, [data.index]: !data.isOpen }
-        })
-    }
 
     return (
         <>
@@ -267,10 +215,6 @@ export const SideMenu = ({ isOpen, onClose, list }) => {
                         key={index}
                         text={item.text}
                         list={item.list}
-                        index={index}
-                        itemIsShow={true}
-                        subMenuListIsOpen={childMenuListIsOpen[index]}
-                        setSubMenuListIsOpen={menuListTriggerClisk}
                     />
                 ))}
             </StyledSideMenuListContainer>

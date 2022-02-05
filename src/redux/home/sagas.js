@@ -91,7 +91,6 @@ const checkUserTokenAPI = () => {
 function* checkUserTokenSaga() {
   try {
     const response = yield call(checkUserTokenAPI)
-    console.log(response)
     yield put(checkUserTokenSuccess({
       user: response.user,
       token: localStorage.getItem('token'),
