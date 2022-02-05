@@ -69,28 +69,11 @@ const SideMenuItem = ({ index, text, list, level, itemIsShow, subMenuListIsOpen,
         }
     }, [sideMenuListChildHeight])
 
-    const getSideMenuListAllHeight = () => {
-        if (subMenuListIsOpen) {
-            const allShowChildNodes = menuListRef.current ? menuListRef.current.querySelectorAll('.menu.show') : []
-            console.log('------------------------------------')
-            console.log('level: ', level)
-            console.log('menuListRef: ', menuListRef)
-            console.log('allShowChildNodes: ', allShowChildNodes)
-            console.log('allShowChildNodes.length: ', allShowChildNodes.length)
-            console.log('------------------------------------')
-            return (sideMenuItemHeight * list.length + sideMenuItemHeight * allShowChildNodes.length)
-        } else {
-            return (0)
-        }
-    }
-    const sideMenuListAllHeight = getSideMenuListAllHeight()
 
     useEffect(() => {
         setSideMenuItemHeight(menuItemRef.current.offsetHeight)
         setIsDidMount(true)
     }, [])
-
-
 
     const [childMenuListIsOpen, setChildMenuListIsOpen] = useState({})
     useEffect(() => {
@@ -102,14 +85,38 @@ const SideMenuItem = ({ index, text, list, level, itemIsShow, subMenuListIsOpen,
     }, [])
     const menuListTriggerClisk = (data) => {
         setChildMenuListIsOpen(preValue => {
-            const isOpenObject = Object.keys(preValue).reduce((previousValue, preValue) => ({
+            const isOpenObject = Object.keys(preValue).reduce((previousValue, currentValue) => ({
                 ...previousValue,
-                [preValue]: false,
+                [currentValue]: false,
             }), {})
 
             return { ...isOpenObject, [data.index]: !data.isOpen }
         })
     }
+    useEffect(() => {
+        if (isDidMount) {
+            if (subMenuListIsOpen === false) {
+                const isOpenObject = list.reduce((previousValue, _, currentIndex) => ({
+                    ...previousValue,
+                    [currentIndex]: false,
+                }), {})
+                setChildMenuListIsOpen(isOpenObject)
+            }
+        }
+    }, [subMenuListIsOpen])
+
+    
+    const getSideMenuListAllHeight = () => {
+        if (subMenuListIsOpen) {
+            const allShowChildNodes = menuListRef.current ? menuListRef.current.querySelectorAll('.menu.show') : []
+            return (allShowChildNodes.length === 0 ? sideMenuItemHeight * list.length : sideMenuItemHeight * allShowChildNodes.length)
+        } else {
+            return (0)
+        }
+    }
+    const sideMenuListAllHeight = getSideMenuListAllHeight()
+
+
 
     return (
         <>
@@ -238,9 +245,9 @@ export const SideMenu = ({ isOpen, onClose, list }) => {
 
     const menuListTriggerClisk = (data) => {
         setChildMenuListIsOpen(preValue => {
-            const isOpenObject = Object.keys(preValue).reduce((previousValue, preValue) => ({
+            const isOpenObject = Object.keys(preValue).reduce((previousValue, currentValue) => ({
                 ...previousValue,
-                [preValue]: false,
+                [currentValue]: false,
             }), {})
 
             return { ...isOpenObject, [data.index]: !data.isOpen }
