@@ -12,7 +12,7 @@ border-left: ${({ theme, subMenuListIsOpen, level }) => (level === 0 && subMenuL
 display: flex;
 justify-content: space-between;
 align-items: center;
-background-color: ${({ theme, level }) => level === 0 ? theme.mainBackground : theme.subBackground};
+background-color: ${({ theme, level }) => level % 2 === 0 ? theme.mainBackground : theme.subBackground};
 `
 const StyledSideMenuLink = styled.a`
 margin-left: ${({ level }) => level * 0.5}rem;
@@ -80,7 +80,9 @@ const SideMenuItem = ({ text, list, level }) => {
     useEffect(() => {
         if (isDidMount) {
             if (subMenuListIsOpen) {
-                setSideMenuListHeight(menuItemRef.current.offsetHeight * list.length)
+                const firstChildList = menuListRef.current.querySelector('.menu.show')
+                const firstChildListHeight = firstChildList ? firstChildList.offsetHeight : 0
+                setSideMenuListHeight(menuItemRef.current.offsetHeight * list.length + firstChildListHeight)
             } else {
                 setSideMenuListHeight(0)
             }
@@ -89,11 +91,12 @@ const SideMenuItem = ({ text, list, level }) => {
 
     return (
         <>
-            <StyledSideMenuItem subMenuListIsOpen={subMenuListIsOpen} level={level} ref={menuItemRef} >
+            <StyledSideMenuItem subMenuListIsOpen={subMenuListIsOpen} level={level} ref={menuItemRef}>
                 <StyledSideMenuLink level={level}>{text}</StyledSideMenuLink>
                 {list.length > 0 &&
                     <StyledFontAwesomeIconButton
                         onClick={() => {
+                            setSideMenuListHeight(menuListRef.current.offsetHeight)
                             menuListRef.current.style.height = ''
                             setSubMenuListIsOpen(preValue => !preValue)
                         }}
@@ -106,7 +109,11 @@ const SideMenuItem = ({ text, list, level }) => {
                 }
             </StyledSideMenuItem>
 
-            <StyledSideMenuList isTransitionrun={isTransitionrun} sideMenuListHeight={sideMenuListHeight} ref={menuListRef}>
+            <StyledSideMenuList
+                className={subMenuListIsOpen ? 'menu show' : 'menu close'}
+                sideMenuListHeight={sideMenuListHeight}
+                ref={menuListRef}
+            >
                 {list.map((item, index) => (
                     <SideMenuItem
                         key={index}
