@@ -40,19 +40,23 @@ overflow: hidden;
 max-height: ${({ sideMenuListHeight }) => sideMenuListHeight}px;
 transition: max-height 0.3s linear;
 `
-const SideMenuItem = ({ index, text, list, level, subMenuListIsOpen, setSubMenuListIsOpen, setSideMenuListParentChildHeight }) => {
+const SideMenuItem = ({ index, text, list, level, itemIsShow, subMenuListIsOpen, setSubMenuListIsOpen, setSideMenuListParentChildHeight }) => {
     const menuItemRef = useRef()
+    const menuListRef = useRef()
 
     const [isDidMount, setIsDidMount] = useState(false)
     const [sideMenuListHeight, setSideMenuListHeight] = useState(0)
+    const [sideMenuItemHeight, setSideMenuItemHeight] = useState(0)
     const [sideMenuListChildHeight, setSideMenuListChildHeight] = useState(0)
 
     useEffect(() => {
         if (isDidMount) {
-            if (subMenuListIsOpen) {
-                setSideMenuListHeight(menuItemRef.current.offsetHeight * list.length + sideMenuListChildHeight)
-            } else {
-                setSideMenuListHeight(0)
+            if (level !== 0) {
+                if (subMenuListIsOpen) {
+                    setSideMenuListParentChildHeight(sideMenuItemHeight * list.length)
+                } else {
+                    setSideMenuListParentChildHeight(0)
+                }
             }
         }
     }, [subMenuListIsOpen])
@@ -60,24 +64,32 @@ const SideMenuItem = ({ index, text, list, level, subMenuListIsOpen, setSubMenuL
     useEffect(() => {
         if (isDidMount) {
             if (level !== 0) {
-                setSideMenuListParentChildHeight(sideMenuListHeight)
-            }
-        }
-    }, [sideMenuListHeight])
-
-    useEffect(() => {
-        if (isDidMount) {
-            if (level !== 0) {
-                setSideMenuListHeight(menuItemRef.current.offsetHeight * list.length + sideMenuListChildHeight)
-            } else {
-                setSideMenuListHeight(menuItemRef.current.offsetHeight * list.length + sideMenuListHeight)
+                setSideMenuListParentChildHeight(preValue => preValue + sideMenuListChildHeight)
             }
         }
     }, [sideMenuListChildHeight])
 
+    const getSideMenuListAllHeight = () => {
+        if (subMenuListIsOpen) {
+            const allShowChildNodes = menuListRef.current ? menuListRef.current.querySelectorAll('.menu.show') : []
+            console.log('------------------------------------')
+            console.log('level: ', level)
+            console.log('menuListRef: ', menuListRef)
+            console.log('allShowChildNodes: ', allShowChildNodes)
+            console.log('allShowChildNodes.length: ', allShowChildNodes.length)
+            console.log('------------------------------------')
+            return (sideMenuItemHeight * list.length + sideMenuItemHeight * allShowChildNodes.length)
+        } else {
+            return (0)
+        }
+    }
+    const sideMenuListAllHeight = getSideMenuListAllHeight()
+
     useEffect(() => {
+        setSideMenuItemHeight(menuItemRef.current.offsetHeight)
         setIsDidMount(true)
     }, [])
+
 
 
     const [childMenuListIsOpen, setChildMenuListIsOpen] = useState({})
@@ -101,7 +113,7 @@ const SideMenuItem = ({ index, text, list, level, subMenuListIsOpen, setSubMenuL
 
     return (
         <>
-            <StyledSideMenuItem subMenuListIsOpen={subMenuListIsOpen} level={level} ref={menuItemRef} >
+            <StyledSideMenuItem className={itemIsShow ? 'menu show' : 'menu close'} subMenuListIsOpen={subMenuListIsOpen} level={level} ref={menuItemRef} >
                 <StyledSideMenuLink level={level}>{text}</StyledSideMenuLink>
                 {list.length > 0 &&
                     <StyledFontAwesomeIconButton
@@ -115,7 +127,7 @@ const SideMenuItem = ({ index, text, list, level, subMenuListIsOpen, setSubMenuL
                 }
             </StyledSideMenuItem>
 
-            <StyledSideMenuList sideMenuListHeight={sideMenuListHeight} isOpen={subMenuListIsOpen}>
+            <StyledSideMenuList sideMenuListHeight={sideMenuListAllHeight} ref={menuListRef}>
                 {list.map((item, index) => (
                     <SideMenuItem
                         key={index}
@@ -123,6 +135,7 @@ const SideMenuItem = ({ index, text, list, level, subMenuListIsOpen, setSubMenuL
                         list={item.list}
                         level={level + 1}
                         index={index}
+                        itemIsShow={subMenuListIsOpen}
                         subMenuListIsOpen={childMenuListIsOpen[index]}
                         setSubMenuListIsOpen={menuListTriggerClisk}
                         setSideMenuListParentChildHeight={setSideMenuListChildHeight}
@@ -234,7 +247,6 @@ export const SideMenu = ({ isOpen, onClose, list }) => {
         })
     }
 
-
     return (
         <>
             <StyledSideMenuListContainer isOpen={isOpen}>
@@ -246,9 +258,10 @@ export const SideMenu = ({ isOpen, onClose, list }) => {
                 {list.map((item, index) => (
                     <SideMenuItem
                         key={index}
-                        index={index}
                         text={item.text}
                         list={item.list}
+                        index={index}
+                        itemIsShow={true}
                         subMenuListIsOpen={childMenuListIsOpen[index]}
                         setSubMenuListIsOpen={menuListTriggerClisk}
                     />
