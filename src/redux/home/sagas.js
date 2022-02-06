@@ -243,9 +243,8 @@ function* postFavouritesSaga({ payload: ids }) {
 
 
 const unregisterWebinarAPI = (id) => {
-  const postValues = { id: Number(id) }
   return FAKE_UNREGISTER_WEBINAR_RESPONSE
-  return axiosAuth.delete(`/favourites/post/id`, postValues)
+  return axiosAuth.delete(`/favourites/post/${id}`)
     .then((res) => res.data)
 }
 function* unregisterWebinarSaga({ payload: id }) {
