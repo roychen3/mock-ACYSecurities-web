@@ -251,7 +251,7 @@ function* unregisterWebinarSaga({ payload: id }) {
   try {
     const response = yield call(unregisterWebinarAPI, id)
 
-    yield put(unregisterWebinarSuccess(response))
+    yield put(unregisterWebinarSuccess(response.success))
 
     const userInformation = yield select((state) => state.home.userInformation)
     yield put(getRegisteredList({

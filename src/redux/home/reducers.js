@@ -67,11 +67,11 @@ export const initialState = {
 
   webinarDetail: {},
 
-  postFavouritesResponse: {},
+  postFavouritesResponse: '',
   postFavouritesLoading: null,
   postFavouritesError: null,
 
-  unregisterWebinar: {},
+  unregisterWebinarResponse: '',
   unregisterWebinarLoading: null,
   unregisterWebinarError: null,
 }
@@ -213,7 +213,7 @@ function reducer(state = initialState, action) {
     case POST_FAVOURITES:
       return {
         ...state,
-        postFavouritesResponse: {},
+        postFavouritesResponse: '',
         postFavouritesLoading: true,
         postFavouritesError: null,
       }
@@ -232,7 +232,7 @@ function reducer(state = initialState, action) {
     case RESET_POST_FAVOURITES:
       return {
         ...state,
-        postFavouritesResponse: {},
+        postFavouritesResponse: '',
         postFavouritesLoading: null,
         postFavouritesError: null,
       }
@@ -240,14 +240,14 @@ function reducer(state = initialState, action) {
     case UNREGISTER_WEBINAR:
       return {
         ...state,
-        unregisterWebinar: {},
+        unregisterWebinarResponse: '',
         unregisterWebinarLoading: true,
         unregisterWebinarError: null,
       }
     case UNREGISTER_WEBINAR_SUCCESS:
       return {
         ...state,
-        unregisterWebinar: action.payload,
+        unregisterWebinarResponse: action.payload,
         unregisterWebinarLoading: false,
       }
     case UNREGISTER_WEBINAR_FAILURE:
@@ -259,7 +259,7 @@ function reducer(state = initialState, action) {
     case RESET_UNREGISTER_WEBINAR:
       return {
         ...state,
-        unregisterWebinar: {},
+        unregisterWebinarResponse: '',
         unregisterWebinarLoading: null,
         unregisterWebinarError: null,
       }

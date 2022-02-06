@@ -85,10 +85,11 @@ const RegisteredList = () => {
         dispatch(resetUnregisterWebinar())
     }
 
+    const unregisterWebinarResponse = useSelector((state) => state.home.unregisterWebinarResponse)
     const unregisterWebinarLoading = useSelector((state) => state.home.unregisterWebinarLoading)
     const unregisterWebinarError = useSelector((state) => state.home.unregisterWebinarError)
     useEffect(() => {
-        if (unregisterWebinarLoading === false && unregisterWebinarError) setModalIsOpen(true)
+        if (unregisterWebinarLoading === false && (unregisterWebinarError || unregisterWebinarResponse)) setModalIsOpen(true)
     }, [unregisterWebinarLoading])
 
     const handleWebinarCardDetailClick = (event, data) => {
@@ -157,7 +158,7 @@ const RegisteredList = () => {
                 </StyledContentLayout>
             </StyledWebinar>
             <Modal isOpen={modalIsOpen} closeClick={handleCloseModal}>
-                <>{unregisterWebinarError}</>
+                <>{unregisterWebinarError || unregisterWebinarResponse}</>
             </Modal>
         </>
     )
