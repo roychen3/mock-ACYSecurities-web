@@ -80,9 +80,12 @@ const SideMenuItem = ({ text, list, level }) => {
     useEffect(() => {
         if (isDidMount) {
             if (subMenuListIsOpen) {
-                const firstChildList = menuListRef.current.querySelector('.menu.show')
-                const firstChildListHeight = firstChildList ? firstChildList.offsetHeight : 0
-                setSideMenuListHeight(menuItemRef.current.offsetHeight * list.length + firstChildListHeight)
+                let allChildListHeught = 0
+                menuListRef.current.childNodes.forEach((element) => {
+                    const isMatch = element.className.match('menu show')
+                    if(isMatch) allChildListHeught += element.offsetHeight
+                })
+                setSideMenuListHeight(menuItemRef.current.offsetHeight * list.length + allChildListHeught)
             } else {
                 setSideMenuListHeight(0)
             }
