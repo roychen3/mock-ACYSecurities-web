@@ -37,7 +37,7 @@ transition: transform 0.3s linear;
 `
 const StyledSideMenuList = styled.div`
 overflow: hidden;
-height: ${({ sideMenuListHeight }) => sideMenuListHeight}px;
+height: ${({ isOpenTransitionend, sideMenuListHeight }) => isOpenTransitionend ? 'initial' : `${sideMenuListHeight}px`};
 transition: height 0.3s linear;
 `
 const SideMenuItem = ({ text, list, level }) => {
@@ -49,6 +49,7 @@ const SideMenuItem = ({ text, list, level }) => {
     const [sideMenuListHeight, setSideMenuListHeight] = useState(0)
 
     const [isTransitionrun, setIsTransitionrun] = useState(true)
+    const [isOpenTransitionend, setIsOpenTransitionend] = useState(false)
     const transitionListener = (event) => {
         switch (event.type) {
             case 'transitionstart':
@@ -65,7 +66,11 @@ const SideMenuItem = ({ text, list, level }) => {
     useEffect(() => {
         if (isDidMount) {
             if (isTransitionrun === false) {
-                menuListRef.current.style.height = subMenuListIsOpen ? 'initial' : ''
+                if (subMenuListIsOpen) {
+                    setIsOpenTransitionend(true)
+                } else {
+                    setIsOpenTransitionend(false)
+                }
             }
         }
     }, [isTransitionrun])
@@ -83,7 +88,7 @@ const SideMenuItem = ({ text, list, level }) => {
                 let allChildListHeught = 0
                 menuListRef.current.childNodes.forEach((element) => {
                     const isMatch = element.className.match('menu show')
-                    if(isMatch) allChildListHeught += element.offsetHeight
+                    if (isMatch) allChildListHeught += element.offsetHeight
                 })
                 setSideMenuListHeight(menuItemRef.current.offsetHeight * list.length + allChildListHeught)
             } else {
@@ -100,7 +105,7 @@ const SideMenuItem = ({ text, list, level }) => {
                     <StyledFontAwesomeIconButton
                         onClick={() => {
                             setSideMenuListHeight(menuListRef.current.offsetHeight)
-                            menuListRef.current.style.height = ''
+                            setIsOpenTransitionend(false)
                             setSubMenuListIsOpen(preValue => !preValue)
                         }}
                     >
@@ -114,6 +119,7 @@ const SideMenuItem = ({ text, list, level }) => {
 
             <StyledSideMenuList
                 className={subMenuListIsOpen ? 'menu show' : 'menu close'}
+                isOpenTransitionend={isOpenTransitionend}
                 sideMenuListHeight={sideMenuListHeight}
                 ref={menuListRef}
             >
