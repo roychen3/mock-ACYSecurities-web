@@ -4546,6 +4546,6 @@ export const FAKE_REGISTERED_LIST_RESPONSE = {
     }
 }
 
-export const FAKE_POST_FAVOURITES_RESPONSE = { success: 'You are now favouriting post [4652].' }
+export const FAKE_POST_REGISTER_RESPONSE = { success: 'You are now favouriting post [4652].' }
 
-export const FAKE_UNREGISTER_WEBINAR_RESPONSE = {}
+export const FAKE_UNREGISTER_WEBINAR_RESPONSE = { success: 'You are not favouriting post #4652.' }

@@ -25,10 +25,10 @@ import {
 
   SET_WEBINAR_DETAIL,
 
-  POST_FAVOURITES,
-  POST_FAVOURITES_SUCCESS,
-  POST_FAVOURITES_FAILURE,
-  RESET_POST_FAVOURITES,
+  POST_REGISTER,
+  POST_REGISTER_SUCCESS,
+  POST_REGISTER_FAILURE,
+  RESET_POST_REGISTER,
 
   UNREGISTER_WEBINAR,
   UNREGISTER_WEBINAR_SUCCESS,
@@ -67,11 +67,11 @@ export const initialState = {
 
   webinarDetail: {},
 
-  postFavouritesResponse: {},
-  postFavouritesLoading: null,
-  postFavouritesError: null,
+  postRegisterResponse: '',
+  postRegisterLoading: null,
+  postRegisterError: null,
 
-  unregisterWebinar: {},
+  unregisterWebinarResponse: '',
   unregisterWebinarLoading: null,
   unregisterWebinarError: null,
 }
@@ -210,44 +210,44 @@ function reducer(state = initialState, action) {
         webinarDetail: action.payload ? action.payload : initialState.webinarDetail,
       }
 
-    case POST_FAVOURITES:
+    case POST_REGISTER:
       return {
         ...state,
-        postFavouritesResponse: {},
-        postFavouritesLoading: true,
-        postFavouritesError: null,
+        postRegisterResponse: '',
+        postRegisterLoading: true,
+        postRegisterError: null,
       }
-    case POST_FAVOURITES_SUCCESS:
+    case POST_REGISTER_SUCCESS:
       return {
         ...state,
-        postFavouritesResponse: action.payload,
-        postFavouritesLoading: false,
+        postRegisterResponse: action.payload,
+        postRegisterLoading: false,
       }
-    case POST_FAVOURITES_FAILURE:
+    case POST_REGISTER_FAILURE:
       return {
         ...state,
-        postFavouritesLoading: false,
-        postFavouritesError: action.payload,
+        postRegisterLoading: false,
+        postRegisterError: action.payload,
       }
-    case RESET_POST_FAVOURITES:
+    case RESET_POST_REGISTER:
       return {
         ...state,
-        postFavouritesResponse: {},
-        postFavouritesLoading: null,
-        postFavouritesError: null,
+        postRegisterResponse: '',
+        postRegisterLoading: null,
+        postRegisterError: null,
       }
 
     case UNREGISTER_WEBINAR:
       return {
         ...state,
-        unregisterWebinar: {},
+        unregisterWebinarResponse: '',
         unregisterWebinarLoading: true,
         unregisterWebinarError: null,
       }
     case UNREGISTER_WEBINAR_SUCCESS:
       return {
         ...state,
-        unregisterWebinar: action.payload,
+        unregisterWebinarResponse: action.payload,
         unregisterWebinarLoading: false,
       }
     case UNREGISTER_WEBINAR_FAILURE:
@@ -259,7 +259,7 @@ function reducer(state = initialState, action) {
     case RESET_UNREGISTER_WEBINAR:
       return {
         ...state,
-        unregisterWebinar: {},
+        unregisterWebinarResponse: '',
         unregisterWebinarLoading: null,
         unregisterWebinarError: null,
       }

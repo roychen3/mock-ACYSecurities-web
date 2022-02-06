@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { Link, useLocation } from "react-router-dom"
+import { Link, useLocation, useNavigate } from "react-router-dom"
 import { useSelector, useDispatch } from 'react-redux'
 
 import { userLogout, checkUserToken } from '../redux/actions'
@@ -151,6 +151,7 @@ height: 32px;
 `
 const Header = () => {
   const location = useLocation()
+  const navigate = useNavigate()
   const dispatch = useDispatch()
   const windowSize = useWindowSize()
 
@@ -164,6 +165,12 @@ const Header = () => {
     dispatch(userLogout())
   }
   const userLogoutLoading = useSelector((state) => state.home.userLogoutLoading)
+  const userLogoutError = useSelector((state) => state.home.userLogoutError)
+  useEffect(() => {
+    if (userLogoutLoading === false && userLogoutError === null) {
+      navigate(0)
+    }
+  }, [userLogoutLoading])
 
   const checkUserTokenLoading = useSelector((state) => state.home.checkUserTokenLoading)
   const checkUserTokenError = useSelector((state) => state.home.checkUserTokenError)
