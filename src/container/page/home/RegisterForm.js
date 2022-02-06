@@ -7,8 +7,8 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import {
     setRegisterFormData,
-    postFavourites,
-    resetPostFavourites,
+    postRegister,
+    resetPostRegister,
 } from '../../../redux/actions'
 import { InputFieldFormik } from '../../../component/InputField'
 import Modal from '../../../component/Modal'
@@ -71,9 +71,9 @@ const RegisterForm = () => {
         })
     }, [registerFormData])
 
-    const postFavouritesResponse = useSelector((state) => state.home.postFavouritesResponse)
-    const postFavouritesLoading = useSelector((state) => state.home.postFavouritesLoading)
-    const postFavouritesError = useSelector((state) => state.home.postFavouritesError)
+    const postRegisterResponse = useSelector((state) => state.home.postRegisterResponse)
+    const postRegisterLoading = useSelector((state) => state.home.postRegisterLoading)
+    const postRegisterError = useSelector((state) => state.home.postRegisterError)
 
     const formik = useFormik({
         initialValues: initFormValues,
@@ -90,7 +90,7 @@ const RegisterForm = () => {
         }),
         onSubmit: (values) => {
             if (isLogined) {
-                dispatch(postFavourites([values.topic]))
+                dispatch(postRegister([values.topic]))
             } else {
                 dispatch(setRegisterFormData(values))
                 navigate('/login')
@@ -113,19 +113,19 @@ const RegisterForm = () => {
     const [modalIsOpen, setModalIsOpen] = useState(false)
     const handleCloseModal = () => {
         setModalIsOpen(false)
-        dispatch(resetPostFavourites())
+        dispatch(resetPostRegister())
     }
     useEffect(() => {
-        if (postFavouritesLoading === false && postFavouritesResponse) {
+        if (postRegisterLoading === false && postRegisterResponse) {
             setModalIsOpen(true)
             formik.resetForm()
         }
-    }, [postFavouritesLoading])
+    }, [postRegisterLoading])
 
 
     return (
         <>
-            {postFavouritesLoading &&
+            {postRegisterLoading &&
                 <LoadingShadow />
             }
             <StyledContentLayout id="registerForm">
@@ -155,14 +155,14 @@ const RegisterForm = () => {
                             <Button text="Register" type="submit" fullWidth disabled={buttonDisabled} />
 
                             <StyledErrorMessage>
-                                {postFavouritesError}
+                                {postRegisterError}
                             </StyledErrorMessage>
                         </form>
                     </StyledRegisterFormContainer>
                 </StyledRegisterForm>
             </StyledContentLayout>
             <Modal isOpen={modalIsOpen} closeClick={handleCloseModal}>
-                <>{postFavouritesResponse}</>
+                <>{postRegisterResponse}</>
             </Modal>
         </>
     )

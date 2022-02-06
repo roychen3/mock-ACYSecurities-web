@@ -19,8 +19,8 @@ import {
   getRegisteredListSuccess,
   getRegisteredListFailure,
 
-  postFavouritesSuccess,
-  postFavouritesFailure,
+  postRegisterSuccess,
+  postRegisterFailure,
 
   unregisterWebinarSuccess,
   unregisterWebinarFailure,
@@ -31,7 +31,7 @@ import {
   CHECK_USER_TOKEN,
   GET_POST_LIST,
   GET_REGISTERED_LIST,
-  POST_FAVOURITES,
+  POST_REGISTER,
   UNREGISTER_WEBINAR,
 } from '../../constants/actionTypes'
 
@@ -42,7 +42,7 @@ import {
   FAKE_CHECK_USER_TOKEN_RESPONSE,
   FAKE_POST_LIST_RESPONSE,
   FAKE_REGISTERED_LIST_RESPONSE,
-  FAKE_POST_FAVOURITES_RESPONSE,
+  FAKE_POST_REGISTER_RESPONSE,
   FAKE_UNREGISTER_WEBINAR_RESPONSE,
 } from './fakeData'
 
@@ -225,19 +225,19 @@ function* getRegisteredListSaga({ payload }) {
 }
 
 
-const postFavouritesAPI = (ids) => {
+const postRegisterAPI = (ids) => {
   const postValues = { ids, model: 'post', }
-  return FAKE_POST_FAVOURITES_RESPONSE
+  return FAKE_POST_REGISTER_RESPONSE
   return axiosAuth.post('/favourites', postValues)
     .then((res) => res.data)
 }
-function* postFavouritesSaga({ payload: ids }) {
+function* postRegisterSaga({ payload: ids }) {
   try {
-    const response = yield call(postFavouritesAPI, ids)
+    const response = yield call(postRegisterAPI, ids)
 
-    yield put(postFavouritesSuccess(response.success))
+    yield put(postRegisterSuccess(response.success))
   } catch (err) {
-    yield put(postFavouritesFailure(err.message))
+    yield put(postRegisterFailure(err.message))
   }
 }
 
@@ -288,8 +288,8 @@ function* homeSagas() {
       getRegisteredListSaga,
     ),
     takeLatest(
-      POST_FAVOURITES,
-      postFavouritesSaga,
+      POST_REGISTER,
+      postRegisterSaga,
     ),
     takeLatest(
       UNREGISTER_WEBINAR,

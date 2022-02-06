@@ -25,10 +25,10 @@ import {
   
   SET_WEBINAR_DETAIL,
 
-  POST_FAVOURITES,
-  POST_FAVOURITES_SUCCESS,
-  POST_FAVOURITES_FAILURE,
-  RESET_POST_FAVOURITES,
+  POST_REGISTER,
+  POST_REGISTER_SUCCESS,
+  POST_REGISTER_FAILURE,
+  RESET_POST_REGISTER,
 
   UNREGISTER_WEBINAR,
   UNREGISTER_WEBINAR_SUCCESS,
@@ -119,20 +119,20 @@ export const setWebinarDetail = (payload) => ({
   payload,
 })
 
-export const postFavourites = (payload) => ({
-  type: POST_FAVOURITES,
+export const postRegister = (payload) => ({
+  type: POST_REGISTER,
   payload,
 })
-export const postFavouritesSuccess = (payload) => ({
-  type: POST_FAVOURITES_SUCCESS,
+export const postRegisterSuccess = (payload) => ({
+  type: POST_REGISTER_SUCCESS,
   payload,
 })
-export const postFavouritesFailure = (payload) => ({
-  type: POST_FAVOURITES_FAILURE,
+export const postRegisterFailure = (payload) => ({
+  type: POST_REGISTER_FAILURE,
   payload,
 })
-export const resetPostFavourites = (payload) => ({
-  type: RESET_POST_FAVOURITES,
+export const resetPostRegister = (payload) => ({
+  type: RESET_POST_REGISTER,
   payload,
 })
 
