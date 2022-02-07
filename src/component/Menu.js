@@ -241,6 +241,7 @@ SideMenu.defaultProps = {
 }
 SideMenu.propTypes = {
     isOpen: PropTypes.bool.isRequired,
+    onClose: PropTypes.func.isRequired,
     list: PropTypes.arrayOf(Object),
 }
 
