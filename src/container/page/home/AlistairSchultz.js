@@ -19,7 +19,7 @@ grid-gap: 20px;
     grid-gap: 28px;
 }
 @media (min-width: ${({ theme }) => theme.media.largeDevices}) {
-    grid-template-columns: 50% 50%;
+    grid-template-columns: 1fr 1fr;
 }
 `
 const StyledGridItem = styled.div``
