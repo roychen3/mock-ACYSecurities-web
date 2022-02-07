@@ -37,16 +37,16 @@ transform: translate(50%, -50%);
 export const WebinarList = styled.div`
 position: relative;
 display: grid;
-grid-template-columns: 100%;
+grid-template-columns: auto;
 grid-gap: 12px;
 
 @media (min-width: ${({ theme }) => theme.media.smallDevices}) {
-    grid-template-columns: auto auto;
+    grid-template-columns: 1fr 1fr;
     grid-gap: 20px;
 }
 
 @media (min-width: ${({ theme }) => theme.media.largeDevices}) {
-    grid-template-columns: auto auto auto;
+    grid-template-columns: 1fr 1fr 1fr;
 }
 `
 

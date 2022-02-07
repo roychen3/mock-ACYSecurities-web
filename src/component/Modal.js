@@ -2,6 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
+import {StyledFontAwesomeIconButton} from './Button'
+
+
 const StyledModal = styled.div`
 position: fixed;
 z-index: ${({ theme }) => theme.zIndex.top};
@@ -34,11 +37,9 @@ align-items:center;
 const StyledModalTitle = styled.h3`
 color: ${({ theme }) => theme.highlight};
 `
-const StyledModalClose = styled.button`
-padding: 3px 6px;
-color: ${({ theme }) => theme.mainText};
-background-color: ${({ theme }) => theme.opacity};
-border: 0px;
+const StyledModalClose = styled(StyledFontAwesomeIconButton)`
+padding: 0 7px;
+font-size: 2rem;
 
 &:hover {
     color: ${({ theme }) => theme.hoverHighlight};
