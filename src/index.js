@@ -9,7 +9,7 @@ import reportWebVitals from './reportWebVitals'
 
 ReactDOM.render(
   <React.StrictMode>
-    <BrowserRouter>
+    <BrowserRouter basename="/finlogix-interview" >
       <Provider store={configureStore()}>
         <App />
       </Provider>

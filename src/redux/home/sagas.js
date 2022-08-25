@@ -36,15 +36,15 @@ import {
 } from '../../constants/actionTypes'
 
 import { axiosNoAuth, axiosAuth } from '../../util/axios'
-// import {
-//   FAKE_USER_LOGIN_RESPONSE,
-//   FAKE_USER_LOGOUY_RESPONSE,
-//   FAKE_CHECK_USER_TOKEN_RESPONSE,
-//   FAKE_POST_LIST_RESPONSE,
-//   FAKE_REGISTERED_LIST_RESPONSE,
-//   FAKE_POST_REGISTER_RESPONSE,
-//   FAKE_UNREGISTER_WEBINAR_RESPONSE,
-// } from './fakeData'
+import {
+  FAKE_USER_LOGIN_RESPONSE,
+  FAKE_USER_LOGOUY_RESPONSE,
+  FAKE_CHECK_USER_TOKEN_RESPONSE,
+  FAKE_POST_LIST_RESPONSE,
+  FAKE_REGISTERED_LIST_RESPONSE,
+  FAKE_POST_REGISTER_RESPONSE,
+  FAKE_UNREGISTER_WEBINAR_RESPONSE,
+} from './fakeData'
 
 
 const userLoginAPI = (payload) => {
@@ -52,7 +52,7 @@ const userLoginAPI = (payload) => {
     email: payload.email,
     password: payload.password,
   }
-  // return FAKE_USER_LOGIN_RESPONSE
+  return FAKE_USER_LOGIN_RESPONSE
   return axiosNoAuth.post('/auth/email/login', postValues)
     .then((res) => res.data)
 }
@@ -68,7 +68,7 @@ function* userLoginSaga({ payload }) {
 
 
 const userLogoutAPI = () => {
-  // return FAKE_USER_LOGOUY_RESPONSE
+  return FAKE_USER_LOGOUY_RESPONSE
   return axiosAuth.post('/auth/logout')
     .then((res) => res.data)
 }
@@ -84,7 +84,7 @@ function* userLogoutSaga() {
 
 
 const checkUserTokenAPI = () => {
-  // return FAKE_CHECK_USER_TOKEN_RESPONSE
+  return FAKE_CHECK_USER_TOKEN_RESPONSE
   return axiosAuth.post('/auth/me')
     .then((res) => res.data)
 }
@@ -102,7 +102,7 @@ function* checkUserTokenSaga() {
 
 
 const getPostListAPI = (perPage, page) => {
-  // return FAKE_POST_LIST_RESPONSE
+  return FAKE_POST_LIST_RESPONSE
   return axiosNoAuth.get(`/posts?per_page=${perPage}&page=${page}`)
     .then((res) => res.data)
 }
@@ -164,7 +164,7 @@ function* getPostListSaga({ payload }) {
 
 
 const getRegisteredListAPI = (userId, perPage, page) => {
-  // return FAKE_REGISTERED_LIST_RESPONSE
+  return FAKE_REGISTERED_LIST_RESPONSE
   return axiosAuth.get(`/posts?favourited=1&author=${userId}&per_page=${perPage}&page=${page}`)
     .then((res) => res.data)
 }
@@ -227,7 +227,7 @@ function* getRegisteredListSaga({ payload }) {
 
 const postRegisterAPI = (ids) => {
   const postValues = { ids, model: 'post', }
-  // return FAKE_POST_REGISTER_RESPONSE
+  return FAKE_POST_REGISTER_RESPONSE
   return axiosAuth.post('/favourites', postValues)
     .then((res) => res.data)
 }
@@ -243,7 +243,7 @@ function* postRegisterSaga({ payload: ids }) {
 
 
 const unregisterWebinarAPI = (id) => {
-  // return FAKE_UNREGISTER_WEBINAR_RESPONSE
+  return FAKE_UNREGISTER_WEBINAR_RESPONSE
   return axiosAuth.delete(`/favourites/post/${id}`)
     .then((res) => res.data)
 }

@@ -1,3 +1,18 @@
+## DEMO
+https://roychen3.github.io/finlogix-interview
+
+<br/>
+
+## description
+某間外商的面試題
+禁止使用 CSS library
+限制一周時間內能寫多少就寫多少(盡管你平日還要上班)
+
+<br/>
+
+## node v16.15.0
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

@@ -47,6 +47,7 @@ function App() {
 
       <StyledContent>
         <Routes>
+          <Route path='/'>
           <Route index path="/" element={<Home />} />
           {Object.keys(webinarDetail).length > 0 &&
             <Route path="webinar/*" element={<WebinarDetail />} />
@@ -58,6 +59,7 @@ function App() {
             <Route path="registered" element={<RegisteredList />} />
           }
           <Route path="*" element={<Navigate to="/" />} />
+          </Route>
         </Routes>
       </StyledContent>
 
