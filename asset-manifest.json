@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.js": "/finlogix-interview/static/js/main.eab123e8.js",
+    "main.js": "/finlogix-interview/static/js/main.f1e6face.js",
     "static/js/787.f35685bf.chunk.js": "/finlogix-interview/static/js/787.f35685bf.chunk.js",
     "static/media/logo.svg": "/finlogix-interview/static/media/logo.a6a94b98cae9a71ce9c8fb968ab377db.svg",
     "index.html": "/finlogix-interview/index.html",
-    "main.eab123e8.js.map": "/finlogix-interview/static/js/main.eab123e8.js.map",
+    "main.f1e6face.js.map": "/finlogix-interview/static/js/main.f1e6face.js.map",
     "787.f35685bf.chunk.js.map": "/finlogix-interview/static/js/787.f35685bf.chunk.js.map"
   },
   "entrypoints": [
-    "static/js/main.eab123e8.js"
+    "static/js/main.f1e6face.js"
   ]
 }
