@@ -10,7 +10,7 @@ https://roychen3.github.io/finlogix-interview
 
 <br />
 
-### node v16.15.0
+### node v17.3.0
 
 <br />
 <br />
@@ -86,5 +86,3 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-
-### node version 17.3.0
