@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.js": "/mock-ACYSecurities-web/static/js/main.4d1bfea9.js",
+    "main.js": "/mock-ACYSecurities-web/static/js/main.8a3e0449.js",
     "static/js/787.f35685bf.chunk.js": "/mock-ACYSecurities-web/static/js/787.f35685bf.chunk.js",
     "static/media/logo.svg": "/mock-ACYSecurities-web/static/media/logo.a6a94b98cae9a71ce9c8fb968ab377db.svg",
     "index.html": "/mock-ACYSecurities-web/index.html",
-    "main.4d1bfea9.js.map": "/mock-ACYSecurities-web/static/js/main.4d1bfea9.js.map",
+    "main.8a3e0449.js.map": "/mock-ACYSecurities-web/static/js/main.8a3e0449.js.map",
     "787.f35685bf.chunk.js.map": "/mock-ACYSecurities-web/static/js/787.f35685bf.chunk.js.map"
   },
   "entrypoints": [
-    "static/js/main.4d1bfea9.js"
+    "static/js/main.8a3e0449.js"
   ]
 }
