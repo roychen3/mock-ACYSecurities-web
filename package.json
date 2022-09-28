@@ -1,5 +1,5 @@
 {
-  "name": "finlogix-interview",
+  "name": "mock-acy-securities-web",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -28,7 +28,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  "homepage": "https://roychen3.github.io/finlogix-interview",
+  "homepage": "https://roychen3.github.io/mock-ACYSecurities-web",
   "eslintConfig": {
     "extends": [
       "react-app",

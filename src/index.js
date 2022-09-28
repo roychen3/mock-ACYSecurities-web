@@ -9,7 +9,7 @@ import reportWebVitals from './reportWebVitals'
 
 ReactDOM.render(
   <React.StrictMode>
-    <BrowserRouter basename="/finlogix-interview" >
+    <BrowserRouter basename="/mock-ACYSecurities-web" >
       <Provider store={configureStore()}>
         <App />
       </Provider>
